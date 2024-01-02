@@ -59,6 +59,15 @@ body{
 .btn-quote{
   @apply bg-amber-900 text-white mt-12 p-1 border-none outline-none  rounded-full lg:w-1/4 flex items-center justify-center
 }
+.btn-book{
+  @apply bg-amber-900 text-white mt-12 p-1 border-none outline-none  rounded-full lg:w-1/4 flex items-center justify-center
+}
+.btn-chapter{
+  @apply bg-amber-900 text-white mt-12 p-1 border-none outline-none  rounded-full lg:w-1/4 flex items-center justify-center
+}
+.btn-section {
+  @apply bg-amber-900 text-white mt-12 p-1 border-none outline-none  rounded-full lg:w-1/4 flex items-center justify-center
+}
 .overlay-2{
   background-color: rgba(21, 1, 0, 0.3);
   @apply text-white h-screen;

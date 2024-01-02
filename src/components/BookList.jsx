@@ -6,7 +6,7 @@ const BookList = ({ books }) => {
 	
 	return (
 		<div className='book-list'>
-			{books.map((book) => (
+			{books?.map((book) => (
 				<div
 					key={book.id}
 					className='booklist-container'>
