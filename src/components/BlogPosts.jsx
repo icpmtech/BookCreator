@@ -12,7 +12,7 @@ const openai = new OpenAI({
 	dangerouslyAllowBrowser: true
 });
 
-const Sections = () => {
+const Blogposts = () => {
 	
 	const [term, setTerm] = useState('Help me!');
 	const [search, setSearch] = useState('');
@@ -96,15 +96,15 @@ const Sections = () => {
 				<div className='overlay-2'>
 					<section className='leading-loose max-w-7xl mx-auto'>
 						<div className='text-center'>
-							<h2 className=' Heading-text'> Create Sections Book </h2>
+							<h2 className=' Heading-text'> Create Blogpost Content </h2>
 							<p className='text-md mb-4 px-2 lg:px-0'>
-								“Example: Sections”
+								“Example: Blogpost: Python Course Book
 							</p>
 							<div className='text-md mb-4 px-2 lg:px-0' >
 								<form className='text-md mb-4 px-2 lg:px-0' onSubmit={handleSubmit}>
 									<input
 										type='text'
-										placeholder='Python Outline Course Book...'
+										placeholder='Blogpost: Python Course Book...'
 										autoComplete='off'
 										className='input'
 
@@ -183,4 +183,4 @@ const Sections = () => {
 	);
 }
 
-export default Sections;
+export default Blogposts;

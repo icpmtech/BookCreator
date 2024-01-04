@@ -19,7 +19,6 @@ const BookDetails = () => {
     },[])
     return (
 			<>
-				<Navbar />
 				<div className='bookdetail'>
 					{books.map((book) => (
 						<div key={book.id} className='bookdetail-container'>

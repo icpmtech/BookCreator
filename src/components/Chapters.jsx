@@ -13,7 +13,6 @@ const Chapters = () => {
 	
 	return (
 		<div>
-			<Navbar />
 			<div className='bg-navbar'>
 				<div className='overlay-2'>
 					<section className='leading-loose max-w-7xl mx-auto'>

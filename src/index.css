@@ -14,7 +14,6 @@ body{
   box-sizing: border-box;
 }
 .header{
-  background-image:url('./img/cover.jpg');
   background-repeat:no-repeat;
   background-position: center;
   background-size: cover;
@@ -36,12 +35,31 @@ body{
   @apply p-4 bg-amber-900 text-white flex justify-around items-center lg:text-3xl;
   font-family: 'Bonheur Royale', cursive;
 }
+.navbar-header{
+  @apply bg-amber-900 ;
+  font-family: 'Bonheur Royale', cursive;
+  height: 70px;
+}
 .Heading-text{
   @apply lg:text-5xl mb-5 capitalize;
 }
 .input{
   @apply py-2 px-2 rounded-l-lg border-none outline-none text-black;
+  width: 95%;
 }
+@media screen and (min-width: 600px) {
+  .input {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .input {
+    width: 80%;
+  }
+}
+
+
 .btn{
   @apply bg-amber-900 border-none outline-none py-2 px-2 rounded-r-lg 
 }
@@ -49,11 +67,9 @@ body{
   @apply inline-flex items-center bg-amber-700 text-white p-1 rounded-lg shadow-lg py-2 px-3 ;
 }
 .bg-navbar{
-  background-image:url('./img/cover.jpg');
   background-repeat:no-repeat;
   background-position: center;
   background-size: cover;
-  @apply h-screen;
 
 }
 .btn-quote{
@@ -69,8 +85,8 @@ body{
   @apply bg-amber-900 text-white mt-12 p-1 border-none outline-none  rounded-full lg:w-1/4 flex items-center justify-center
 }
 .overlay-2{
-  background-color: rgba(21, 1, 0, 0.3);
-  @apply text-white h-screen;
+  background-color: rgb(0, 0, 0);
+  @apply text-white;
 
 }
 .book-list{
@@ -78,6 +94,9 @@ body{
 }
 .booklist-container{
   @apply bg-white rounded-2xl shadow-2xl p-3 h-auto hover:bg-amber-200
+}
+.booklist-container-content{
+  @apply bg-black rounded-2xl shadow-2xl p-3 h-auto hover:bg-slate-900 mt-8 text-black
 }
 .bookdetail{
   @apply max-w-5xl mx-auto flex items-center justify-center 
@@ -91,4 +110,44 @@ body{
 
 .btn-bookdetail{
   @apply bg-amber-800 text-white p-2 rounded-lg mr-3 border-none outline-none mt-3
+}
+.editor {
+  box-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+  background: #000000;
+  padding: 10px 10px;
+  width:100%;
+}
+
+.book-textarea {
+  box-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+  background: #000000;
+  padding: 20px 30px;
+  width:100%;
+  margin: 50px auto;
+}
+
+#editorjs-container {
+  background-color: #ffffff;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  color: #121212;
+}
+
+.ce-toolbar__content, .ce-block__content {
+  max-width: unset;
+  width: 92% !important;
+}
+
+.editorjs-codeFlask_Wrapper .editorjs-codeFlask_LangDisplay {
+  max-width: unset;
+  height: unset !important;
+}
+
+.editor button {
+  border: none;
+  padding: 10px 20px;
+  background: #2cd3ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 }
