@@ -8,7 +8,7 @@ import OpenAI from "openai";
 import { Input, Radio, Flex, Divider } from 'antd';
 const { TextArea } = Input;
 const openai = new OpenAI({
-	apiKey: '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',
+	apiKey: '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',
 	dangerouslyAllowBrowser: true
 });
 
