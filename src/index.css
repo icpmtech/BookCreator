@@ -32,11 +32,10 @@ body{
   
 }
 .logo{
-  @apply p-4 bg-amber-900 text-white flex justify-around items-center lg:text-3xl;
+  @apply p-4  text-white flex justify-around items-center lg:text-3xl;
   font-family: 'Bonheur Royale', cursive;
 }
 .navbar-header{
-  @apply bg-amber-900 ;
   font-family: 'Bonheur Royale', cursive;
   height: 70px;
 }

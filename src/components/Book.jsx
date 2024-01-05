@@ -8,7 +8,7 @@ import OpenAI from "openai";
 import { Input, Radio, Flex, Divider } from 'antd';
 const { TextArea } = Input;
 const openai = new OpenAI({
-	apiKey: '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',
+	apiKey: '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',
 	dangerouslyAllowBrowser: true
 });
 
@@ -113,11 +113,15 @@ const Book = () => {
 									<button type='submit' className='btn '>Generate</button>
 									<Flex gap="small" align="flex justify-center" vertical>
 										<Radio.Group style={{ marginTop: 10 }} value={size} onChange={(e) => continuePrompt(e.target.value)}>
-											<Radio.Button value={response + ' more'}>More...</Radio.Button>
-											<Radio.Button value={response + 'Format as Section'}>Format as Section</Radio.Button>
-											<Radio.Button value={response + 'Format as Chapter'}>Format as Chapter</Radio.Button>
-											<Radio.Button value={response + 'Add links'}>Add links</Radio.Button>
-											<Radio.Button value={response + 'Add code examples'}>Add code examples</Radio.Button>
+											<Radio.Button value={' Continue'+ response }>Continue Writing...</Radio.Button>
+											<Radio.Button value={'Improve Writing:'+ search }>Improve Writing</Radio.Button>
+											<Radio.Button value={response + 'Format as Chapter'}>Fix spelling & Grammar</Radio.Button>
+											<Radio.Button value={response + 'Add links'}>Make Shorter </Radio.Button>
+											<Radio.Button value={response + 'Add code examples'}>Make Longer</Radio.Button>
+											<Radio.Button value={response + 'Add code examples'}>Change Tone</Radio.Button>
+											<Radio.Button value={response + 'Add code examples'}>Simplify language</Radio.Button>
+											<Radio.Button value={response + 'Add code examples'}>Paraphrase</Radio.Button>
+											<Radio.Button value={'Summarize:'+ response  }>Summarize</Radio.Button>
 											<Radio.Button value="Restart">Restart</Radio.Button>
 										</Radio.Group>
 									</Flex>
