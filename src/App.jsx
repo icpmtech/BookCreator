@@ -9,7 +9,8 @@ import Chapters from './components/Chapters';
 import Sections from './components/Sections';
 import Blogposts from './components/BlogPosts';
 import Navbar from './components/Navbar';
-import { Breadcrumb, Layout  } from 'antd';
+import { Breadcrumb, Layout,FloatButton  } from 'antd';
+import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 const { Header, Content, Footer, Sider } = Layout;
 import {
 	AppstoreOutlined,
@@ -85,20 +86,11 @@ const App = () => {
 	<Header className='navbar-header'>
 	<Navbar />
 	</Header>
-	<Content style={{ padding: '0 48px' }}>
-	  <Breadcrumb style={{ margin: '16px 0' }}>
-		<Breadcrumb.Item>Home</Breadcrumb.Item>
-		<Breadcrumb.Item>List</Breadcrumb.Item>
-		<Breadcrumb.Item>App</Breadcrumb.Item>
-	  </Breadcrumb>
 	  <Layout
 	  >
 		<Sider style={{
             overflow: 'auto',
           }}  width={300}>
-			 <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
-        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      </Button>
 			 <Menu
         style={{
           width: 256,
@@ -133,9 +125,19 @@ const App = () => {
 				<Route path='Books/:id' element={<BookDetails />}></Route>
 				<Route path='*' element={<NotFound/>} />
 			</Routes>
+			
 		 </Content>
+		 <FloatButton.Group
+      trigger="click"
+      type="primary"
+      style={{
+        right: 24,
+      }}
+      icon={<CustomerServiceOutlined />}
+    >
+      <FloatButton icon={<CommentOutlined />} />
+    </FloatButton.Group>
 	  </Layout>
-	</Content>
 	<Footer style={{ textAlign: 'center' }}>
 	  Cantinhode.net ©{new Date().getFullYear()} Created by Pedro Martins
 	</Footer>
