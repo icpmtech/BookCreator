@@ -16,10 +16,10 @@ const ForgotPasswordSchema = yup
     .object({
         email: yup
             .string()
-            .required('Todos os campos são obrigatórios!')
-            .email('Digite um email válido!')
+            .required('All fields are mandatory.')
+            .email('Enter a valid email!')
     })
-    .required('Todos os campos são obrigatórios!');
+    .required('All fields are mandatory.');
 
 export default function ForgotPassword() {
     const {
@@ -40,7 +40,7 @@ export default function ForgotPassword() {
 
             MyToast(
                 'success',
-                'Instruções foram enviadas no email!\nLembre-se de checar o spam!',
+                'Instructions were sent by email!\n Remember to check your spam folder!',
                 '#61dafb',
                 3400
             );
@@ -49,8 +49,8 @@ export default function ForgotPassword() {
 
             const errMessage =
                 err.code === 'auth/user-not-found'
-                    ? 'Esse email não está cadastrado!'
-                    : 'Falha ao redefinir senha!';
+                    ? 'This email is not registered!'
+                    : 'Failed to reset password!';
             MyToast('error', errMessage, '#a00000');
         } finally {
             setLoading(false);
@@ -66,9 +66,9 @@ export default function ForgotPassword() {
     return (
         <Form submitFunction={handleSubmit(handleResetPassword)} formName="Senha">
             <Input name="Email" id="email" registerData={register('email')} type="text" />
-            <Button title="Redefinir" type="submit" disabled={loading} />
+            <Button title="Reset" type="submit" disabled={loading} />
             <PStyled>
-                Faça <Link to="/login">LogIn</Link>.
+                Make <Link to="/login">Log in</Link>.
             </PStyled>
         </Form>
     );

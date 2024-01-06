@@ -9,7 +9,7 @@ import UpdateProfile from '../pages/UpdateProfile';
 import PythonCodeEditor from '../components/AssistantCode/Python/PythonCodeEditor';
 import NotFound from '../components/NotFound';
 import Books from '../components/ContentGenerator/Books/Book';
-import Blogposts from '../components/BlogPosts';
+import BlogPosts from '../components/ContentGenerator/Blogs/BlogPosts';
 import { theme, Layout, Avatar, FloatButton, Space } from 'antd';
 import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 import { LogoAnimation } from './styles';
@@ -45,14 +45,14 @@ export default function App() {
         try {
             await logOut();
 
-            MyToast('success', 'LogOut realizado com sucesso!', '#61dafb');
+            MyToast('success', 'LogOut successfully completed!', '#61dafb');
 
             setTimeout(() => {
                 navigate('/login');
             }, 1000);
         } catch (err) {
             console.error(err);
-            MyToast('error', 'Falha ao realizar o LogOut!', '#a00000');
+            MyToast('error', 'Failed to Log Out!', '#a00000');
         } finally {
             setLoading(false);
             return;
@@ -116,7 +116,7 @@ export default function App() {
                     <Router>
                         <RouterRoutes>
                             <Route path='/books' element={  <PrivateRoute><Books /></PrivateRoute>}></Route>
-                            <Route path='/blogposts' element={ <PrivateRoute><Blogposts /></PrivateRoute>}></Route>
+                            <Route path='/blogposts' element={ <PrivateRoute><BlogPosts /></PrivateRoute>}></Route>
                             <Route path='*' element={<NotFound />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/login" element={<Login />} />
