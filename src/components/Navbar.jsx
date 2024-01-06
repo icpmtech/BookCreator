@@ -18,12 +18,7 @@ const Navbar = () => {
 						<li>
 							<a href='/books'  className='focus:text-black'>Books📚</a>
 						</li>
-						<li>
-							<a href='/chapters'  className='focus:text-black'>Chapters📚</a>
-						</li>
-						<li>
-							<a href='/sections'  className='focus:text-black'>Sections</a>
-						</li>
+						
 					</ul>
 				</nav>
 			</div>

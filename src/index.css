@@ -3,15 +3,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+html, body, #root {
+  height: 100%;
+}
 
 body{
   font-family: 'Nunito', sans-serif;
-  background-color: rgb(246, 179, 112);
+  background-color: #000000
+}
+#root {
+  height: 100%;
 }
 *{
   padding:0px;
   margin:0px;
   box-sizing: border-box;
+}
+.demo-logo {
+  width:180px;
+  text-align: center;
+  min-width: 180px;
+  background: rgba(0, 0, 0, 0.2);
+  background-image: url( './img/logo-header.PNG');
+  border-radius: 6px;
+  color: #fff;
+  margin-inline-end: 24px;
 }
 .header{
   background-repeat:no-repeat;
@@ -32,15 +48,17 @@ body{
   
 }
 .logo{
-  @apply p-4  text-white flex justify-around items-center lg:text-3xl;
-  font-family: 'Bonheur Royale', cursive;
+  @apply p-4   flex justify-around items-center lg:text-3xl;
+  font-family: 'Robot', cursive;
 }
 .navbar-header{
-  font-family: 'Bonheur Royale', cursive;
+  font-family: 'Robot', cursive;
   height: 70px;
 }
 .Heading-text{
   @apply lg:text-5xl mb-5 capitalize;
+  background-color: blueviolet;
+  padding: 5px;
 }
 .input{
   @apply py-2 px-2 rounded-l-lg border-none outline-none text-black;
@@ -60,7 +78,8 @@ body{
 
 
 .btn{
-  @apply bg-amber-900 border-none outline-none py-2 px-2 rounded-r-lg 
+  @apply bg-amber-900 border-none outline-none py-2 px-2 rounded-lg;
+  margin-bottom:10px;
 }
 .btn-readmore{
   @apply inline-flex items-center bg-amber-700 text-white p-1 rounded-lg shadow-lg py-2 px-3 ;
