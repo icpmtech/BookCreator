@@ -2,7 +2,9 @@ import React from 'react';
 import {
 	AppstoreOutlined,
 	CalendarOutlined,
-	LinkOutlined, SettingOutlined
+	LinkOutlined,
+	UserOutlined,
+	 SettingOutlined
 } from '@ant-design/icons';
 import { getItem } from './getItem';
 
@@ -40,5 +42,13 @@ export const items = [
 		</a>,
 		'link',
 		<LinkOutlined />
-	)						  
+	),
+	getItem(
+		<a href="/update-profile">
+		Update Profile
+	</a>,
+		'link',
+		<UserOutlined />
+	),
+							  
 ];

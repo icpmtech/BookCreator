@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import GetResponse from './API/ChatGPT';
+import GetResponse from '../../API/ChatGPT';
 
 const BookContent = ({initialContent} ) => {
 	return (

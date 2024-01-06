@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes as RouterRoutes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes as RouterRoutes, Navigate } from 'react-router-dom';
 import React, { useState } from 'react'
 import PrivateRoute from './PrivateRoute';
 import Register from '../pages/Register';
@@ -6,14 +6,13 @@ import Login from '../pages/Login';
 import ForgotPassword from '../pages/ForgotPassword';
 import Home from '../pages/Home';
 import UpdateProfile from '../pages/UpdateProfile';
-import PythonCodeEditor from '../components/PythonCodeEditor';
-import BookDetails from '../components/BookDetails';
+import PythonCodeEditor from '../components/AssistantCode/Python/PythonCodeEditor';
 import NotFound from '../components/NotFound';
-import Books from '../components/Book';
+import Books from '../components/ContentGenerator/Books/Book';
 import Blogposts from '../components/BlogPosts';
 import { theme, Layout, Avatar, FloatButton, Space } from 'antd';
 import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { LogoAnimation } from './styles';
 const { Header, Content, Footer, Sider } = Layout;
 import {
     MailOutlined,
@@ -31,7 +30,6 @@ import { useAuth } from '../Context/AuthContext';
 import MenuItem from 'antd/es/menu/MenuItem';
 
 export default function App() {
-    const navigate = useNavigate(); 
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -60,12 +58,12 @@ export default function App() {
             return;
         }
     }
-    
+
     return (
         <Layout>
-            <Header style={{ color: 'white', display: 'flex', alignItems: 'center' }}>
-                <div className="demo-logo"><h1>Content Generator</h1></div>
-                {currentUser && (   <Menu
+            <Header style={{ color: 'rgb(97, 218, 251)', display: 'flex', alignItems: 'center' }}>
+                <div className="demo-logo"> <h2><LogoAnimation /> Content Generator &nbsp; </h2></div>
+                {currentUser && (<Menu
                     theme="dark"
                     mode="horizontal"
                     defaultSelectedKeys={['1']}
@@ -73,11 +71,11 @@ export default function App() {
                     style={{ flex: 1, minWidth: 0 }}>
 
                 </Menu>
- )}
+                )}
             </Header>
             <Layout
             >
-             {currentUser && (    <Sider trigger={null} collapsible collapsed={collapsed} >
+                {currentUser && (<Sider trigger={null} collapsible collapsed={collapsed} >
                     <Menu
                         theme="dark"
                         inlineCollapsed={collapsed}
@@ -86,7 +84,7 @@ export default function App() {
                     >
                     </Menu>
 
-                </Sider> )}
+                </Sider>)}
                 <Content style={{
                     overflow: 'auto',
                 }}>
@@ -105,16 +103,9 @@ export default function App() {
                                 }}
                             />
                         </MenuItem>
-                        <MenuItem></MenuItem>
-                        <MenuItem>
-                            <Button type='primary' icon={<UserOutlined />}
-                                title="Atualizar Perfil"
-                                onClick={() => navigate('/update-profile')}
-                            >Update Profile</Button>
-                        </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={handleLogOut} >
                             <Space wrap >
-                                User Name:  {currentUser?.email}
+                                <a href='/update-profile'><UserOutlined /> {currentUser?.email}</a>
                             </Space>
                         </MenuItem>
                         <MenuItem>
@@ -124,9 +115,8 @@ export default function App() {
                     )}
                     <Router>
                         <RouterRoutes>
-                            <Route path='/books' element={<Books />}></Route>
-                            <Route path='/blogposts' element={<Blogposts />}></Route>
-                            <Route path='Books/:id' element={<BookDetails />}></Route>
+                            <Route path='/books' element={  <PrivateRoute><Books /></PrivateRoute>}></Route>
+                            <Route path='/blogposts' element={ <PrivateRoute><Blogposts /></PrivateRoute>}></Route>
                             <Route path='*' element={<NotFound />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/login" element={<Login />} />

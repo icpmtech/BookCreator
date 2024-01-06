@@ -12,12 +12,12 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 const updateSchema = yup.object({
-    newEmail: yup.string().notRequired().nullable().email('Digite um email válido!'),
+    newEmail: yup.string().notRequired().nullable().email('Enter a valid email!'),
     newPassword: yup
         .string()
         .notRequired()
         .nullable()
-        .min(6, 'A senha deve ter pelo menos 6 caracteres!'),
+        .min(6, 'The password must have at least 6 characters!'),
     newPasswordConfirmation: yup
         .string()
         .notRequired()
@@ -37,12 +37,12 @@ export default function UpdateProfile() {
 
     function handleUpdate({ newEmail, newPassword, newPasswordConfirmation }) {
         if (!newEmail && !newPassword && !newPasswordConfirmation) {
-            MyToast('error', 'Atualize a senha ou o email!', '#a00000');
+            MyToast('error', 'Update the password or email!', '#a00000');
             return;
         }
 
         if (newEmail === currentUser.email) {
-            MyToast('error', 'Esse já é o seu email!', '#a00000');
+            MyToast('error', 'This is already your email!', '#a00000');
             return;
         }
 
@@ -62,10 +62,10 @@ export default function UpdateProfile() {
                     .then(data => {
                         let sucMessage =
                             data[0] === null
-                                ? 'Senha atualizada '
+                                ? 'Updated password!'
                                 : data[1] === null
-                                ? 'Email atualizado '
-                                : 'Dados atualizados ';
+                                ? 'Updated email!'
+                                : 'Data updated successfully!';
 
                         MyToast('success', sucMessage + 'com sucesso!', '#61dafb');
 
@@ -80,28 +80,28 @@ export default function UpdateProfile() {
                         switch (err.code) {
                             case 'auth/user-token-expired':
                                 errMessage =
-                                    'Falha ao atualizar os dados corretamente.\nFaça LogIn novamente e tente atualizar um de cada vez!';
+                                    'Failed to update data correctly.\nPlease log in again and try to update one at a time!';
                                 break;
 
                             case 'auth/requires-recent-login':
                                 errMessage =
-                                    'Essa é uma operação sensível e requer uma nova autenticação.\nFaça LogIn novamente!';
+                                    'This is a sensitive operation and requires a new authentication.\nLog in again!';
                                 break;
 
                             case 'auth/email-already-in-use':
-                                errMessage = 'Esse email já está cadastrado!';
+                                errMessage = 'This email is already registered!';
                                 break;
 
                             case 'auth/wrong-password':
-                                errMessage = 'Senha incorreta!';
+                                errMessage = 'Incorrect password!';
                                 break;
 
                             case 'auth/user-not-found':
-                                errMessage = 'Esse email não está cadastrado!';
+                                errMessage = 'This email is not registered!';
                                 break;
 
                             default:
-                                errMessage = 'Falha ao atualizar os dados!';
+                                errMessage = 'Failed to update the data!';
                                 break;
                         }
                         MyToast('error', errMessage, '#a00000', 4000);
@@ -113,35 +113,35 @@ export default function UpdateProfile() {
 
                 const errMessage = err.message
                     ? err.message
-                    : 'Falha ao validar os dados!';
+                    : 'Failed to validate the data!';
                 MyToast('error', errMessage, '#a00000');
             });
     }
 
     return (
         <Form submitFunction={handleSubmit(handleUpdate)} formName="Update">
-            <PStyled top>Deixe em branco os campos que não quiser alterar.</PStyled>
+            <PStyled top>Leave blank the fields you don't want to change.</PStyled>
             <Input
-                name="Novo Email"
+                name="New Email"
                 id="newEmail"
                 registerData={register('newEmail')}
                 type="text"
             />
             <Input
-                name="Nova Senha"
+                name="New Password"
                 id="newPassword"
                 registerData={register('newPassword')}
                 type="password"
             />
             <Input
-                name="Confirmar Nova Senha"
+                name="Confirm New Password"
                 id="newPasswordConfirmation"
                 registerData={register('newPasswordConfirmation')}
                 type="password"
             />
-            <Button title="Atualizar" type="submit" disabled={loading} />
+            <Button title="Update" type="submit" disabled={loading} />
             <PStyled>
-                <Link to="/">Cancelar</Link>
+                <Link to="/">Cancel</Link>
             </PStyled>
         </Form>
     );

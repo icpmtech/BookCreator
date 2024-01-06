@@ -16,18 +16,18 @@ const registerSchema = yup
     .object({
         email: yup
             .string()
-            .required('Todos os campos são obrigatórios!')
-            .email('Digite um email válido!'),
+            .required('All fields are mandatory.!')
+            .email('Enter a valid email!'),
         password: yup
             .string()
-            .required('Todos os campos são obrigatórios!')
-            .min(6, 'A senha deve ter pelo menos 6 caracteres!'),
+            .required('All fields are mandatory.!')
+            .min(6, 'Password most have more than 6 characters!'),
         passwordConfirmation: yup
             .string()
-            .required('Todos os campos são obrigatórios!')
-            .oneOf([yup.ref('password')], 'As senhas devem ser iguais!')
+            .required('All fields are mandatory.!')
+            .oneOf([yup.ref('password')], 'The passwords must be the same!')
     })
-    .required('Todos os campos são obrigatórios!');
+    .required('All fields are mandatory.s!');
 
 export default function Register() {
     const {
@@ -47,7 +47,7 @@ export default function Register() {
         try {
             await signUp(email, password);
 
-            MyToast('success', 'Conta criada com sucesso!', '#61dafb');
+            MyToast('success', 'Account created successfully!', '#61dafb');
 
             setTimeout(() => {
                 navigate('/');
@@ -57,8 +57,8 @@ export default function Register() {
 
             const errMessage =
                 err.code === 'auth/email-already-in-use'
-                    ? 'Esse email já está cadastrado!'
-                    : 'Falha ao criar a conta!';
+                    ? 'This email is already registered!'
+                    : 'Failed to create the account!';
             MyToast('error', errMessage, '#a00000');
         } finally {
             setLoading(false);
@@ -75,20 +75,20 @@ export default function Register() {
         <Form submitFunction={handleSubmit(handleSignUp)} formName="SignUp">
             <Input name="Email" id="email" registerData={register('email')} type="text" />
             <Input
-                name="Senha"
+                name="Password"
                 id="password"
                 registerData={register('password')}
                 type="password"
             />
             <Input
-                name="Confirmar Senha"
+                name="Confirm Password"
                 id="passwordConfirmation"
                 registerData={register('passwordConfirmation')}
                 type="password"
             />
-            <Button title="Registrar" type="submit" disabled={loading} />
+            <Button title="Register" type="submit" disabled={loading} />
             <PStyled>
-                Já tem uma conta? Faça <Link to="/login">LogIn</Link>.
+            Already have an account? <Link to="/login"> Log in</Link>.
             </PStyled>
         </Form>
     );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import BookContent from './BookContent';
+import BookContent from './ContentGenerator/Books/BookContent';
 import { Circles } from 'react-loader-spinner';
 import GetResponse from './API/ChatGPT';
 import { Editor } from '@tinymce/tinymce-react';

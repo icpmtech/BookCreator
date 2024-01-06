@@ -19,8 +19,6 @@ export const FormStyled = styled.form`
     margin: 0 auto;
     padding: 100px 0;
     width: 100%;
-    max-width: 600px;
-    border-radius: 8px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
@@ -45,7 +43,6 @@ export const FormContainerStyled = styled.div`
     gap: 5px;
     color: #333;
     margin-bottom: 25px;
-
     svg {
         font-size: 60px;
         color: #61dafb;
