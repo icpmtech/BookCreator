@@ -62,12 +62,12 @@ export default function UpdateProfile() {
                     .then(data => {
                         let sucMessage =
                             data[0] === null
-                                ? 'Updated password!'
+                                ? 'Updated password '
                                 : data[1] === null
-                                ? 'Updated email!'
+                                ? 'Updated email '
                                 : 'Data updated successfully!';
 
-                        MyToast('success', sucMessage + 'com sucesso!', '#61dafb');
+                        MyToast('success', sucMessage + 'successfully!', '#61dafb');
 
                         setTimeout(() => {
                             navigate('/');
