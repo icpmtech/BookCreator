@@ -25,7 +25,7 @@ export const FormStyled = styled.form`
     align-items: center;
     position: relative;
     gap: 50px;
-    background: black;
+    background: #001529;
     backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     top:10px;
