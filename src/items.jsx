@@ -4,7 +4,11 @@ import {
 	CalendarOutlined,
 	LinkOutlined,
 	UserOutlined,
-	 SettingOutlined
+	BookOutlined,
+	BlockOutlined,
+	SettingOutlined,
+	CodeOutlined,
+	AuditOutlined
 } from '@ant-design/icons';
 import { getItem } from './getItem';
 
@@ -14,27 +18,23 @@ export const items = [
 	</a>,
 		'1',
 		<AppstoreOutlined />),
-	getItem(<a href="/books">
-		Books
-	</a>,
-		'2', <CalendarOutlined />),
-	getItem('Generate Content', 'sub1', <AppstoreOutlined />, [
+	getItem('Generate Content', 'sub1', <BlockOutlined />, [
 		getItem(<a href="/books">
 			Books
 		</a>,
-			'3', <CalendarOutlined />),
+			'3', <BookOutlined />),
 		getItem(<a href="/blogposts">
 			Blogposts
 		</a>,
-			'6', <CalendarOutlined />),
+			'6', <AuditOutlined />),
 	]),
-	getItem('Code Assistant', 'sub2', <SettingOutlined />, [
+	getItem('Code Assistant', 'sub2', <CodeOutlined />, [
 		getItem(<a href="/code-assistant-python">
 		Python
-	</a>, '7', <SettingOutlined />),
-		getItem('React', '8'),
-		getItem('Angular', '9'),
-		getItem('C#', '10'),
+	</a>, '7', <CodeOutlined />),
+		getItem('React', '8', <CodeOutlined />),
+		getItem('Angular', '9', <CodeOutlined />),
+		getItem('C#', '10', <CodeOutlined />),
 	]),
 	getItem(
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
