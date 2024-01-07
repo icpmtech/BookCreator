@@ -150,7 +150,7 @@ const Article = () => {
 
 		<DivStyled>
 			<DivHeader >
-				<h2 ><LogoAnimation></LogoAnimation>AI Content Generator </h2>
+				<h2 ><LogoAnimation></LogoAnimation>AI Article Generator </h2>
 			</DivHeader>
 			<ContainerStyled >
 			{contextHolder}

@@ -25,6 +25,9 @@ export const DivStyled = styled.div`
         flex-direction: column;
         gap: 5px;
         box-shadow: none;
+        h2 {
+            font-size:16px;
+        }
     }
 `;
 export const DivHeader = styled.div`
