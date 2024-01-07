@@ -22,11 +22,15 @@ export const items = [
 		getItem(<a href="/books">
 			Books
 		</a>,
-			'3', <BookOutlined />),
+			'1', <BookOutlined />),
+			getItem(<a href="/articles">
+			Articles
+		</a>,
+			'2', <AuditOutlined />),
 		getItem(<a href="/blogposts">
 			Blogposts
 		</a>,
-			'6', <AuditOutlined />),
+			'3', <AuditOutlined />),
 	]),
 	getItem('Code Assistant', 'sub2', <CodeOutlined />, [
 		getItem(<a href="/code-assistant-python">
@@ -40,14 +44,14 @@ export const items = [
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
 			Cantinhode.net
 		</a>,
-		'link',
+		'11',
 		<LinkOutlined />
 	),
 	getItem(
 		<a href="/update-profile">
 		Update Profile
 	</a>,
-		'link',
+		'12',
 		<UserOutlined />
 	),
 							  

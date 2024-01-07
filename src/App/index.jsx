@@ -10,9 +10,10 @@ import PythonCodeEditor from '../components/AssistantCode/Python/PythonCodeEdito
 import NotFound from '../components/NotFound';
 import Books from '../components/ContentGenerator/Books/Book';
 import BlogPosts from '../components/ContentGenerator/Blogs/BlogPosts';
+import Article from '../components/ContentGenerator/Articles/Article';
 import { theme, Layout, Avatar, FloatButton, Space } from 'antd';
 import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
-import { LogoAnimation } from './styles';
+import { LogoAnimation,DivStyled } from './styles';
 const { Header, Content, Footer, Sider } = Layout;
 import {
     MailOutlined,
@@ -33,10 +34,7 @@ export default function App() {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const [collapsed, setCollapsed] = useState(false);
-    const toggleCollapsed = () => {
-        setCollapsed(!collapsed);
-    };
+  
     const { currentUser, logOut } = useAuth();
     const [loading, setLoading] = useState(false);
 
@@ -62,8 +60,8 @@ export default function App() {
     return (
         <Layout>
             <Header style={{ color: 'rgb(97, 218, 251)', display: 'flex', alignItems: 'center' }}>
-                <div className="demo-logo"> <h2><LogoAnimation /> AI Content Generator &nbsp; </h2></div>
-                {currentUser && (<Menu
+                <DivStyled className="demo-logo hidden lg:block "> <h2 className=' hidden lg:block'><LogoAnimation /> AI Content Generator &nbsp; </h2></DivStyled>
+                {currentUser && (<Menu  
                     theme="dark"
                     mode="horizontal"
                     defaultSelectedKeys={['1']}
@@ -75,10 +73,11 @@ export default function App() {
             </Header>
             <Layout
             >
-                {currentUser && (<Sider trigger={null} collapsible collapsed={collapsed} >
+                {currentUser && (<Sider   breakpoint="lg"
+        collapsedWidth="0"   >
                     <Menu
                         theme="dark"
-                        inlineCollapsed={collapsed}
+                        
                         mode="inline"
                         items={items}
                     >
@@ -91,18 +90,6 @@ export default function App() {
 
                     {currentUser && (<Menu
                         mode="horizontal">
-                        <MenuItem>
-                            <Button
-                                type="text"
-                                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                                onClick={() => setCollapsed(!collapsed)}
-                                style={{
-                                    fontSize: '16px',
-                                    width: 64,
-                                    height: 32,
-                                }}
-                            />
-                        </MenuItem>
                         <MenuItem onClick={handleLogOut} >
                             <Space wrap >
                                 <a href='/update-profile'><UserOutlined /> {currentUser?.email}</a>
@@ -116,6 +103,7 @@ export default function App() {
                     <Router>
                         <RouterRoutes>
                             <Route path='/books' element={  <PrivateRoute><Books /></PrivateRoute>}></Route>
+                            <Route path='/articles' element={  <PrivateRoute><Article /></PrivateRoute>}></Route>
                             <Route path='/blogposts' element={ <PrivateRoute><BlogPosts /></PrivateRoute>}></Route>
                             <Route path='*' element={<NotFound />} />
                             <Route path="/register" element={<Register />} />
