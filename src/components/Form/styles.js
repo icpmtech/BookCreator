@@ -25,7 +25,7 @@ export const FormStyled = styled.form`
     align-items: center;
     position: relative;
     gap: 50px;
-    background: white;
+    background: black;
     backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     top:10px;
@@ -41,7 +41,7 @@ export const FormContainerStyled = styled.div`
     justify-content: center;
     align-items: center;
     gap: 5px;
-    color: #333;
+    color: #fff;
     margin-bottom: 25px;
     svg {
         font-size: 60px;
