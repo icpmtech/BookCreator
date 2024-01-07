@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes as RouterRoutes, Navigate } from 'react-router-dom';
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import PrivateRoute from './PrivateRoute';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
@@ -29,12 +29,17 @@ import { items } from '../items';
 import MyToast from '../components/MyToast';
 import { useAuth } from '../Context/AuthContext';
 import MenuItem from 'antd/es/menu/MenuItem';
-
 export default function App() {
+  
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-  
+    const [selectedKey, setSelectedKey] = useState(items.find(_item => location?.pathname?.startsWith(_item.key))?.key)
+
+    const onClickMenu = (item) => {
+      const clicked = items.find(_item => _item.key === item.key)
+      history.push(clicked.key)
+    }
     const { currentUser, logOut } = useAuth();
     const [loading, setLoading] = useState(false);
 
@@ -56,7 +61,23 @@ export default function App() {
             return;
         }
     }
-
+    useEffect(() => {
+        items.find(_item => {
+        
+            if(_item?.children)
+            { 
+                let value= _item?.children.find(item =>location?.pathname===item?.label?.props?.href);
+                setSelectedKey(value);
+            }
+           else if(location?.pathname===_item?.label?.props?.href)
+            {
+                setSelectedKey(_item);
+                return;
+            }
+           
+       });
+      
+      }, [location])
     return (
         <Layout>
             <Header style={{ color: 'rgb(97, 218, 251)', display: 'flex', alignItems: 'center' }}>
@@ -64,7 +85,7 @@ export default function App() {
                 {currentUser && (<Menu  
                     theme="dark"
                     mode="horizontal"
-                    defaultSelectedKeys={['1']}
+                    selectedKeys={[selectedKey?.key]}
                     items={items}
                     style={{ flex: 1, minWidth: 0 }}>
 
@@ -75,9 +96,9 @@ export default function App() {
             >
                 {currentUser && (<Sider   breakpoint="lg"
         collapsedWidth="0"   >
-                    <Menu
+                    <Menu onClick={onClickMenu}
                         theme="dark"
-                        
+                        selectedKeys={[selectedKey?.key]}
                         mode="inline"
                         items={items}
                     >
