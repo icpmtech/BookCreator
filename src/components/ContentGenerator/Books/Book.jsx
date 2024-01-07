@@ -149,7 +149,7 @@ const Book = () => {
 
 		<DivStyled>
 			<DivHeader >
-				<h2 ><LogoAnimation></LogoAnimation>Content Generator </h2>
+				<h2 ><LogoAnimation></LogoAnimation>AI Content Generator </h2>
 			</DivHeader>
 			<ContainerStyled >
 			{contextHolder}

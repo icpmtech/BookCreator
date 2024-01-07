@@ -4,7 +4,7 @@ const Navbar = () => {
     return (
 		<div>
 			<div className='logo'>
-				<h1 className='lg:text-3xl'>Content Generator📚💖</h1>
+				<h1 className='lg:text-3xl'>AI Content Generator📚💖</h1>
 				<nav>
 					<ul className='flex ml-5'>
 						<li>

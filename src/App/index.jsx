@@ -62,7 +62,7 @@ export default function App() {
     return (
         <Layout>
             <Header style={{ color: 'rgb(97, 218, 251)', display: 'flex', alignItems: 'center' }}>
-                <div className="demo-logo"> <h2><LogoAnimation /> Content Generator &nbsp; </h2></div>
+                <div className="demo-logo"> <h2><LogoAnimation /> AI Content Generator &nbsp; </h2></div>
                 {currentUser && (<Menu
                     theme="dark"
                     mode="horizontal"

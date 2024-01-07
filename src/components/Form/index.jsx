@@ -6,7 +6,7 @@ export default function Form({ children, formName, submitFunction }) {
             <FormContainerStyled>
                 <LogoAnimation />
                 <div>
-                    <span>AI Content Generator</span>
+                    <span>AI AI Content Generator</span>
                     <span>{formName}</span>
                 </div>
             </FormContainerStyled>
