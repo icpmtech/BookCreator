@@ -5,6 +5,7 @@ export const InputContainerStyled = styled.div`
     padding: 20px 0 0;
     width: 200px;
     margin-bottom: 20px;
+    color: #000;
 `;
 
 export const LabelStyled = styled.label`
@@ -13,16 +14,16 @@ export const LabelStyled = styled.label`
     display: block;
     transition: 0.2s;
     font-size: 17px;
-    color: #9b9b9b;
+    color: #fff;
     pointer-events: none;
     font-weight: 700;
 `;
 
 export const InputStyled = styled.input`
     width: 100%;
-    border-bottom: 2px solid #9b9b9b;
+    border-bottom: 2px solid #fff;
     font-size: 17px;
-    color: #333;
+    color: #fff;
     font-weight: 300;
     padding: 7px 0;
     background: transparent;

@@ -65,7 +65,7 @@ export const FormContainerStyled = styled.div`
 export const PStyled = styled.p`
     position: absolute;
     text-align: center;
-    color: #9b9b9b;
+    color: #fff;
     left: 50%;
     transform: translateX(-50%);
     ${props => (props.top ? 'top: 25px;' : 'bottom: 25px;')}
