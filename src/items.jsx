@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	AppstoreOutlined,
-	CalendarOutlined,
+	MailOutlined,
 	LinkOutlined,
 	UserOutlined,
 	BookOutlined,
@@ -86,6 +86,10 @@ export const items = [
 			Blogposts
 		</a>,
 			'4', <AuditOutlined />),
+			getItem(<a href="/emails">
+			Emails
+		</a>,
+			'4', <MailOutlined />),
 	]),
 	getItem('Code Assistant', 'sub2', <CodeOutlined />, [
 		getItem(<a href="/code-assistant-python">

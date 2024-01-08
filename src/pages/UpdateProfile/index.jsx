@@ -139,6 +139,7 @@ export default function UpdateProfile() {
                 registerData={register('newPasswordConfirmation')}
                 type="password"
             />
+           
             <Button title="Update" type="submit" disabled={loading} />
             <PStyled>
                 <Link to="/">Cancel</Link>

@@ -32,6 +32,7 @@ import MenuItem from 'antd/es/menu/MenuItem';
 import "./App.css"
 import ContactUs from '../pages/ContactUs';
 import Plans from '../pages/Plans';
+import Email from '../components/ContentGenerator/Email/Email';
 export default function App() {
   
     const {
@@ -94,14 +95,14 @@ export default function App() {
 
                 </Menu>
                 )}
-               <Menu  
+               {!currentUser &&  (<Menu  
                     theme="dark"
                     mode="horizontal"
                     selectedKeys={[selectedKey?.key]}
                     items={itemsPublic}
                     style={{ flex: 1, minWidth: 0 }}>
 
-                </Menu>
+                </Menu>)}
             </Header>
             <Layout
             >
@@ -122,7 +123,12 @@ export default function App() {
 
                     {currentUser && (<Menu
                         mode="horizontal">
-                        <MenuItem onClick={handleLogOut} >
+                        <MenuItem  >
+                            <Space wrap >
+                                <p><ContainerOutlined /> Credits:300</p>
+                            </Space>
+                        </MenuItem>
+                        <MenuItem  >
                             <Space wrap >
                                 <a href='/update-profile'><UserOutlined /> {currentUser?.email}</a>
                             </Space>
@@ -135,6 +141,7 @@ export default function App() {
                     <Router>
                         <RouterRoutes>
                             <Route path='/books' element={  <PrivateRoute><Books /></PrivateRoute>}></Route>
+                            <Route path='/emails' element={  <PrivateRoute><Email /></PrivateRoute>}></Route>
                             <Route path='/articles' element={  <PrivateRoute><Article /></PrivateRoute>}></Route>
                             <Route path='/blogposts' element={ <PrivateRoute><BlogPosts /></PrivateRoute>}></Route>
                             <Route path='*' element={<NotFound />} />

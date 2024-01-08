@@ -90,6 +90,8 @@ export default function Register() {
             <PStyled>
             Already have an account? <Link to="/login"> Log in</Link>.
             </PStyled>
+           
         </Form>
+        
     );
 }
