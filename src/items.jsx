@@ -95,23 +95,38 @@ export const items = [
 		getItem(<a href="/code-assistant-python">
 		Python
 	</a>, '7', <CodeOutlined />),
-		getItem('React', '8', <CodeOutlined />),
-		getItem('Angular', '9', <CodeOutlined />),
-		getItem('C#', '10', <CodeOutlined />),
+		getItem(<a href="/code-assistant-csharp">
+		CSharp
+	</a>, '8', <CodeOutlined />),
+		getItem(<a href="/code-assistant-angular">
+		Angular
+	</a>, '9', <CodeOutlined />),
+		getItem(<a href="/code-assistant-react">
+		React
+	</a>, '10', <CodeOutlined />),
+	getItem(<a href="/code-assistant-sql">
+	SQL
+</a>, '11', <CodeOutlined />),
 	]),
 	getItem(
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
 			Cantinhode.net
 		</a>,
-		'11',
+		'12',
 		<LinkOutlined />
 	),
 	getItem(
 		<a href="/update-profile">
 		Update Profile
 	</a>,
-		'12',
+		'13',
 		<UserOutlined />
+	),getItem(
+		<a href="/contact-us">
+		Contact Us
+	</a>,
+		'14',
+		<LinkOutlined />
 	),
 							  
 ];

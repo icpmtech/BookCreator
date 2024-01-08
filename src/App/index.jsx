@@ -7,6 +7,10 @@ import ForgotPassword from '../pages/ForgotPassword';
 import Home from '../pages/Home';
 import UpdateProfile from '../pages/UpdateProfile';
 import PythonCodeEditor from '../components/AssistantCode/Python/PythonCodeEditor';
+import ReactCodeEditor from '../components/AssistantCode/React/ReactCodeEditor';
+import CSharpCodeEditor from '../components/AssistantCode/CSharp/CSharpCodeEditor';
+import AngularCodeEditor from '../components/AssistantCode/Angular/AngularCodeEditor';
+import SQLCodeEditor from '../components/AssistantCode/SQL/SQLCodeEditor';
 import NotFound from '../components/NotFound';
 import Books from '../components/ContentGenerator/Books/Book';
 import BlogPosts from '../components/ContentGenerator/Blogs/BlogPosts';
@@ -170,7 +174,25 @@ export default function App() {
                                 <PrivateRoute>
                                     <PythonCodeEditor />
                                 </PrivateRoute>} />
+                           
+                              <Route path="/code-assistant-react" element={
+                                <PrivateRoute>
+                                    <ReactCodeEditor />
+                                </PrivateRoute>} />
+                              <Route path="/code-assistant-angular" element={
+                                <PrivateRoute>
+                                    <AngularCodeEditor />
+                                </PrivateRoute>} />
+                              <Route path="/code-assistant-csharp" element={
+                                <PrivateRoute>
+                                    <CSharpCodeEditor />
+                                </PrivateRoute>} />
+                                <Route path="/code-assistant-sql" element={
+                                <PrivateRoute>
+                                    <SQLCodeEditor />
+                                </PrivateRoute>} />
                             <Route
+
                                 path="/"
                                 element={
                                     <PrivateRoute>
