@@ -68,7 +68,7 @@ export const itemsPublic = [
 ];
 
 export const items = [
-	getItem(<a href="/">
+	getItem(<a href="/home-private">
 		Home
 	</a>,
 		'1',

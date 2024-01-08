@@ -32,6 +32,7 @@ import MenuItem from 'antd/es/menu/MenuItem';
 import "./App.css"
 import ContactUs from '../pages/ContactUs';
 import Plans from '../pages/Plans';
+import HomePrivate from '../pages/HomePrivate';
 import Email from '../components/ContentGenerator/Email/Email';
 export default function App() {
   
@@ -84,7 +85,7 @@ export default function App() {
       }, [location])
     return (
         <Layout>
-            <Header style={{ color: 'rgb(97, 218, 251)', display: 'flex', alignItems: 'center' }}>
+            <Header style={{ color: '#fff', display: 'flex', alignItems: 'center' }}>
                 <DivStyled className="demo-logo hidden lg:block "> <h2 className=' hidden lg:block'><LogoAnimation /> AI Content Editor &nbsp; </h2></DivStyled>
                 {currentUser && (<Menu  
                     theme="dark"
@@ -153,9 +154,18 @@ export default function App() {
                             <Route
                                 path="/"
                                 element={
-                                        <Home />
+                                        <Home currentUser={currentUser} />
                                 }
                             />
+                           
+                             <Route
+                                path="/home-private"
+                                element={
+                                    <PrivateRoute><HomePrivate currentUser={currentUser} /></PrivateRoute>
+                                   
+                                }
+                            />
+                           
                             <Route path="/code-assistant-python" element={
                                 <PrivateRoute>
                                     <PythonCodeEditor />

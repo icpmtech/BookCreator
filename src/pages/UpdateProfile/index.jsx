@@ -142,7 +142,7 @@ export default function UpdateProfile() {
            
             <Button title="Update" type="submit" disabled={loading} />
             <PStyled>
-                <Link to="/">Cancel</Link>
+                <Link to="/home-private">Cancel</Link>
             </PStyled>
         </Form>
     );

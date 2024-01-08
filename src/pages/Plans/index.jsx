@@ -6,12 +6,12 @@ import { MainStyled } from './styles';
 export default function Plans() {
     return (
         
-            <Content style={{padding: 20, justifyContent: 'center'}} >
-                <Space  style={{ padding:20,fontSize:30, justifyContent: 'center'}} >
+            <Content style={{padding: 20,height:'100%',  textAlign: 'center',backgroundColor:'rgb(248 120 205)' }} >
+                <Space  style={{ padding:20,fontSize:30,  textAlign: 'center', }} >
                     <h1 >Choose a plan that suits your content creation needs</h1>
                     </Space>
-                <Space  direction="horizontal" style={{ justifyContent: 'center'}}  >
-                    <Card   title="START 10€/mo" bordered={false}>
+                <Space  direction="horizontal" style={{  textAlign: 'center', }}  >
+                    <Card   title="START 10€/mo">
                         <p>Run create your content with AI efficiently with all the basics you need
                             <ul>
                                 <li>100 prompts books content writer</li>
@@ -28,7 +28,7 @@ export default function Plans() {
                         <Button href='https://cantinhode.net/products/plan-starter' style={{ top:10 }}  type='primary'>Buy Now</Button>
                     </Card>
 
-                    <Card className="item"  title="GROW 20€/mo" bordered={false}>
+                    <Card className="item"  title="GROW 20€/mo" >
                         <p>Run create your content with AI efficiently with all the basics you need
                             <ul>
                                 <li>100 prompts books content writer</li>
@@ -37,7 +37,7 @@ export default function Plans() {
                                 <li>General 300 credits in your account GROW plan</li>
                             </ul>
                         </p>
-                        <QRCode
+                        <QRCode 
     errorLevel="H"
     value="https://cantinhode.net/products/plan-grow"
     icon="https://cantinhode.net/cdn/shop/files/AIContentEditor_885e18db-2b4f-4fb6-a5a5-fc3db57173c4.svg"
@@ -45,7 +45,7 @@ export default function Plans() {
                         <Button  href='https://cantinhode.net/products/plan-grow' style={{ top:10 }} type='primary'>Buy Now</Button>
                     </Card>
 
-                    <Card className="item" title="EXPAND 50€/mo" bordered={false}>
+                    <Card className="item" title="EXPAND 50€/mo" >
                         <p>Run create your content with AI efficiently with all the basics you need
                             <ul>
                                 <li>100 prompts books content writer</li>

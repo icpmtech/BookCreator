@@ -8,21 +8,16 @@ import {
 	AppstoreOutlined,
 	
 } from '@ant-design/icons';
-export default function Home(currentUser) {
+export default function HomePrivate() {
     return (
         <Content style={{ textAlign: 'center', backgroundColor: 'black' }} >
-            {!currentUser == null && (<Content style={{ backgroundColor: 'black' }} >
-                <ImageStyled>
-                    <img width={500} src={slide1} alt="Presentingt the AI Content Editor" />
-                </ImageStyled>
-            </Content>)}
-            {currentUser != null && (<Content style={{ height: '70vh', backgroundColor: 'black' }} >
+        <Content style={{ height: '70vh', backgroundColor: 'black' }} >
                 <img width={500} src={slide1} alt="Presentingt the AI Content Editor" />
                 <Content style={{ top: 0, backgroundColor: 'black' }} >
                     <Button  icon={<AppstoreOutlined />} size={'large'} style={{
-                    }} type='primary' href="/plans">Choose your Plan</Button>
+                    }} type='primary' href="/contact-us">Need Help Contact Us</Button>
                 </Content>
-            </Content>)}
+            </Content>
         </Content>
         
     );

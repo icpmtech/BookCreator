@@ -50,7 +50,7 @@ export default function Register() {
             MyToast('success', 'Account created successfully!', '#61dafb');
 
             setTimeout(() => {
-                navigate('/');
+                navigate('/home-private');
             }, 1000);
         } catch (err) {
             console.error(err);
