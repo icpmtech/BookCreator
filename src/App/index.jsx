@@ -25,10 +25,13 @@ import {
     PieChartOutlined,
 } from '@ant-design/icons';
 import { Button, Divider, Menu, Switch } from 'antd';
-import { items } from '../items';
+import { items,itemsPublic } from '../items';
 import MyToast from '../components/MyToast';
 import { useAuth } from '../Context/AuthContext';
 import MenuItem from 'antd/es/menu/MenuItem';
+import "./App.css"
+import ContactUs from '../pages/ContactUs';
+import Plans from '../pages/Plans';
 export default function App() {
   
     const {
@@ -81,7 +84,7 @@ export default function App() {
     return (
         <Layout>
             <Header style={{ color: 'rgb(97, 218, 251)', display: 'flex', alignItems: 'center' }}>
-                <DivStyled className="demo-logo hidden lg:block "> <h2 className=' hidden lg:block'><LogoAnimation /> AI Content Generator &nbsp; </h2></DivStyled>
+                <DivStyled className="demo-logo hidden lg:block "> <h2 className=' hidden lg:block'><LogoAnimation /> AI Content Editor &nbsp; </h2></DivStyled>
                 {currentUser && (<Menu  
                     theme="dark"
                     mode="horizontal"
@@ -91,6 +94,14 @@ export default function App() {
 
                 </Menu>
                 )}
+               <Menu  
+                    theme="dark"
+                    mode="horizontal"
+                    selectedKeys={[selectedKey?.key]}
+                    items={itemsPublic}
+                    style={{ flex: 1, minWidth: 0 }}>
+
+                </Menu>
             </Header>
             <Layout
             >
@@ -129,7 +140,15 @@ export default function App() {
                             <Route path='*' element={<NotFound />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/login" element={<Login />} />
+                            <Route path="/contact-us" element={<ContactUs />} />
+                            <Route path="/plans" element={<Plans />} />
                             <Route path="/forgot-password" element={<ForgotPassword />} />
+                            <Route
+                                path="/"
+                                element={
+                                        <Home />
+                                }
+                            />
                             <Route path="/code-assistant-python" element={
                                 <PrivateRoute>
                                     <PythonCodeEditor />

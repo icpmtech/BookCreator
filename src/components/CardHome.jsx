@@ -35,7 +35,7 @@ const CardHome = () => (
      style={{   textAlign: 'center', width: 500 }}
     >
      <Image src={slide4} alt="Slide 4 Prompp Engineering"/>
-     <Meta title="The AI Content Generator" description="www.thesupercoder.com" />
+     <Meta title="The AI Content Editor" description="www.thesupercoder.com" />
     </Card>
   </Space>
 );

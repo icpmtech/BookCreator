@@ -11,6 +11,61 @@ import {
 	AuditOutlined
 } from '@ant-design/icons';
 import { getItem } from './getItem';
+export const itemsPublic = [
+	getItem(
+		<a href="/">
+		Home
+	</a>,
+	
+		'01',
+		<AppstoreOutlined />
+	),
+	getItem(
+		<a href="/plans">
+		Plans
+	</a>,
+	
+		'00',
+		<AppstoreOutlined />
+	),
+	getItem(
+		<a href="/login">
+		Sign Up 
+	</a>,
+		'02',
+		<UserOutlined />
+	),
+	getItem(
+		<a href="/register">
+		Register
+	</a>,
+		'03',
+		<UserOutlined />
+	),
+	getItem(
+		<a href="https://cantinhode.net/products/course-prompt-engineering" target="_blank" rel="noopener noreferrer">
+		Course Prompt Engineering
+	</a>,
+		'04',
+		<BookOutlined />
+	),
+	getItem(
+		<a href="/contact-us">
+		Contact Us
+	</a>,
+		'05',
+		<LinkOutlined />
+	),
+	
+	getItem(
+		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
+			Community Cantinhode.net
+		</a>,
+		'06',
+		<LinkOutlined />
+	),
+							  
+];
 
 export const items = [
 	getItem(<a href="/">

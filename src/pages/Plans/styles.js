@@ -68,24 +68,16 @@ background-repeat:no-repeat;
 
 export const MainStyled = styled.main`
     
-    margin: 0 auto;
-    padding: 30px 15px;
-    width: 100%;
-   
-    div {
-       
-        top: 5px;
-        left: 5px;
-        color: #61dafb;
-        font-size: 15px;
-        display: flex;
-        gap: 3px;
+.container {
+  padding:30px;
+}
 
-        span {
-            font-size: 15px;
-            text-shadow: 0 0 3px #00000015;
-        }
-    }
+@media (max-width: 600px) {
+  .container {
+    padding:5px;
+    
+  }
+}
 
     
 
