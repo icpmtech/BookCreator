@@ -46,7 +46,7 @@ export default function Login() {
             MyToast('success', 'Sign In With Success!', '#61dafb');
 
             setTimeout(() => {
-                navigate('/');
+                navigate('/home-private');
             }, 1000);
         } catch (err) {
             console.error(err);
