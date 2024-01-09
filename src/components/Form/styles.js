@@ -25,7 +25,7 @@ export const FormStyled = styled.form`
     align-items: center;
     position: relative;
     gap: 50px;
-    background: #000;
+    background: #fff;
     backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     top:10px;
@@ -41,7 +41,7 @@ export const FormContainerStyled = styled.div`
     justify-content: center;
     align-items: center;
     gap: 5px;
-    color: #fff;
+    color: #000;
     margin-bottom: 25px;
     svg {
         font-size: 60px;
@@ -65,7 +65,7 @@ export const FormContainerStyled = styled.div`
 export const PStyled = styled.p`
     position: absolute;
     text-align: center;
-    color: #fff;
+    color: #000;
     left: 50%;
     transform: translateX(-50%);
     ${props => (props.top ? 'top: 25px;' : 'bottom: 25px;')}

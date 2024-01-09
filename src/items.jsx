@@ -100,19 +100,19 @@ export const items = [
 		getItem(<a href="/books">
 			Books
 		</a>,
-			'2', <BookOutlined />),
+			'books', <BookOutlined />),
 		getItem(<a href="/articles">
 			Articles
 		</a>,
-			'3', <AuditOutlined />),
+			'articles', <AuditOutlined />),
 		getItem(<a href="/blogposts">
 			Blogposts
 		</a>,
-			'4', <AuditOutlined />),
+			'blogposts', <AuditOutlined />),
 		getItem(<a href="/emails">
 			Emails
 		</a>,
-			'4', <MailOutlined />),
+			'emails', <MailOutlined />),
 	]),
 	
 	getItem('Code Assistant', 'sub2', <CodeOutlined />, [
@@ -132,12 +132,7 @@ export const items = [
 			SQL
 		</a>, '11', <CodeOutlined />),
 	]),
-	getItem(
-		<a href="/settings">
-			Setup
-		</a>,
-		'setup',
-		<LinkOutlined />),
+	
 	getItem(
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
 			Cantinhode.net
@@ -157,6 +152,11 @@ export const items = [
 		</a>,
 		'14',
 		<LinkOutlined />
-	),
+	),getItem(
+		<a href="/settings">
+			Setup
+		</a>,
+		'Settings',
+		<LinkOutlined />),
 
 ];

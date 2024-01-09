@@ -14,7 +14,7 @@ export const LabelStyled = styled.label`
     display: block;
     transition: 0.2s;
     font-size: 17px;
-    color: #fff;
+    color: #000;
     pointer-events: none;
     font-weight: 700;
 `;
@@ -23,7 +23,7 @@ export const InputStyled = styled.input`
     width: 100%;
     border-bottom: 2px solid #fff;
     font-size: 17px;
-    color: #fff;
+    color: #000;
     font-weight: 300;
     padding: 7px 0;
     background: transparent;
