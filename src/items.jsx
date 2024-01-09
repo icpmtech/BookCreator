@@ -154,9 +154,9 @@ export const items = [
 		<LinkOutlined />
 	),getItem(
 		<a href="/settings">
-			Setup
+			Settings
 		</a>,
 		'Settings',
-		<LinkOutlined />),
+		<SettingOutlined />),
 
 ];
