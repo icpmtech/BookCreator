@@ -38,6 +38,11 @@ import ContactUs from '../pages/ContactUs';
 import Plans from '../pages/Plans';
 import HomePrivate from '../pages/HomePrivate';
 import Email from '../components/ContentGenerator/Email/Email';
+import ProjectBook from '../components/Projects/Books/Books';
+import ProjectEmail from '../components/Projects/Emails/Emails';
+import ProjectBlogPost from '../components/Projects/BlogPosts/BlogPosts';
+import ProjectArticle from '../components/Projects/Articles/Articles';
+import ProjectLesson from '../components/Projects/Lessons/Lessons';
 export default function App() {
   
     const {
@@ -191,6 +196,31 @@ export default function App() {
                                 <PrivateRoute>
                                     <SQLCodeEditor />
                                 </PrivateRoute>} />
+                                <Route path="/project-books" element={
+                                <PrivateRoute>
+                                    <ProjectBook />
+                                </PrivateRoute>} />
+
+                                <Route path="/project-articles" element={
+                                <PrivateRoute>
+                                    <ProjectArticle />
+                                </PrivateRoute>} />
+
+                                <Route path="/project-blogposts" element={
+                                <PrivateRoute>
+                                    <ProjectBlogPost />
+                                </PrivateRoute>} />
+
+                                <Route path="/project-emails" element={
+                                <PrivateRoute>
+                                    <ProjectEmail />
+                                </PrivateRoute>} />
+
+                                <Route path="/project-lessons" element={
+                                <PrivateRoute>
+                                    <ProjectLesson />
+                                </PrivateRoute>} />
+
                             <Route
 
                                 path="/"

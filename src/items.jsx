@@ -8,55 +8,56 @@ import {
 	BlockOutlined,
 	SettingOutlined,
 	CodeOutlined,
-	AuditOutlined
+	AuditOutlined,
+	FolderOpenOutlined 
 } from '@ant-design/icons';
 import { getItem } from './getItem';
 export const itemsPublic = [
 	getItem(
 		<a href="/">
-		Home
-	</a>,
-	
+			Home
+		</a>,
+
 		'01',
 		<AppstoreOutlined />
 	),
 	getItem(
 		<a href="/plans">
-		Plans
-	</a>,
-	
+			Plans
+		</a>,
+
 		'00',
 		<AppstoreOutlined />
 	),
 	getItem(
 		<a href="/login">
-		Sign Up 
-	</a>,
+			Sign Up
+		</a>,
 		'02',
 		<UserOutlined />
 	),
 	getItem(
 		<a href="/register">
-		Register
-	</a>,
+			Register
+		</a>,
 		'03',
 		<UserOutlined />
 	),
 	getItem(
 		<a href="https://cantinhode.net/products/course-prompt-engineering" target="_blank" rel="noopener noreferrer">
-		Course Prompt Engineering
-	</a>,
+			Course Prompt Engineering
+		</a>,
 		'04',
 		<BookOutlined />
 	),
 	getItem(
 		<a href="/contact-us">
-		Contact Us
-	</a>,
+			Contact Us
+		</a>,
 		'05',
 		<LinkOutlined />
 	),
-	
+
 	getItem(
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
 			Community Cantinhode.net
@@ -64,7 +65,7 @@ export const itemsPublic = [
 		'06',
 		<LinkOutlined />
 	),
-							  
+
 ];
 
 export const items = [
@@ -73,12 +74,34 @@ export const items = [
 	</a>,
 		'1',
 		<AppstoreOutlined />),
+		getItem('Projects', 'projects', <FolderOpenOutlined />, [
+			getItem(<a href="/project-books">
+				Books
+			</a>,
+				'p-book', <BookOutlined />),
+			getItem(<a href="/project-articles">
+				Articles
+			</a>,
+				'p-article', <AuditOutlined />),
+			getItem(<a href="/project-blogposts">
+				Blogposts
+			</a>,
+				'p-blog', <AuditOutlined />),
+			getItem(<a href="/project-emails">
+				Emails
+			</a>,
+				'p-email', <MailOutlined />),
+				getItem(<a href="/project-lessons">
+				Lessons
+			</a>,
+				'p-lesson', <AuditOutlined />),
+		]),
 	getItem('Generate Content', 'sub1', <BlockOutlined />, [
 		getItem(<a href="/books">
 			Books
 		</a>,
 			'2', <BookOutlined />),
-			getItem(<a href="/articles">
+		getItem(<a href="/articles">
 			Articles
 		</a>,
 			'3', <AuditOutlined />),
@@ -86,28 +109,35 @@ export const items = [
 			Blogposts
 		</a>,
 			'4', <AuditOutlined />),
-			getItem(<a href="/emails">
+		getItem(<a href="/emails">
 			Emails
 		</a>,
 			'4', <MailOutlined />),
 	]),
+	
 	getItem('Code Assistant', 'sub2', <CodeOutlined />, [
 		getItem(<a href="/code-assistant-python">
-		Python
-	</a>, '7', <CodeOutlined />),
+			Python
+		</a>, '7', <CodeOutlined />),
 		getItem(<a href="/code-assistant-csharp">
-		CSharp
-	</a>, '8', <CodeOutlined />),
+			CSharp
+		</a>, '8', <CodeOutlined />),
 		getItem(<a href="/code-assistant-angular">
-		Angular
-	</a>, '9', <CodeOutlined />),
+			Angular
+		</a>, '9', <CodeOutlined />),
 		getItem(<a href="/code-assistant-react">
-		React
-	</a>, '10', <CodeOutlined />),
-	getItem(<a href="/code-assistant-sql">
-	SQL
-</a>, '11', <CodeOutlined />),
+			React
+		</a>, '10', <CodeOutlined />),
+		getItem(<a href="/code-assistant-sql">
+			SQL
+		</a>, '11', <CodeOutlined />),
 	]),
+	getItem(
+		<a href="/settings">
+			Setup
+		</a>,
+		'setup',
+		<LinkOutlined />),
 	getItem(
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
 			Cantinhode.net
@@ -117,16 +147,16 @@ export const items = [
 	),
 	getItem(
 		<a href="/update-profile">
-		Update Profile
-	</a>,
+			Update Profile
+		</a>,
 		'13',
 		<UserOutlined />
-	),getItem(
+	), getItem(
 		<a href="/contact-us">
-		Contact Us
-	</a>,
+			Contact Us
+		</a>,
 		'14',
 		<LinkOutlined />
 	),
-							  
+
 ];
