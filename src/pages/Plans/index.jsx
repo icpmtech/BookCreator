@@ -31,10 +31,10 @@ export default function Plans() {
                     <Card className="item"  title="GROW 20€/mo" >
                         <p>Run create your content with AI efficiently with all the basics you need
                             <ul>
-                                <li>100 prompts books content writer</li>
-                                <li>100 prompts code assist writer</li>
-                                <li>100 prompts articles content writer</li>
-                                <li>General 300 credits in your account GROW plan</li>
+                                <li>200 prompts books content writer</li>
+                                <li>200 prompts code assist writer</li>
+                                <li>200 prompts articles content writer</li>
+                                <li>General 600 credits in your account GROW plan</li>
                             </ul>
                         </p>
                         <QRCode 
@@ -48,10 +48,10 @@ export default function Plans() {
                     <Card className="item" title="EXPAND 50€/mo" >
                         <p>Run create your content with AI efficiently with all the basics you need
                             <ul>
-                                <li>100 prompts books content writer</li>
-                                <li>100 prompts code assist writer</li>
-                                <li>100 prompts articles content writer</li>
-                                <li>General 300 credits in your account EXPAND plan</li>
+                                <li>300 prompts books content writer</li>
+                                <li>300 prompts code assist writer</li>
+                                <li>300 prompts articles content writer</li>
+                                <li>General 900 credits in your account EXPAND plan</li>
                             </ul>
                         </p>
                         <QRCode

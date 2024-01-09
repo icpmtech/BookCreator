@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Circles } from 'react-loader-spinner';
 import { Editor } from '@tinymce/tinymce-react';
 import OpenAI from "openai";
-import { Input,Space, Radio, Flex, Button,Dropdown,message,notification } from 'antd';
+import { Input, Space, Radio, Flex, Button, Dropdown, Modal,Avatar, List, notification } from 'antd';
+import NewBookProject from './NewBookProject'
+import SelectedBookProject from './SelectedBookProject'
+
 const { TextArea } = Input;
 const openai = new OpenAI({
 	apiKey: import.meta.env.VITE_OPEN_AI_KEY,
@@ -11,35 +14,57 @@ const openai = new OpenAI({
 });
 
 import {
-    SearchOutlined ,
+	SearchOutlined,
 } from '@ant-design/icons';
 import { ContainerStyled, DivStyled, LogoAnimation, DivHeader } from './styles';
 
-  const items = [
+const items = [
 	{
-	  label: 'Outline Course Book',
-	  key: '1',
-	  icon: <SearchOutlined />,
+		label: 'Generate text to an Outline Course Book',
+		key: '1',
+		icon: <SearchOutlined />,
 	},
 	{
-	  label: 'Chapter to Book',
-	  key: '2',
-	  icon: <SearchOutlined />,
+		label: 'Format the text as Chapter to one Book',
+		key: '2',
+		icon: <SearchOutlined />,
 	},
 	{
-	  label: 'Section to Book',
-	  key: '3',
-	  icon: <SearchOutlined />,
+		label: 'Format the text as Section to one Book',
+		key: '3',
+		icon: <SearchOutlined />,
 	},
 	{
-	  label: 'Format as Book',
-	  key: '4',
-	  icon: <SearchOutlined />,
+		label: 'Generate 10 Titles to one Book',
+		key: '4',
+		icon: <SearchOutlined />,
 	},
-  ];
-  
-const Book = () => {
+];
+const operations = [
+	{
+		label: 'Save as a New Book project',
+		key: '1',
+		icon: <SearchOutlined />,
+	},
+	{
+		label: 'Save as a Chapter in Book project',
+		key: '2',
+		icon: <SearchOutlined />,
+	},
+	{
+		label: 'A content to stored Book project',
+		key: '3',
+		icon: <SearchOutlined />,
+	},
+	{
+		label: 'Format as Book',
+		key: '4',
+		icon: <SearchOutlined />,
+	},
+];
 
+const Book = () => {
+	
 	const [term, setTerm] = useState('');
 	const [search, setSearch] = useState('');
 	let [response, setResponse] = useState('');
@@ -49,36 +74,32 @@ const Book = () => {
 	const [size, setSize] = useState('large'); // default is 'middle'
 	
 	const handleMenuClick = (e) => {
-		if(e.key==='1')
-		setTerm('Outline Course Book');
-		if(e.key==='2')
-		setTerm('Chapter to Book');
-		if(e.key==='3')
-		setTerm('Section to Book');
-		if(e.key==='4')
-		setTerm('Format as Book');
-	  };
+		
+		if (e.key === '1')
+		setSearch(`Generate text to an Outline Course Book: ${search}`);
+		if (e.key === '2')
+		setSearch(`Format the text as Chapter to one Book: ${search}`);
+		if (e.key === '3')
+		setSearch(`Format the text as Section to one Book: ${search}`);
+		if (e.key === '4')
+		setSearch(`Generate 10 Title to one Book: ${search}`);
+	};
+
 	const menuProps = {
 		items,
 		onClick: handleMenuClick,
-	  };
-	  const handleButtonClick = (e) => {
-		if(e.key==='1')
-		setTerm('Outline Course Book');
-		if(e.key==='2')
-		setTerm('Chapter to Book');
-		if(e.key==='3')
-		setTerm('Section to Book');
-		if(e.key==='4')
-		setTerm('Format as Book');
-	  };
-	  const [api, contextHolder] = notification.useNotification();
-	  const openNotificationWithIcon = (message,description) => {
+	};
+	
+	const clearContentSearch = () => {
+		setSearch('');
+	};
+	const [api, contextHolder] = notification.useNotification();
+	const openNotificationWithIcon = (message, description) => {
 		api['info']({
-		  message: message,
-		  description:description
+			message: message,
+			description: description
 		});
-	  };
+	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
@@ -97,7 +118,7 @@ const Book = () => {
 				contentResult += chunk.choices[0]?.delta?.content || '\n';
 			}
 			response += contentResult;
-			openNotificationWithIcon("End operation","See the result in the Prompt Editor");
+			openNotificationWithIcon("End operation", "See the result in the Prompt Editor");
 			setResponse(response);
 		} catch (err) {
 			setError(err.message);
@@ -152,29 +173,32 @@ const Book = () => {
 				<h2 ><LogoAnimation></LogoAnimation>AI Book Generator </h2>
 			</DivHeader>
 			<ContainerStyled >
-			{contextHolder}
-			<div style={{ margin: 15, display: 'flex' }}>
-			<Flex wrap="wrap" gap="small" className="site-button-ghost-wrapper">
-						<Button type='primary' ghost onClick={handleSubmit}  icon={<SearchOutlined />} >Ask a Content</Button>
-						<Space wrap>
-    <Dropdown.Button menu={menuProps} onClick={handleButtonClick}>
-      Choose Prompt Assistant
-    </Dropdown.Button>
-	</Space>
-	{isLoading && (
-					<Circles
-						height='32'
-						width='32'
-						color='brown'
-						ariaLabel='circles-loading'
-						wrapperStyle={{}}
-						wrapperClass=''
-						visible={true}
-					/>
-			)}
-						</Flex>
-					
-						</div>
+				{contextHolder}
+				<div style={{ margin: 15, display: 'flex' }}>
+					<Flex wrap="wrap" gap="small" className="site-button-ghost-wrapper">
+					<Space wrap>
+							<Dropdown.Button menu={menuProps} >
+								Choose Prompt Assistant
+							</Dropdown.Button>
+						</Space>
+						<Button type='primary'  onClick={handleSubmit} icon={<SearchOutlined />} >Generate Content</Button>
+						<Button  onClick={clearContentSearch}  >Clear Content</Button>
+						<NewBookProject content={{response}}></NewBookProject>
+						<SelectedBookProject></SelectedBookProject>
+						{isLoading && (
+							<Circles
+								height='32'
+								width='32'
+								color='brown'
+								ariaLabel='circles-loading'
+								wrapperStyle={{}}
+								wrapperClass=''
+								visible={true}
+							/>
+						)}
+					</Flex>
+
+				</div>
 				<DivStyled >
 					<TextArea
 						rows={10}
@@ -182,25 +206,26 @@ const Book = () => {
 						placeholder='Outline Course Book...'
 						autoComplete='off'
 						className='input'
-
+						value={search}
 						onChange={(e) => setSearch(e.target.value)}
 					/>
-						
-						<DivStyled >
-					<Flex gap="small" align="flex justify-center" >
-						<Radio.Group style={{ marginTop: 10 }} value={size} onChange={(e) => continuePrompt(e.target.value)}>
-							<Radio.Button value={' Continue' + response}>Continue Writing...</Radio.Button>
-							<Radio.Button value={'Improve Writing:' + search}>Improve Writing</Radio.Button>
-							<Radio.Button value={response + 'Format as Chapter'}>Fix spelling & Grammar</Radio.Button>
-							<Radio.Button value={response + 'Add links'}>Make Shorter </Radio.Button>
-							<Radio.Button value={response + 'Add code examples'}>Make Longer</Radio.Button>
-							<Radio.Button value={response + 'Add code examples'}>Change Tone</Radio.Button>
-							<Radio.Button value={response + 'Add code examples'}>Simplify language</Radio.Button>
-							<Radio.Button value={response + 'Add code examples'}>Paraphrase</Radio.Button>
-							<Radio.Button value={'Summarize:' + response}>Summarize</Radio.Button>
-							<Radio.Button value="Restart">Restart</Radio.Button>
-						</Radio.Group>
-					</Flex>
+ 
+    
+					<DivStyled >
+						<Flex gap="small" align="flex justify-center" >
+							<Radio.Group style={{ marginTop: 10 }} value={size} onChange={(e) => continuePrompt(e.target.value)}>
+								<Radio.Button value={' Continue' + response}>Continue Writing...</Radio.Button>
+								<Radio.Button value={'Improve Writing:' + search}>Improve Writing</Radio.Button>
+								<Radio.Button value={'Fix spelling & Grammarthe following text:' + search}>Fix spelling & Grammar</Radio.Button>
+								<Radio.Button value={'Make Shorter the following text:' + search}>Make Shorter </Radio.Button>
+								<Radio.Button value={'Make Longer the following text:' + search}>Make Longer</Radio.Button>
+								<Radio.Button value={'Change Tone:' + search}>Change Tone</Radio.Button>
+								<Radio.Button value={'Simplify language in the following text:' + search}>Simplify language</Radio.Button>
+								<Radio.Button value={'Improve Writing:' + search}>Paraphrase</Radio.Button>
+								<Radio.Button value={'Summarize:' + response}>Summarize Response</Radio.Button>
+								<Radio.Button value="Restart">Clear Response</Radio.Button>
+							</Radio.Group>
+						</Flex>
 					</DivStyled>
 				</DivStyled>
 				<DivStyled >
@@ -211,8 +236,8 @@ const Book = () => {
 							<Radio.Button value="clear">Clear</Radio.Button>
 						</Radio.Group>
 					</Flex>
-					</DivStyled>
-					<DivStyled >
+				</DivStyled>
+				<DivStyled >
 					<Editor
 						apiKey='t9rz4fmx4fkm29mh38r8e69mcv9lij6qsy7szgk1vzca4wks'
 						initialValue={responseEditor}
@@ -231,10 +256,10 @@ const Book = () => {
 							content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 						}}
 					/>
-					</DivStyled>
-					
+				</DivStyled>
+
 			</ContainerStyled>
-			
+
 			{error && (
 				<DivStyled className='text-center md:text-2xl font-mono font-bold mt-3'>
 					{error}
