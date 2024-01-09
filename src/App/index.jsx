@@ -44,7 +44,7 @@ import ProjectBlogPost from '../components/Projects/BlogPosts/BlogPosts';
 import ProjectArticle from '../components/Projects/Articles/Articles';
 import ProjectLesson from '../components/Projects/Lessons/Lessons';
 export default function App() {
-  
+    const [isLoading, setLoader] = useState(true);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -75,9 +75,22 @@ export default function App() {
             return;
         }
     }
+    function someRequest() { //Simulates a request; makes a "promise" that'll run for 2.5 seconds
+        return new Promise(resolve => setTimeout(() => resolve(), 2500));
+      } 
+    
+    useEffect(() => {
+        someRequest().then(() => {
+          const loaderElement = document.querySelector(".loader-container");
+          if (loaderElement) {
+            loaderElement.remove();
+            setLoader(!isLoading);
+          }
+        });
+      });
+    
     useEffect(() => {
         items.find(_item => {
-        
             if(_item?.children)
             { 
                 let value= _item?.children.find(item =>location?.pathname===item?.label?.props?.href);
@@ -92,6 +105,9 @@ export default function App() {
        });
       
       }, [location])
+      if (isLoading) { //
+        return null;
+      }
     return (
         <Layout>
             <Header style={{ color: '#fff', display: 'flex', alignItems: 'center' }}>
@@ -253,8 +269,8 @@ export default function App() {
                     <FloatButton icon={<CommentOutlined />} />
                 </FloatButton.Group>
             </Layout>
-            <Footer style={{ textAlign: 'center' }}>
-                Cantinhode.net ©{new Date().getFullYear()} Created by Pedro Martins
+            <Footer style={{backgroundColor:'black',color:'white', textAlign: 'center' }}>
+                Cantinhode.net ©2024 Created by <a href='https://cantinhode.net/pages/pedro-martins'>Pedro Martins</a>
             </Footer>
         </Layout>
     );
