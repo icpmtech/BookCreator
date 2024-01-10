@@ -1,41 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { EditOutlined,CloseOutlined  } from '@ant-design/icons';
-import { Button, Col, Drawer, Form, Input, Row, Select,Card, Space, List } from 'antd';
+import { EditOutlined, CloseOutlined } from '@ant-design/icons';
+import { Button, Col, Drawer, Form, Input, Row, Select, Card, Space, List } from 'antd';
 const { Option } = Select;
 import TextArea from 'antd/es/input/TextArea';
+
 const SelectedBookProject = () => {
   const [open, setOpen] = useState(false);
   const [books, setBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
   const [form] = Form.useForm();
-  const handleSubmit = (formData) => {
-    localStorage.setItem('books', JSON.stringify(formData));
-    setOpen(false);
+
+  useEffect(() => {
+    loadBooks();
+  }, []);
+
+  const loadBooks = () => {
+    const savedBooks = localStorage.getItem('books');
+    if (savedBooks) {
+      setBooks(JSON.parse(savedBooks));
+    }
   };
+
   const showDrawer = () => {
     setOpen(true);
-    loadBooks();
   };
 
   const onClose = () => {
     setOpen(false);
   };
 
-  const loadBooks = () => {
-    const savedBooks = localStorage.getItem('books');
-    if (savedBooks) {
-      setBooks([JSON.parse(savedBooks)]);
-    }
-  };
-
   const selectBook = (book) => {
+    setSelectedBook(book);
     form.setFieldsValue(book);
   };
 
-  useEffect(() => {
-    if (open) {
-      loadBooks();
-    }
-  }, [open]);
+  const handleSubmitUpdate = (updatedBook) => {
+    const updatedBooks = books.map(book => book.title === selectedBook.title ? updatedBook : book);
+    localStorage.setItem('books', JSON.stringify(updatedBooks));
+    setOpen(false);
+    loadBooks(); // Refresh the list
+  };
 
   return (
     <>
@@ -68,7 +72,8 @@ const SelectedBookProject = () => {
             </List.Item>
           )}
         />
-        <Form layout="vertical" form={form} id="bookForm" onFinish={handleSubmit} >
+        <Form layout="vertical" form={form} id="bookForm" onFinish={handleSubmitUpdate} >
+          {/* Form fields here */}
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item

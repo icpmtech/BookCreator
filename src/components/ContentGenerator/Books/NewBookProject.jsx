@@ -3,7 +3,7 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
 import { Button, Col, Drawer, Form, Card, Input, Row, Select, Space } from 'antd';
 const { Option } = Select;
 import TextArea from 'antd/es/input/TextArea';
-const NewBookProject = ({ formParentData, onFormChange }) => {
+const NewBookProject = ({ formParentData}) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -23,7 +23,6 @@ const NewBookProject = ({ formParentData, onFormChange }) => {
   const handleSubmit = (formData) => {
     const existingBooks = JSON.parse(localStorage.getItem('books') || '[]');
     localStorage.setItem('books', JSON.stringify([...existingBooks, formData]));
-    onFormChange?.(formData); // Optional: Update parent component
     setOpen(false);
   };
 

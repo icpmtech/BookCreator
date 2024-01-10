@@ -191,8 +191,8 @@ const Book = () => {
 						</Space>
 						<Button type='primary'  onClick={handleSubmit} icon={<SearchOutlined />} >Generate Content</Button>
 						<Button  onClick={clearContentSearch}  >Clear Content</Button>
-						<NewBookProject formParentData={response} onFormChange={onFormChange}></NewBookProject>
-						<SelectedBookProject></SelectedBookProject>
+						{response && (	<NewBookProject formParentData={response} ></NewBookProject>)}
+						{response && (	<SelectedBookProject></SelectedBookProject>)}
 						{isLoading && (
 							<Circles
 								height='32'
