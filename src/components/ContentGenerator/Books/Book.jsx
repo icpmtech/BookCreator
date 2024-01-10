@@ -17,6 +17,8 @@ const openai = new OpenAI({
 
 const Book = () => {
 	const [books, setBooks] = useState([]);
+	const [promptsBooks, setPromptsBooks] = useState([]);
+	
 	const [selectedBook, setSelectedBook] = useState(null);
 	const [text, setText] = useState('');
 	const [textResponse, setTextResponse] = useState('');
@@ -29,14 +31,24 @@ const Book = () => {
 	useEffect(() => {
 	  loadBooks();
 	}, []);
+
+	useEffect(() => {
+		loadPrompts();
+	  }, []);
   
-	const loadBooks = () => {
-	  const savedBooks = localStorage.getItem('books');
-	  if (savedBooks) {
-		setBooks(JSON.parse(savedBooks));
+	const loadPrompts = () => {
+	  const savedPromptsBooks = localStorage.getItem('prompts_books');
+	  if (savedPromptsBooks) {
+		setPromptsBooks(JSON.parse(savedPromptsBooks));
 	  }
 	};
-  
+	const loadBooks = () => {
+		const savedBooks = localStorage.getItem('books');
+		if (savedBooks) {
+		  setBooks(JSON.parse(savedBooks));
+		}
+	  };
+	
 	const selectBook = (book) => {
 	  setSelectedBook(book);
 	  setDetailsDrawerVisible(true);
@@ -129,6 +141,11 @@ const Book = () => {
 		setSelectedBook(book);
 	};
 
+	const handlePromptBookSelection = (promptBookId) => {
+		const promptBook = promptsBooks.find(b => b.title === promptBookId);
+		setText(promptBook.content+text);
+	};
+
 	return (
 		<Layout style={{ padding: '20px' }}>
 			
@@ -138,10 +155,10 @@ const Book = () => {
 				<Select
 					placeholder="Select a template prompt"
 					style={{ width: 200 }}
-					onChange={handleBookSelection}
+					onChange={handlePromptBookSelection}
 				>
-					{books.map(book => (
-						<Option key={book.title} label={book.title}>{book.title}</Option>
+					{promptsBooks.map(promptBook => (
+						<Option key={promptBook.title} label={promptBook.title}>{promptBook.title}</Option>
 					))}
 				</Select>
 				<Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
