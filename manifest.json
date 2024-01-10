@@ -1,7 +1,7 @@
 {
 "name": "AI Content Editor",
 "short_name": "AI Content Editor",
-"start_url": "/home-private",
+"start_url": ".",
 "display": "standalone",
 "description": "AI Content Editor",
 "lang": " en",
@@ -11,13 +11,13 @@
 "orientation": "any",
 "icons": [
     {
-        "src": "https://ai-content-editor.netlify.app/assets/icons/icon-512-512.png",
+        "src": "img/icon_512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "maskable"
     },
     {
-        "src": "https://ai-content-editor.netlify.app/assets/icons/icon-192-192.png",
+        "src": "img/icon_192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
@@ -25,7 +25,7 @@
 ],
 "screenshots": [
     {
-        "src": "https://ai-content-editor.netlify.app/assets/screenshots/home.png",
+        "src": "img/screenshots/home.png",
         "sizes": "2880x1800",
         "type": "image/png",
         "description": "A screenshot of the home page"

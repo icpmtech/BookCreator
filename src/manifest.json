@@ -4,7 +4,7 @@
     "icons": [
     
       {
-        "src": "img/icon-192-192.png",
+        "src": "img/icon_192.png",
         "type": "image/png",
         "sizes": "192x192"
       },
@@ -26,14 +26,14 @@
         "short_name": "Generate Books",
         "description": "AI Content Editor is  generate book content to create a Book in simple and quickly steps using AI.",
         "url": "/books?source=pwa",
-        "icons": [{ "src": "img/icon-192-192.png", "sizes": "192x192" }]
+        "icons": [{ "src": "img/icon_192.png", "sizes": "192x192" }]
       },
       {
         "name": "Create a Book Project with AI?",
         "short_name": "Book Projects",
         "description": "AI Content Editor Books",
         "url": "/project-books?source=pwa",
-        "icons": [{ "src": "img/icon-192-192.png", "sizes": "192x192" }]
+        "icons": [{ "src": "img/icon_192.png", "sizes": "192x192" }]
       }
     ],
     "description": "AI Content Editor Books",
