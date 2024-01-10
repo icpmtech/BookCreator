@@ -64,26 +64,28 @@ const operations = [
 ];
 
 const Book = () => {
-	
+	const [formData, setFormData] = useState(''); // Your form data
 	const [term, setTerm] = useState('');
 	const [search, setSearch] = useState('');
 	let [response, setResponse] = useState('');
 	let [responseEditor, setResponseEditor] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
-	const [size, setSize] = useState('large'); // default is 'middle'
 	
 	const handleMenuClick = (e) => {
-		
-		if (e.key === '1')
-		setSearch(`Generate text to an Outline Course Book: ${search}`);
-		if (e.key === '2')
-		setSearch(`Format the text as Chapter to one Book: ${search}`);
-		if (e.key === '3')
-		setSearch(`Format the text as Section to one Book: ${search}`);
-		if (e.key === '4')
-		setSearch(`Generate 10 Title to one Book: ${search}`);
-	};
+		const operations = {
+		  '1': 'Generate text to an Outline Course Book: ',
+		  '2': 'Format the text as Chapter to one Book: ',
+		  '3': 'Format the text as Section to one Book: ',
+		  '4': 'Generate 10 Title to one Book: '
+		};
+	  
+		const operation = operations[e.key];
+		if (operation) {
+		  setSearch(`${operation}${search}`);
+		}
+	  };
+	  
 
 	const menuProps = {
 		items,
@@ -159,13 +161,19 @@ const Book = () => {
 
 			}
 			response += contentResult;
+			setFormData(response);
 			setResponse(response);
 		} catch (err) {
 			setError(err.message);
 		}
 		setIsLoading(false);
 	};
-
+	
+	// Function to handle form changes
+	const onFormChange = (newData) => {
+		debugger;
+	  setFormData(newData);
+	};
 	return (
 
 		<DivStyled>
@@ -183,7 +191,7 @@ const Book = () => {
 						</Space>
 						<Button type='primary'  onClick={handleSubmit} icon={<SearchOutlined />} >Generate Content</Button>
 						<Button  onClick={clearContentSearch}  >Clear Content</Button>
-						<NewBookProject content={{response}}></NewBookProject>
+						<NewBookProject formParentData={response} onFormChange={onFormChange}></NewBookProject>
 						<SelectedBookProject></SelectedBookProject>
 						{isLoading && (
 							<Circles
@@ -213,7 +221,7 @@ const Book = () => {
     
 					<DivStyled >
 						<Flex gap="small" align="flex justify-center" >
-							<Radio.Group style={{ marginTop: 10 }} value={size} onChange={(e) => continuePrompt(e.target.value)}>
+							<Radio.Group style={{ marginTop: 10 }} onChange={(e) => continuePrompt(e.target.value)}>
 								<Radio.Button value={' Continue' + response}>Continue Writing...</Radio.Button>
 								<Radio.Button value={'Improve Writing:' + search}>Improve Writing</Radio.Button>
 								<Radio.Button value={'Fix spelling & Grammarthe following text:' + search}>Fix spelling & Grammar</Radio.Button>
@@ -231,7 +239,7 @@ const Book = () => {
 				<DivStyled >
 					<TextArea rows={15} style={{ color: '#000', backgroundColor: '#fff' }} value={response} />
 					<Flex gap="small" align="flex justify-center" vertical>
-						<Radio.Group style={{ marginBottom: 10, marginTop: 15 }} value={size} onChange={(e) => formatTextToEditor(e.target.value)}>
+						<Radio.Group style={{ marginBottom: 10, marginTop: 15 }} onChange={(e) => formatTextToEditor(e.target.value)}>
 							<Radio.Button value={response}>Add Editor</Radio.Button>
 							<Radio.Button value="clear">Clear</Radio.Button>
 						</Radio.Group>

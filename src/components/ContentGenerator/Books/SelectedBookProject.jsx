@@ -1,40 +1,74 @@
-import React, { useState } from 'react';
-import { EditOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { EditOutlined,CloseOutlined  } from '@ant-design/icons';
+import { Button, Col, Drawer, Form, Input, Row, Select,Card, Space, List } from 'antd';
 const { Option } = Select;
+import TextArea from 'antd/es/input/TextArea';
 const SelectedBookProject = () => {
   const [open, setOpen] = useState(false);
+  const [books, setBooks] = useState([]);
+  const [form] = Form.useForm();
+  const handleSubmit = (formData) => {
+    localStorage.setItem('books', JSON.stringify(formData));
+    setOpen(false);
+  };
   const showDrawer = () => {
     setOpen(true);
+    loadBooks();
   };
+
   const onClose = () => {
     setOpen(false);
   };
+
+  const loadBooks = () => {
+    const savedBooks = localStorage.getItem('books');
+    if (savedBooks) {
+      setBooks([JSON.parse(savedBooks)]);
+    }
+  };
+
+  const selectBook = (book) => {
+    form.setFieldsValue(book);
+  };
+
+  useEffect(() => {
+    if (open) {
+      loadBooks();
+    }
+  }, [open]);
+
   return (
     <>
       <Button type="primary" onClick={showDrawer} icon={<EditOutlined />}>
         Update a Book
       </Button>
       <Drawer
-        title="Create a new book"
+        title="Update a Book"
         width={720}
         onClose={onClose}
         open={open}
-        styles={{
-          body: {
-            paddingBottom: 80,
-          },
-        }}
         extra={
           <Space>
             <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={onClose} type="primary">
+            <Button type="primary" form="bookForm" key="submit" htmlType="submit">
               Submit
             </Button>
           </Space>
         }
       >
-        <Form layout="vertical" hideRequiredMark>
+        <List
+          itemLayout="horizontal"
+          dataSource={books}
+          renderItem={(item) => (
+            <List.Item actions={[<Button onClick={() => selectBook(item)} type='primary'>Select Book</Button>]}>
+              <List.Item.Meta
+                title={item.title}
+                description={`Type: ${item.book_type}, Description: ${item.description}`}
+              />
+            </List.Item>
+          )}
+        />
+        <Form layout="vertical" form={form} id="bookForm" onFinish={handleSubmit} >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -52,7 +86,7 @@ const SelectedBookProject = () => {
             </Col>
             <Col span={12}>
               <Form.Item
-                name="title"
+                name="description"
                 label="Description"
                 rules={[
                   {
@@ -108,6 +142,61 @@ const SelectedBookProject = () => {
               </Form.Item>
             </Col>
           </Row>
+          <Form.List name="chapters">
+        {(fields, { add, remove }) => (
+          <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+            {fields.map((field) => (
+              <Card
+                size="small"
+                title={`Chapter ${field.name + 1}`}
+                key={field.key}
+                extra={
+                  <CloseOutlined
+                    onClick={() => {
+                      remove(field.name);
+                    }}
+                  />
+                }
+              >
+                <Form.Item label="Chapter Name" name={[field.name, 'name']}>
+                  <Input />
+                </Form.Item>
+                {/* Nest Form.List */}
+                <Form.Item label="Sections">
+                  <Form.List name={[field.name, 'sections']}>
+                    {(subFields, subOpt) => (
+                      <div style={{  rowGap: 16 }}>
+                        {subFields.map((subField) => (
+                          <Space key={subField.key}>
+                            <Form.Item noStyle name={[subField.name, 'first']}>
+                              <Input placeholder="first" />
+                            </Form.Item>
+                            <Form.Item noStyle name={[subField.name, 'second']}>
+                              <TextArea placeholder="second" />
+                            </Form.Item>
+                            <CloseOutlined
+                              onClick={() => {
+                                subOpt.remove(subField.name);
+                              }}
+                            />
+                          </Space>
+                        ))}
+                        <Button type="dashed" onClick={() => subOpt.add()} block>
+                          + Add Sub Section
+                        </Button>
+                      </div>
+                    )}
+                  </Form.List>
+                </Form.Item>
+              </Card>
+            ))}
+
+            <Button type="dashed" onClick={() => add()} block>
+              + Add Chapter
+            </Button>
+          </div>
+        )}
+      </Form.List>
         </Form>
       </Drawer>
     </>

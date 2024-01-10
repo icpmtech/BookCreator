@@ -1,44 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Drawer, Form, Card, Input, Row, Select, Space } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
+import { Button, Col, Drawer, Form, Card, Input, Row, Select, Space } from 'antd';
 const { Option } = Select;
-
-const NewBookProject = (props) => {
-  const [initialProduct, setInitialProduct] = useState({content:props.content.response});
+import TextArea from 'antd/es/input/TextArea';
+const NewBookProject = ({ formParentData, onFormChange }) => {
   const [open, setOpen] = useState(false);
+  const [form] = Form.useForm();
+
   const showDrawer = () => {
+    if (formParentData) {
+      form.setFieldsValue(formParentData);
+    } else {
+      form.resetFields(); // Reset fields if creating a new book
+    }
     setOpen(true);
   };
+
   const onClose = () => {
     setOpen(false);
   };
+
+  const handleSubmit = (formData) => {
+    const existingBooks = JSON.parse(localStorage.getItem('books') || '[]');
+    localStorage.setItem('books', JSON.stringify([...existingBooks, formData]));
+    onFormChange?.(formData); // Optional: Update parent component
+    setOpen(false);
+  };
+
   return (
     <>
-  
       <Button type="primary" onClick={showDrawer} icon={<PlusOutlined />}>
         New Book Project
       </Button>
-      <Drawer 
+      <Drawer
         title="Create a new book"
         width={720}
         onClose={onClose}
         open={open}
-        styles={{
-          body: {
-            paddingBottom: 80,
-          },
-        }}
+        bodyStyle={{ paddingBottom: 80 }}
         extra={
           <Space>
             <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={onClose} type="primary">
+            <Button type="primary" form="bookForm" key="submit" htmlType="submit">
               Submit
             </Button>
           </Space>
         }
       >
-        <Form layout="vertical" initialValues={initialProduct} hideRequiredMark>
+        <Form layout="vertical" form={form} id="bookForm" onFinish={handleSubmit}>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -56,7 +65,7 @@ const NewBookProject = (props) => {
             </Col>
             <Col span={12}>
               <Form.Item
-                name="title"
+                name="description"
                 label="Description"
                 rules={[
                   {
@@ -99,8 +108,9 @@ const NewBookProject = (props) => {
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
-                name="initialProduct.content"
+                name="content"
                 label="Content"
+                initialValue={formParentData}
                 rules={[
                   {
                     required: true,
@@ -108,7 +118,7 @@ const NewBookProject = (props) => {
                   },
                 ]}
               >
-                <TextArea rows={4} value= {initialProduct.content}  placeholder="please enter content " />
+                <TextArea rows={4}    placeholder="please enter content " />
               </Form.Item>
             </Col>
           </Row>
@@ -128,7 +138,7 @@ const NewBookProject = (props) => {
                   />
                 }
               >
-                <Form.Item label="Chapter Name" name={[field.name, 'name']}>
+                <Form.Item label="Chapter Title" name={[field.name, 'name']}>
                   <Input />
                 </Form.Item>
                 {/* Nest Form.List */}
@@ -138,11 +148,11 @@ const NewBookProject = (props) => {
                       <div style={{  rowGap: 16 }}>
                         {subFields.map((subField) => (
                           <Space key={subField.key}>
-                            <Form.Item noStyle name={[subField.name, 'first']}>
-                              <Input placeholder="first" />
+                            <Form.Item noStyle name={[subField.name, 'title']}>
+                              <Input placeholder="Title" />
                             </Form.Item>
-                            <Form.Item noStyle name={[subField.name, 'second']}>
-                              <TextArea placeholder="second" />
+                            <Form.Item noStyle name={[subField.name, 'content']}>
+                              <TextArea placeholder="Content" />
                             </Form.Item>
                             <CloseOutlined
                               onClick={() => {
