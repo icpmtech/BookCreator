@@ -43,6 +43,13 @@ import ProjectEmail from '../components/Projects/Emails/Emails';
 import ProjectBlogPost from '../components/Projects/BlogPosts/BlogPosts';
 import ProjectArticle from '../components/Projects/Articles/Articles';
 import ProjectLesson from '../components/Projects/Lessons/Lessons';
+
+import PromptBook from '../components/Prompts/Books/Books';
+import  PromptEmail from '../components/Prompts/Emails/Emails';
+import  PromptBlogPost from '../components/Prompts/BlogPosts/BlogPosts';
+import  PromptArticle from '../components/Prompts/Articles/Articles';
+import PromptLesson from '../components/Prompts/Lessons/Lessons';
+
 export default function App() {
     const [isLoading, setLoader] = useState(true);
     const {
@@ -236,6 +243,32 @@ export default function App() {
                                 <PrivateRoute>
                                     <ProjectLesson />
                                 </PrivateRoute>} />
+
+                                <Route path="/prompt-books" element={
+                                <PrivateRoute>
+                                    <PromptBook />
+                                </PrivateRoute>} />
+
+                                <Route path="/prompt-articles" element={
+                                <PrivateRoute>
+                                    <PromptArticle />
+                                </PrivateRoute>} />
+
+                                <Route path="/prompt-blogposts" element={
+                                <PrivateRoute>
+                                    <PromptBlogPost />
+                                </PrivateRoute>} />
+
+                                <Route path="/prompt-emails" element={
+                                <PrivateRoute>
+                                    <PromptEmail />
+                                </PrivateRoute>} />
+
+                                <Route path="/prompt-lessons" element={
+                                <PrivateRoute>
+                                    <PromptLesson />
+                                </PrivateRoute>} />
+
 
                             <Route
 

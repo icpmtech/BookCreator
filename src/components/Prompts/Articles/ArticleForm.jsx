@@ -4,17 +4,17 @@ import {  CloseOutlined } from '@ant-design/icons';
 const { Option } = Select;
 const { TextArea } = Input;
 
-const NewBookForm = ({ onSave, onClose }) => {
+const NewArticleForm = ({ onSave, onClose }) => {
   const [form] = Form.useForm();
 
   const handleFinish = (values) => {
-    onSave(values); // Pass the new book data to the onSave handler
+    onSave(values); // Pass the new Article data to the onSave handler
     form.resetFields(); // Reset the form after submission
   };
 
   return (
     <Drawer
-      title="Add New Book"
+      title="Add New Article"
       visible={true}
       onCancel={onClose}
       extra={
@@ -36,17 +36,17 @@ const NewBookForm = ({ onSave, onClose }) => {
         <Form.Item
           name="title"
           label="Title"
-          rules={[{ required: true, message: 'Please enter the prompt book title' }]}
+          rules={[{ required: true, message: 'Please enter the prompt Article title' }]}
         >
-          <Input placeholder="Enter prompt book title" />
+          <Input placeholder="Enter prompt Article title" />
         </Form.Item>
 
         <Form.Item
           name="content"
           label="Prompt Content"
-          rules={[{ required: true, message: 'Please enter the book prompt' }]}
+          rules={[{ required: true, message: 'Please enter the Article prompt' }]}
         >
-          <TextArea placeholder="Enter book prompt" />
+          <TextArea placeholder="Enter Article prompt" />
         </Form.Item>
        
         {/* Add more fields as necessary */}
@@ -55,4 +55,4 @@ const NewBookForm = ({ onSave, onClose }) => {
   );
 };
 
-export default NewBookForm;
+export default NewArticleForm;

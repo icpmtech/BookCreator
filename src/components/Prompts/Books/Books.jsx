@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, List, Layout, Card,Space, Drawer } from 'antd';
+import { Button, List, Layout, Card,Flex, Drawer } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
 import BookDetails from './BookDetails';
 import BookEdit from './BookEdit';
@@ -16,7 +16,7 @@ export default function ProjectBook() {
   }, []);
 
   const loadBooks = () => {
-    const savedBooks = localStorage.getItem('books');
+    const savedBooks = localStorage.getItem('prompts_books');
     if (savedBooks) {
       setBooks(JSON.parse(savedBooks));
     }
@@ -36,7 +36,7 @@ export default function ProjectBook() {
 
   const deleteBook = (bookToDelete) => {
     const updatedBooks = books.filter(book => book.title !== bookToDelete.title);
-    localStorage.setItem('books', JSON.stringify(updatedBooks));
+    localStorage.setItem('prompts_books', JSON.stringify(updatedBooks));
     setBooks(updatedBooks);
     setSelectedBook(null);
     setDetailsDrawerVisible(false);
@@ -46,7 +46,7 @@ export default function ProjectBook() {
     const updatedBooks = books.map(book => 
         book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
     );
-    localStorage.setItem('books', JSON.stringify(updatedBooks));
+    localStorage.setItem('prompts_books', JSON.stringify(updatedBooks));
     setBooks(updatedBooks);
     loadBooks();
     setEditDrawerVisible(false); 
@@ -66,15 +66,17 @@ export default function ProjectBook() {
   };
   const handleSaveNewBook = (newBook) => {
     const updatedBooks = [...books, newBook];
-    localStorage.setItem('books', JSON.stringify(updatedBooks));
+    localStorage.setItem('prompts_books', JSON.stringify(updatedBooks));
     setBooks(updatedBooks);
     setNewBookVisible(false); // Close the form
   };
   return (
     <Layout style={{ margin: 20, height: '100vh' }}>
-    <Button onClick={refreshBooks} icon={<SyncOutlined />} style={{ marginBottom: 10 }}>Refresh Books</Button>
-    <Button onClick={newBook} style={{ marginBottom: 10 }}>New Book</Button>
-    <h1>Books</h1>
+      <Flex gap="small" align="flex justify-center" >
+    <Button onClick={refreshBooks} icon={<SyncOutlined />} style={{ marginBottom: 10 }}>Refresh Prompt to  Books</Button>
+    <Button type="primary" onClick={newBook} style={{ marginBottom: 10 }}>New Prompt to Book</Button>
+    </Flex>
+    <h1>Prompts to Books</h1>
       <Card>
         <List
           itemLayout="horizontal"
@@ -82,14 +84,14 @@ export default function ProjectBook() {
           renderItem={(item) => (
             <List.Item 
               actions={[
-                <Button onClick={() => selectBook(item)} type='primary'>View Book</Button>,
-                <Button onClick={() => editBook(item)} type='primary'>Edit Book</Button>,
-                <Button onClick={() => deleteBook(item)} type='danger'>Delete Book</Button>
+                <Button onClick={() => selectBook(item)} type='primary'>View Prompt Book</Button>,
+                <Button onClick={() => editBook(item)} type='primary'>Edit Prompt Book</Button>,
+                <Button onClick={() => deleteBook(item)} type='danger'>Delete Prompt Book</Button>
               ]}
             >
               <List.Item.Meta
                 title={item.title}
-                description={`Type: ${item.book_type}, Description: ${item.description}`}
+                description={`Title: ${item.title}, Content: ${item.content}`}
               />
             </List.Item>
           )}

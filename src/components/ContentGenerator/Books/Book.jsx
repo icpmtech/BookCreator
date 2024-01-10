@@ -162,7 +162,6 @@ const Book = () => {
 					Generate Text
 				</Button>
 				{error && <p style={{ color: 'red' }}>Error: {error}</p>}
-				
 				<Button  onClick={e => setText('')} >
 					Clear Prompt
 				</Button>

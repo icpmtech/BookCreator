@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card,Drawer,Space,Button } from 'antd';
 
-const BookDetails = ({ book,onClose }) => {
-  if (!book) {
-    return <p>No book selected</p>;
+const BlogPostDetails = ({ BlogPost,onClose }) => {
+  if (!BlogPost) {
+    return <p>No BlogPost selected</p>;
   }
 
   return (
     <Drawer
-    title={book?.title || 'Book Details'}
+    title={BlogPost?.title || 'BlogPost Details'}
     placement="right"
     onClose={onClose}
       width={720}
@@ -22,11 +22,11 @@ const BookDetails = ({ book,onClose }) => {
       }
   >
     <Card >
-      <p>Title: {book.title}</p>
-      <p>Prompt Content: {book.content}</p>
+      <p>Title: {BlogPost.title}</p>
+      <p>Prompt Content: {BlogPost.content}</p>
     </Card>
     </Drawer>
   );
 };
 
-export default BookDetails;
+export default BlogPostDetails;

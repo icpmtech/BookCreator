@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, List, Layout, Card,Space, Drawer } from 'antd';
+import { Button, List, Layout, Card,Flex, Drawer } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
 import BookDetails from './BookDetails';
 import BookEdit from './BookEdit';
@@ -72,8 +72,10 @@ export default function ProjectBook() {
   };
   return (
     <Layout style={{ margin: 20, height: '100vh' }}>
+    <Flex gap="small" align="flex justify-center" >
     <Button onClick={refreshBooks} icon={<SyncOutlined />} style={{ marginBottom: 10 }}>Refresh Books</Button>
-    <Button onClick={newBook} style={{ marginBottom: 10 }}>New Book</Button>
+    <Button  type="primary"  onClick={newBook} style={{ marginBottom: 10 }}>New Book</Button>
+    </Flex>
     <h1>Books</h1>
       <Card>
         <List
@@ -84,7 +86,7 @@ export default function ProjectBook() {
               actions={[
                 <Button onClick={() => selectBook(item)} type='primary'>View Book</Button>,
                 <Button onClick={() => editBook(item)} type='primary'>Edit Book</Button>,
-                <Button onClick={() => deleteBook(item)} type='danger'>Delete Book</Button>
+                <Button onClick={() => deleteBook(item)} >Delete Book</Button>
               ]}
             >
               <List.Item.Meta
