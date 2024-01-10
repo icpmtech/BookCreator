@@ -258,16 +258,6 @@ export default function App() {
                     </Router>
 
                 </Content>
-                <FloatButton.Group
-                    trigger="click"
-                    type="primary"
-                    style={{
-                        right: 24,
-                    }}
-                    icon={<CustomerServiceOutlined />}
-                >
-                    <FloatButton icon={<CommentOutlined />} />
-                </FloatButton.Group>
             </Layout>
             <Footer style={{backgroundColor:'black',color:'white', textAlign: 'center' }}>
                 Cantinhode.net ©2024 Created by <a href='https://cantinhode.net/pages/pedro-martins'>Pedro Martins</a>

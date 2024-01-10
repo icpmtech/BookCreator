@@ -17,7 +17,8 @@ import {
 	SearchOutlined,
 } from '@ant-design/icons';
 import { ContainerStyled, DivStyled, LogoAnimation, DivHeader } from './styles';
-
+import { QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 const items = [
 	{
 		label: 'Generate text to an Outline Course Book',
@@ -174,6 +175,9 @@ const Book = () => {
 		debugger;
 	  setFormData(newData);
 	};
+	const refreshBooks = () => {
+		loadBooks();
+	  };
 	return (
 
 		<DivStyled>
@@ -181,6 +185,16 @@ const Book = () => {
 				<h2 ><LogoAnimation></LogoAnimation>AI Book Generator </h2>
 			</DivHeader>
 			<ContainerStyled >
+			<FloatButton.Group
+      shape="square"
+      style={{
+        right: 94,
+      }}
+    >
+      <FloatButton icon={<QuestionCircleOutlined />} />
+      <FloatButton  onClick={() => refreshBooks()} icon={<SyncOutlined />} />
+      <FloatButton.BackTop visibilityHeight={0} />
+    </FloatButton.Group>
 				{contextHolder}
 				<div style={{ margin: 15, display: 'flex' }}>
 					<Flex wrap="wrap" gap="small" className="site-button-ghost-wrapper">
