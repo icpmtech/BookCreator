@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Select, Modal } from 'antd';
+import { Form, Input, Button,Drawer, Select, Modal } from 'antd';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -13,18 +13,18 @@ const NewBookForm = ({ onSave, onClose }) => {
   };
 
   return (
-    <Modal
+    <Drawer
       title="Add New Book"
       visible={true}
       onCancel={onClose}
-      footer={[
+      extra={
         <Button key="cancel" onClick={onClose}>
           Cancel
         </Button>,
         <Button key="submit" type="primary" onClick={() => form.submit()}>
           Submit
         </Button>
-      ]}
+      }
     >
       <Form
         form={form}
@@ -61,7 +61,7 @@ const NewBookForm = ({ onSave, onClose }) => {
 
         {/* Add more fields as necessary */}
       </Form>
-    </Modal>
+    </Drawer>
   );
 };
 

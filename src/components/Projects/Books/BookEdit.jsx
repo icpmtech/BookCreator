@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Input, Select } from 'antd';
+import { Drawer, Form, Input, Select, Button, Space } from 'antd';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -7,21 +7,27 @@ const { TextArea } = Input;
 const BookEdit = ({ book, onClose, onSave }) => {
   const [form] = Form.useForm();
 
-  const handleSave = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        // Process the updated values
-        onSave(values);
-        onClose();
-      })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
-      });
+  const handleSave = (values) => {
+    onSave(values); // Process the updated values
+    onClose(); // Close the drawer
   };
 
   return (
-   
+    <Drawer
+      title={`Edit: ${book?.title || 'Book'}`}
+      placement="right"
+      onClose={onClose}
+      width={720}
+      visible={true}
+      extra={
+        <Space>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button type="primary" onClick={() => form.submit()}>
+          Submit
+        </Button>
+      </Space>
+      }
+    >
       <Form
         form={form}
         layout="vertical"
@@ -31,8 +37,9 @@ const BookEdit = ({ book, onClose, onSave }) => {
           book_type: book.book_type,
           content: book.content,
         }}
+        onFinish={handleSave}
       >
-        <Form.Item
+       <Form.Item
           name="title"
           label="Title"
           rules={[{ required: true, message: 'Please input the title!' }]}
@@ -68,7 +75,8 @@ const BookEdit = ({ book, onClose, onSave }) => {
           <TextArea rows={4} />
         </Form.Item>
       </Form>
-   
+      
+    </Drawer>
   );
 };
 

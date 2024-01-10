@@ -1,12 +1,26 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card,Drawer,Space,Button } from 'antd';
 
-const BookDetails = ({ book }) => {
+const BookDetails = ({ book,onClose }) => {
   if (!book) {
     return <p>No book selected</p>;
   }
 
   return (
+    <Drawer
+    title={book?.title || 'Book Details'}
+    placement="right"
+    onClose={onClose}
+      width={720}
+      visible={true}
+      extra={
+        <Space>
+        <Button type="primary"onClick={onClose}>
+          Close
+        </Button>
+      </Space>
+      }
+  >
     <Card >
       <p>Type: {book.book_type}</p>
       <p>Description: {book.description}</p>
@@ -25,6 +39,7 @@ const BookDetails = ({ book }) => {
         ))}
       </div>
     </Card>
+    </Drawer>
   );
 };
 

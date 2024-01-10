@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, List, Layout, Card, Drawer } from 'antd';
+import { Button, List, Layout, Card,Space, Drawer } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
 import BookDetails from './BookDetails';
 import BookEdit from './BookEdit';
@@ -90,22 +90,8 @@ export default function ProjectBook() {
       {newBookVisible && (
   <NewBookForm onSave={handleSaveNewBook} onClose={() => setNewBookVisible(false)} />
 )}
-      <Drawer
-        title={selectedBook?.title || 'Book Details'}
-        placement="right"
-        onClose={closeDrawers}
-        visible={detailsDrawerVisible}
-      >
-        {selectedBook && <BookDetails book={selectedBook} />}
-      </Drawer>
-      <Drawer
-        title={`Edit: ${selectedBook?.title || 'Book'}`}
-        placement="right"
-        onClose={closeDrawers}
-        visible={editDrawerVisible}
-      >
+        {detailsDrawerVisible && selectedBook && <BookDetails book={selectedBook} onClose={closeDrawers} />}
         {editDrawerVisible && selectedBook && <BookEdit book={selectedBook} onClose={closeDrawers} onSave={loadBooks} />}
-      </Drawer>
     </Layout>
   );
 }

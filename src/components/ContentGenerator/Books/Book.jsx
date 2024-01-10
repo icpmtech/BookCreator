@@ -243,7 +243,7 @@ const Book = () => {
 								<Radio.Button value={'Make Longer the following text:' + search}>Make Longer</Radio.Button>
 								<Radio.Button value={'Change Tone:' + search}>Change Tone</Radio.Button>
 								<Radio.Button value={'Simplify language in the following text:' + search}>Simplify language</Radio.Button>
-								<Radio.Button value={'Improve Writing:' + search}>Paraphrase</Radio.Button>
+								<Radio.Button value={'Paraphrase:' + search}>Paraphrase</Radio.Button>
 								<Radio.Button value={'Summarize:' + response}>Summarize Response</Radio.Button>
 								<Radio.Button value="Restart">Clear Response</Radio.Button>
 							</Radio.Group>
