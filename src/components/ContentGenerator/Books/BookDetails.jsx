@@ -30,7 +30,7 @@ const BookDetails = ({ book,onClose }) => {
         {book?.chapters?.map((chapter, index) => (
           <div key={index}>
             <h4>{chapter.name}</h4>
-            {chapter?.sections.map((section, sIndex) => (
+          {chapter?.sections?.map((section, sIndex) => (
               <div key={sIndex}>
                    <h3>Section:{section.title} </h3>
              <p> {section.content}</p></div>
