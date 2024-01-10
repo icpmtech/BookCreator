@@ -37,8 +37,9 @@ const SelectedBookProject = () => {
   const handleSubmitUpdate = (updatedBook) => {
     const updatedBooks = books.map(book => book.title === selectedBook.title ? updatedBook : book);
     localStorage.setItem('books', JSON.stringify(updatedBooks));
+    loadBooks();
     setOpen(false);
-    loadBooks(); // Refresh the list
+    // Refresh the list
   };
 
   return (
@@ -163,7 +164,7 @@ const SelectedBookProject = () => {
                   />
                 }
               >
-                <Form.Item label="Chapter Name" name={[field.name, 'name']}>
+                <Form.Item label="Chapter Title" name={[field.name, 'name']}>
                   <Input />
                 </Form.Item>
                 {/* Nest Form.List */}
@@ -173,11 +174,11 @@ const SelectedBookProject = () => {
                       <div style={{  rowGap: 16 }}>
                         {subFields.map((subField) => (
                           <Space key={subField.key}>
-                            <Form.Item noStyle name={[subField.name, 'first']}>
-                              <Input placeholder="first" />
+                            <Form.Item noStyle name={[subField.name, 'title']}>
+                              <Input placeholder="Title" />
                             </Form.Item>
-                            <Form.Item noStyle name={[subField.name, 'second']}>
-                              <TextArea placeholder="second" />
+                            <Form.Item noStyle name={[subField.name, 'content']}>
+                              <TextArea placeholder="Content" />
                             </Form.Item>
                             <CloseOutlined
                               onClick={() => {

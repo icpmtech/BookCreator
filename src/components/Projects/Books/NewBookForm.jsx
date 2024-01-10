@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button,Drawer, Select, Modal } from 'antd';
+import { Form, Input, Button,Drawer, Select, Space } from 'antd';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -18,12 +18,14 @@ const NewBookForm = ({ onSave, onClose }) => {
       visible={true}
       onCancel={onClose}
       extra={
+        <Space>
         <Button key="cancel" onClick={onClose}>
           Cancel
-        </Button>,
+        </Button>
         <Button key="submit" type="primary" onClick={() => form.submit()}>
           Submit
         </Button>
+        </Space>
       }
     >
       <Form

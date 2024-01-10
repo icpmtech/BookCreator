@@ -42,7 +42,15 @@ export default function ProjectBook() {
     setDetailsDrawerVisible(false);
     setEditDrawerVisible(false);
   };
-
+  const handleSave = (updatedBookData) => {
+    const updatedBooks = books.map(book => 
+        book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
+    );
+    localStorage.setItem('books', JSON.stringify(updatedBooks));
+    setBooks(updatedBooks);
+    loadBooks();
+    setEditDrawerVisible(false); 
+};
   const refreshBooks = () => {
     loadBooks();
   };
@@ -91,7 +99,7 @@ export default function ProjectBook() {
   <NewBookForm onSave={handleSaveNewBook} onClose={() => setNewBookVisible(false)} />
 )}
         {detailsDrawerVisible && selectedBook && <BookDetails book={selectedBook} onClose={closeDrawers} />}
-        {editDrawerVisible && selectedBook && <BookEdit book={selectedBook} onClose={closeDrawers} onSave={loadBooks} />}
+        {editDrawerVisible && selectedBook && <BookEdit book={selectedBook} onClose={closeDrawers} onSave={handleSave} />}
     </Layout>
   );
 }
