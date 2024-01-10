@@ -96,7 +96,7 @@ export const items = [
 			</a>,
 				'p-lesson', <AuditOutlined />),
 		]),
-	getItem('Generate Content', 'sub1', <BlockOutlined />, [
+	getItem('Generate Content', 'content', <BlockOutlined />, [
 		getItem(<a href="/books">
 			Books
 		</a>,
@@ -115,7 +115,7 @@ export const items = [
 			'emails', <MailOutlined />),
 	]),
 	
-	getItem('Code Assistant', 'sub2', <CodeOutlined />, [
+	getItem('Code Assistant', 'code', <CodeOutlined />, [
 		getItem(<a href="/code-assistant-python">
 			Python
 		</a>, '7', <CodeOutlined />),
@@ -132,7 +132,28 @@ export const items = [
 			SQL
 		</a>, '11', <CodeOutlined />),
 	]),
-	
+	getItem('Prompts', 'settings', <SettingOutlined />, [
+		getItem(<a href="/prompt-books">
+			Books
+		</a>,
+			'prompt-book', <BookOutlined />),
+		getItem(<a href="/prompt-articles">
+			Articles
+		</a>,
+			'prompt-article', <AuditOutlined />),
+		getItem(<a href="/prompt-blogposts">
+			Blogposts
+		</a>,
+			'prompt-blog', <AuditOutlined />),
+		getItem(<a href="/prompt-emails">
+			Emails
+		</a>,
+			'prompt-email', <MailOutlined />),
+			getItem(<a href="/prompt-lessons">
+			Lessons
+		</a>,
+			'prompt-lesson', <AuditOutlined />),
+	]),
 	getItem(
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
 			Cantinhode.net
@@ -152,11 +173,6 @@ export const items = [
 		</a>,
 		'14',
 		<LinkOutlined />
-	),getItem(
-		<a href="/settings">
-			Settings
-		</a>,
-		'Settings',
-		<SettingOutlined />),
+	),
 
 ];
