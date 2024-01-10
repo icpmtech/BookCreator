@@ -1,86 +1,107 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, List, Skeleton,Layout,Card } from 'antd';
-const count = 3;
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
+import { Button, List, Layout, Card,Flex, Drawer } from 'antd';
+import { SyncOutlined } from '@ant-design/icons';
+import EmailDetails from './EmailDetails';
+import EmailEdit from './EmailEdit';
+import NewEmailForm from './NewEmailForm';
 export default function ProjectEmail() {
-    const [initLoading, setInitLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
+  const [Emails, setEmails] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [detailsDrawerVisible, setDetailsDrawerVisible] = useState(false);
+  const [editDrawerVisible, setEditDrawerVisible] = useState(false);
+  const [newEmailVisible, setNewEmailVisible] = useState(false); // State for new Email form
+
   useEffect(() => {
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then((res) => {
-        setInitLoading(false);
-        setData(res.results);
-        setList(res.results);
-      });
+    loadEmails();
   }, []);
-  const onLoadMore = () => {
-    setLoading(true);
-    setList(
-      data.concat(
-        [...new Array(count)].map(() => ({
-          loading: true,
-          name: {},
-          picture: {},
-        })),
-      ),
-    );
-    fetch(fakeDataUrl)
-      .then((res) => res.json())
-      .then((res) => {
-        const newData = data.concat(res.results);
-        setData(newData);
-        setList(newData);
-        setLoading(false);
-        // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
-        // In real scene, you can using public method of react-virtualized:
-        // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-        window.dispatchEvent(new Event('resize'));
-      });
+
+  const loadEmails = () => {
+    const savedEmails = localStorage.getItem('Emails');
+    if (savedEmails) {
+      setEmails(JSON.parse(savedEmails));
+    }
   };
-  const loadMore =
-    !initLoading && !loading ? (
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: 12,
-          height: 32,
-          lineHeight: '32px',
-        }}
-      >
-        <Button onClick={onLoadMore}>loading more</Button>
-      </div>
-    ) : null;
+
+  const selectEmail = (Email) => {
+    setSelectedEmail(Email);
+    setDetailsDrawerVisible(true);
+    setEditDrawerVisible(false);
+  };
+
+  const editEmail = (Email) => {
+    setSelectedEmail(Email);
+    setEditDrawerVisible(true);
+    setDetailsDrawerVisible(false);
+  };
+
+  const deleteEmail = (EmailToDelete) => {
+    const updatedEmails = Emails.filter(Email => Email.title !== EmailToDelete.title);
+    localStorage.setItem('Emails', JSON.stringify(updatedEmails));
+    setEmails(updatedEmails);
+    setSelectedEmail(null);
+    setDetailsDrawerVisible(false);
+    setEditDrawerVisible(false);
+  };
+  const handleSave = (updatedEmailData) => {
+    const updatedEmails = Emails.map(Email => 
+        Email.title === selectedEmail.title ? { ...Email, ...updatedEmailData } : Email
+    );
+    localStorage.setItem('Emails', JSON.stringify(updatedEmails));
+    setEmails(updatedEmails);
+    loadEmails();
+    setEditDrawerVisible(false); 
+};
+  const refreshEmails = () => {
+    loadEmails();
+  };
+ 
+  const newEmail = () => {
+    setNewEmailVisible(true); // Open the new Email form or component
+  };
+
+  const closeDrawers = () => {
+    setDetailsDrawerVisible(false);
+    setEditDrawerVisible(false);
+    setNewEmailVisible(false); // Close the new Email form as well
+  };
+  const handleSaveNewEmail = (newEmail) => {
+    const updatedEmails = [...Emails, newEmail];
+    localStorage.setItem('Emails', JSON.stringify(updatedEmails));
+    setEmails(updatedEmails);
+    setNewEmailVisible(false); // Close the form
+  };
   return (
-    <Layout  style={{margin:20}}>
-        <h1>Emails</h1>
-        <Card>
+    <Layout style={{ margin: 20, height: '100vh' }}>
+    <Flex gap="small" align="flex justify-center" >
+    <Button onClick={refreshEmails} icon={<SyncOutlined />} style={{ marginBottom: 10 }}>Refresh Emails</Button>
+    <Button  type="primary"  onClick={newEmail} style={{ marginBottom: 10 }}>New Email</Button>
+    </Flex>
+    <h1>Emails</h1>
+      <Card>
         <List
-      className="demo-loadmore-list"
-      loading={initLoading}
-      itemLayout="horizontal"
-      loadMore={loadMore}
-      dataSource={list}
-      renderItem={(item) => (
-        <List.Item
-          actions={[<Button type='primary' href={`/lessons/${item.name?.last}`} key="list-loadmore-edit">Open</Button>]}
-        >
-          <Skeleton avatar title={false} loading={item.loading} active>
-            <List.Item.Meta
-              avatar={<Avatar src={item.picture.large} />}
-              title={<a href="https://ant.design">{item.name?.last}</a>}
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-            />
-            <div>content</div>
-          </Skeleton>
-        </List.Item>
-      )}
-    />
-        </Card>
-   
+          itemLayout="horizontal"
+          dataSource={Emails}
+          renderItem={(item) => (
+            <List.Item 
+              actions={[
+                <Button onClick={() => selectEmail(item)} type='primary'>View Email</Button>,
+                <Button onClick={() => editEmail(item)} type='primary'>Edit Email</Button>,
+                <Button onClick={() => deleteEmail(item)} >Delete Email</Button>
+              ]}
+            >
+              <List.Item.Meta
+                title={item.title}
+                description={`Type: ${item.Email_type}, Description: ${item.description}`}
+              />
+            </List.Item>
+          )}
+        />
+      </Card>
+      {newEmailVisible && (
+  <NewEmailForm onSave={handleSaveNewEmail} onClose={() => setNewEmailVisible(false)} />
+)}
+        {detailsDrawerVisible && selectedEmail && <EmailDetails Email={selectedEmail} onClose={closeDrawers} />}
+        {editDrawerVisible && selectedEmail && <EmailEdit Email={selectedEmail} onClose={closeDrawers} onSave={handleSave} />}
     </Layout>
   );
 }
-
