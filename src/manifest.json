@@ -27,20 +27,20 @@
     "shortcuts": [
       {
         "name": "AI Content Editor",
-        "short_name": "AI Content Editor",
-        "description": "AI Content Editor is a platform to manages Book creation simple and quickly using AI",
-        "url": "/today?source=pwa",
-        "icons": [{ "src": "/images/today.png", "sizes": "192x192" }]
+        "short_name": "Generate Books",
+        "description": "AI Content Editor is  generate book content to create a Book in simple and quickly steps using AI.",
+        "url": "/books?source=pwa",
+        "icons": [{ "src": "/images/icon.png", "sizes": "192x192" }]
       },
       {
-        "name": "How's weather tomorrow?",
-        "short_name": "Tomorrow",
-        "description": "View weather information for tomorrow",
-        "url": "/tomorrow?source=pwa",
-        "icons": [{ "src": "/images/tomorrow.png", "sizes": "192x192" }]
+        "name": "Create a Book Project with AI?",
+        "short_name": "Book Projects",
+        "description": "AI Content Editor Books",
+        "url": "/project-books?source=pwa",
+        "icons": [{ "src": "/images/icon.png", "sizes": "192x192" }]
       }
     ],
-    "description": "Weather forecast information",
+    "description": "AI Content Editor Books",
     "screenshots": [
       {
         "src": "/images/screenshot1.png",
