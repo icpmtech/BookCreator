@@ -57,13 +57,15 @@ const Book = () => {
 	  setEditDrawerVisible(false);
 	};
 	const handleSave = (updatedBookData) => {
-	  const updatedBooks = books.map(book => 
-		  book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
-	  );
-	  localStorage.setItem('books', JSON.stringify(updatedBooks));
-	  loadBooks();
-	  setEditDrawerVisible(false); 
-  };
+		const updatedBooks = books.map(book => 
+			book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
+		);
+		localStorage.setItem('books', JSON.stringify(updatedBooks));
+		setBooks(updatedBooks);
+		setSelectedBook(updatedBookData);
+		loadBooks();
+		setEditDrawerVisible(false); 
+	};
   const handleSaveInlineEdit = (updatedBookData) => {
 	const updatedBooks = books.map(book => 
 		book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
@@ -133,6 +135,15 @@ const Book = () => {
 			<Space direction="vertical" style={{ width: '100%' }}>
 			<Flex gap="small" align="flex justify-center" >
 				<Button icon={<SyncOutlined />}  onClick={loadBooks}>Refresh Books</Button>
+				<Select
+					placeholder="Select a template prompt"
+					style={{ width: 200 }}
+					onChange={handleBookSelection}
+				>
+					{books.map(book => (
+						<Option key={book.title} label={book.title}>{book.title}</Option>
+					))}
+				</Select>
 				<Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
 				<Select
 					placeholder="Select a book"
@@ -151,19 +162,15 @@ const Book = () => {
 					Generate Text
 				</Button>
 				{error && <p style={{ color: 'red' }}>Error: {error}</p>}
-				<Button  >
-					Add as chapter to Book
+				
+				<Button  onClick={e => setText('')} >
+					Clear Prompt
 				</Button>
-				<Button  >
-					Add as section to Book
-				</Button>
-				<Button   >
-					Generate titles
-				</Button>
+				<Button  onClick={e => setTextResponse('')}>Clear Response</Button>
 				</Flex>
 				<TextArea rows={10} value={textResponse}  />
 				<Flex gap="small" align="flex justify-center" >
-							<Radio.Group style={{ marginTop: 10 }} onChange={(e) => setText(e.target.value)}>
+							<Radio.Group style={{ marginTop: 10 }} onChange={(e) => handleTextGeneration(e.target.value)}>
 								<Radio.Button value={' Continue' + textResponse}>Continue Writing...</Radio.Button>
 								<Radio.Button value={'Improve Writing:' + text}>Improve Writing</Radio.Button>
 								<Radio.Button value={'Fix spelling & Grammarthe following text:' + text}>Fix spelling & Grammar</Radio.Button>
@@ -173,7 +180,7 @@ const Book = () => {
 								<Radio.Button value={'Simplify language in the following text:' + text}>Simplify language</Radio.Button>
 								<Radio.Button value={'Paraphrase:' + text}>Paraphrase</Radio.Button>
 								<Radio.Button value={'Summarize:' + textResponse}>Summarize Response</Radio.Button>
-								<Radio.Button value="Restart">Clear textResponse</Radio.Button>
+								
 							</Radio.Group>
 						</Flex>
 						<Layout>
