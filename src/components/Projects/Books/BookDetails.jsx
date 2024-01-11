@@ -46,7 +46,7 @@ const BookDetails = ({ book,onClose }) => {
       extra={
         <Space>
           <Button  icon={<DownloadOutlined />} onClick={() => downloadBookData(book)}>
-    Download Book Data
+    Download Book
   </Button>
         <Button type="primary"onClick={onClose}>
           Close
