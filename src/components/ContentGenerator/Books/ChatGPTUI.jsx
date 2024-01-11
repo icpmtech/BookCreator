@@ -93,28 +93,27 @@ const ChatGPTUI = ({ loadBooks }) => {
       style={{ right: 24 }}
       icon={<CommentOutlined />}
     >
-      <Card style={{width: '300px',
-    height: '70vh', right:300}} >
+      <Card  bordered={false} style={{width: '400px',overflow: 'auto',
+    height: '600px', right:400}} >
        <Layout>
-      <Card>
+      <Card  >
           <Select placeholder="Select a template prompt"  onChange={handlePromptBookSelection}>
             {promptsBooks.map(promptBook => (
               <Option key={promptBook.title} label={promptBook.title}>{promptBook.title}</Option>
             ))}
           </Select>
       </Card>
-      <Card>
-        <TextArea  value={text} onChange={e => setText(e.target.value)} />
-      </Card>
-      <Card gap="small" align="flex justify-center">
+      <Card >
+        <TextArea autoSize  rows={1} placeholder='Write your text...' value={text} onChange={e => setText(e.target.value)} />
+        <Card  >
       <Tooltip title="search">
         <Button  type="primary" shape="circle" icon={<SearchOutlined />} onClick={handleTextGeneration} loading={isLoading} />
       </Tooltip>
         {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        <Tooltip title="Clear Prompt"> <Button shape="circle" icon={<ClearOutlined />}  onClick={() => setText('')}> </Button></Tooltip>
-        {responses &&(<Tooltip title="Clear Response"> <Button shape="circle" icon={<ClearOutlined />} onClick={() => setResponses([])}></Button></Tooltip>)}
+        <Tooltip title="Clear Prompt"> <Button shape="circle" icon={<ClearOutlined />}  onClick={() => setText('')}/></Tooltip>
+        {responses &&(<Tooltip title="Clear Response"> <Button shape="circle" icon={<ClearOutlined />} onClick={() => setResponses([])}/></Tooltip>)}
       </Card>
-
+      </Card>
         {/* Other components */}
         {responses.map((response, index) => (
            <Collapse
@@ -125,7 +124,7 @@ const ChatGPTUI = ({ loadBooks }) => {
                label:'Response: '+ index,
                children: 
         <Card  key={index}>
-          <TextArea rows={2} value={response} readOnly />
+          <TextArea autoSize  rows={2} value={response}  />
           <Tooltip title="Continue Writing">
             <Button 
               icon={<SearchOutlined />} 
@@ -140,7 +139,13 @@ const ChatGPTUI = ({ loadBooks }) => {
       ]}
     />
       ))}
-
+        <Collapse
+           size="small"
+           items={[
+             {
+               key: 'actions',
+               label:'More Actions',
+               children: 
       <Card gap="small" align="flex justify-center">
         <Radio.Group style={{ marginTop: 10 }} onChange={(e) => handleTextGeneration(e.target.value)}>
         <Radio.Group style={{ marginTop: 10 }} onChange={(e) => handleTextGeneration(e.target.value)}>
@@ -155,7 +160,10 @@ const ChatGPTUI = ({ loadBooks }) => {
 						<Radio.Button value={'Summarize:' + textResponse}>Summarize Response</Radio.Button>
 					</Radio.Group>
         </Radio.Group>
-      </Card>
+      </Card>,
+        },
+      ]}
+    />
     </Layout>
       </Card>
     </FloatButton.Group>

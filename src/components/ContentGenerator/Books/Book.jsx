@@ -155,20 +155,19 @@ const Book = () => {
         handlePromptBookSelection={handlePromptBookSelection}
         promptsBooks={promptsBooks}
       />
-					<Card extra={<Flex gap="small" align="flex justify-center">
-						<Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
+	  	<Flex gap="small" align="flex justify-center">
 						<Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Books</Button>
 						<Select
 							placeholder="Select a book"
-							style={{ width: 200 }}
 							onChange={handleBookSelection}
 						>
 							{books.map(book => (
 								<Option key={book.title} label={book.title}>{book.title}</Option>
 							))}
 						</Select>
-						{selectBook && (<Button icon={<BookOutlined />} type="primary" onClick={editBook}>Edit in Panel</Button>)}
-					</Flex >} title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'}>
+						{selectedBook && (<Button icon={<BookOutlined />} type="primary" onClick={editBook}>Edit in Panel</Button>)}
+					</Flex>
+					<Card  title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'}>
 						{/* Display selected book details or a message if no book is selected */}
 						{selectedBook ? (
 							<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />

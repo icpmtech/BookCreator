@@ -1,6 +1,6 @@
 import React from 'react';
-import { Drawer, Form, Input, Row, Col, Card, Select, Button, Space, Collapse } from 'antd';
-import { SyncOutlined, CloseOutlined, BookOutlined } from '@ant-design/icons';
+import { Drawer, Form, Input, Row, Col, Card, Select, Button, Space, Collapse, Flex } from 'antd';
+import { DownloadOutlined , CloseOutlined, BookOutlined } from '@ant-design/icons';
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -10,13 +10,40 @@ const BookEdit = ({ book, onClose, onSave }) => {
   const handleSave = (values) => {
     onSave(values); // Process the updated values
   };
-
+  const handleDownload = () => {
+    // Retrieve form data
+    const formData = form.getFieldsValue(true);
+  
+    // Convert the form data to a string format suitable for a text file
+    const fileContent = JSON.stringify(formData, null, 2);
+  
+    // Create a Blob from the string content
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+  
+    // Create a link element, set the download attribute with a filename
+    const link = document.createElement('a');
+    link.download = 'form-data.txt';
+  
+    // Create a URL for the blob and set as link's href
+    link.href = window.URL.createObjectURL(blob);
+  
+    // Append to the document and trigger the download
+    document.body.appendChild(link);
+    link.click();
+  
+    // Clean up and remove the link
+    link.parentNode.removeChild(link);
+  };
   return (
 
     <Card title={'Editing the book: ' + book.title} extra={
-      <Button type="primary" form="bookForm" key="submit" htmlType="submit">
-        Save
+      <Flex gap={10}> <Button  icon={<DownloadOutlined />} onClick={handleDownload}>
+        Download
       </Button>
+        <Button type="primary" form="bookForm" key="submit" htmlType="submit">
+          Save
+        </Button></Flex>
+
     }>
       <Form layout="vertical" form={form} id="bookForm" onFinish={handleSave} >
         {/* Form fields here */}
@@ -78,28 +105,28 @@ const BookEdit = ({ book, onClose, onSave }) => {
 
         <Row gutter={16}>
           <Col span={24}>
-          <Collapse
-                  size="small"
-                  items={[
-                    {
-                     
-                      label:`Outline Content`,
-                      children:
-            <Form.Item
-              name="content"
-              label="Content"
-              rules={[
+            <Collapse
+              size="small"
+              items={[
                 {
-                  required: true,
-                  message: 'please enter  content',
+
+                  label: `Outline Content`,
+                  children:
+                    <Form.Item
+                      name="content"
+                      label="Content"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'please enter  content',
+                        },
+                      ]}
+                    >
+                      <Input.TextArea rows={4} placeholder="please enter content " />
+                    </Form.Item>,
                 },
               ]}
-            >
-              <Input.TextArea rows={4} placeholder="please enter content " />
-            </Form.Item>,
-        },
-      ]}
-    />
+            />
           </Col>
         </Row>
         <Form.List name="chapters">
@@ -112,7 +139,7 @@ const BookEdit = ({ book, onClose, onSave }) => {
                   items={[
                     {
                       key: field.key,
-                      label:`Chapter ${field.name + 1}`,
+                      label: `Chapter ${field.name + 1}`,
                       children:
                         <Card
                           size="small"
