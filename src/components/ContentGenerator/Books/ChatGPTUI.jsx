@@ -4,6 +4,7 @@ import { Card, Flex,Radio, Button,Input, Select, FloatButton,Layout } from  'ant
 import { CommentOutlined, SyncOutlined, SettingOutlined } from '@ant-design/icons'; // Assuming Ant Design icons
 const { TextArea } = Input;
 const { Option } = Select;
+import OpenAI from 'openai';
 const openai = new OpenAI({
 	apiKey: import.meta.env.VITE_OPEN_AI_KEY,
 	dangerouslyAllowBrowser: true
