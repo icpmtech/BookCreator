@@ -12,17 +12,27 @@ const BookEdit = ({ book, onClose, onSave }) => {
   };
   const handleDownload = () => {
     // Retrieve form data
-    const formData = form.getFieldsValue(true);
+    const book = form.getFieldsValue(true);
   
-    // Convert the form data to a string format suitable for a text file
-    const fileContent = JSON.stringify(formData, null, 2);
+    let bookData = `Type: ${book.book_type}\n`;
+    bookData += `Description: ${book.description}\n`;
+    bookData += `Content: ${book.content}\n`;
+  
+    bookData += `\nChapters:\n`;
+    book?.chapters?.forEach((chapter, index) => {
+      bookData += `  Chapter ${index + 1}: ${chapter?.name}\n`;
+      chapter?.sections?.forEach((section, sIndex) => {
+        bookData += `    Section ${sIndex + 1}: ${section.title}\n`;
+        bookData += `    ${section.content}\n`;
+      });
+    });
   
     // Create a Blob from the string content
-    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const blob = new Blob([bookData], { type: 'text/plain' });
   
     // Create a link element, set the download attribute with a filename
     const link = document.createElement('a');
-    link.download = 'form-data.txt';
+    link.download = `${book.title}.txt`;
   
     // Create a URL for the blob and set as link's href
     link.href = window.URL.createObjectURL(blob);
