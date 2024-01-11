@@ -16,6 +16,7 @@ const NewArticleForm = ({ onSave, onClose }) => {
     <Drawer
       title="Add New Article"
       visible={true}
+      onClose={onClose}
       onCancel={onClose}
       extra={
         <Space>
