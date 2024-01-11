@@ -1,41 +1,161 @@
 import React from 'react';
-import { Button, Select, notification,Form, Layout, Card, Input, Space,Flex,Radio } from 'antd';
+import { Drawer, Form, Input,Row ,Col,Card, Select, Button, Space, Layout } from 'antd';
 import { SyncOutlined,CloseOutlined,BookOutlined } from '@ant-design/icons';
 const { Option } = Select;
 const { TextArea } = Input;
 
-const BookSelectedEdit = ({ book, onClose, onSave }) => {
+const BookEdit = ({ book, onClose, onSave }) => {
   const [form] = Form.useForm();
-
+  form.setFieldsValue(book);
   const handleSave = (values) => {
+    debugger;
     onSave(values); // Process the updated values
-    onClose(); // Close the drawer
   };
 
   return (
-   <Layout>
-        <Card >
-      <p>Type: {book.book_type}</p>
-      <p>Description: {book.description}</p>
-      <p>Content: {book.content}</p>
-      <div>
-        <h3>Chapters:</h3>
-        {book?.chapters?.map((chapter, index) => (
-          <div key={index}>
-            <h4>{chapter.name}</h4>
-            {chapter?.sections?.map((section, sIndex) => (
-              <div key={sIndex}>
-                   <h3>Section:{section.title} </h3>
-             <p> {section.content}</p></div>
-            ))}
-          </div>
+   
+  <Card title={'Editing the book: ' +book.title} extra={
+    <Button type="primary" form="bookForm" key="submit" htmlType="submit">
+          Save
+        </Button>
+    }>
+    <Form layout="vertical" form={form} id="bookForm" onFinish={handleSave} >
+      {/* Form fields here */}
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            name="title"
+            label="Title"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter book title',
+              },
+            ]}
+          >
+            <Input placeholder="Please enter book title" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="description"
+            label="Description"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter description',
+              },
+            ]}
+          >
+            <Input
+              style={{
+                width: '100%',
+              }}
+              placeholder="Please enter description"
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item
+            name="book_type"
+            label="Book Type"
+            rules={[
+              {
+                required: true,
+                message: 'Please select an book type',
+              },
+            ]}
+          >
+            <Select placeholder="Please select an book type">
+              <Option value="fiction">Fiction</Option>
+              <Option value="science">Science</Option>
+              <Option value="other">Other</Option>
+            </Select>
+          </Form.Item>
+        </Col>
+       
+      </Row>
+    
+      <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item
+            name="content"
+            label="Content"
+            rules={[
+              {
+                required: true,
+                message: 'please enter  content',
+              },
+            ]}
+          >
+            <Input.TextArea rows={4} placeholder="please enter content " />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Form.List name="chapters">
+    {(fields, { add, remove }) => (
+      <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+        {fields.map((field) => (
+          <Card
+            size="small"
+            title={`Chapter ${field.name + 1}`}
+            key={field.key}
+            extra={
+              <CloseOutlined
+                onClick={() => {
+                  remove(field.name);
+                }}
+              />
+            }
+          >
+            <Form.Item label="Chapter Title" name={[field.name, 'name']}>
+              <Input />
+            </Form.Item>
+            {/* Nest Form.List */}
+            <Form.Item label="Sections">
+              <Form.List name={[field.name, 'sections']}>
+                {(subFields, subOpt) => (
+                  <div style={{  rowGap: 16 }}>
+                    {subFields.map((subField) => (
+                      <Space key={subField.key}>
+                        <Form.Item noStyle name={[subField.name, 'title']}>
+                          <Input placeholder="Title" />
+                        </Form.Item>
+                        <Form.Item noStyle name={[subField.name, 'content']}>
+                          <TextArea placeholder="Content" />
+                        </Form.Item>
+                        <CloseOutlined
+                          onClick={() => {
+                            subOpt.remove(subField.name);
+                          }}
+                        />
+                      </Space>
+                    ))}
+                    <Button type="dashed" onClick={() => subOpt.add()} block>
+                      + Add Sub Section
+                    </Button>
+                  </div>
+                )}
+              </Form.List>
+            </Form.Item>
+          </Card>
         ))}
+
+        <Button type="dashed" onClick={() => add()} block>
+          + Add Chapter
+        </Button>
       </div>
+    )}
+  </Form.List>
+    </Form>
+    
+
     </Card>
     
-      </Layout>
-    
+   
   );
 };
 
-export default BookSelectedEdit;
+export default BookEdit;
