@@ -148,60 +148,14 @@ const Book = () => {
 
 	return (
 
-		<Layout style={{ padding: '20px' }}>
-			
+		<Layout style={{ padding: '20px', height:'100vh' }}>
 			<Space direction="vertical" style={{ width: '100%' }}>
 			<ChatGPTUI
         loadBooks={loadBooks}
         handlePromptBookSelection={handlePromptBookSelection}
         promptsBooks={promptsBooks}
       />
-				<Card >
-					<Flex gap="small" align="flex justify-center" >
-						<Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Prompts</Button>
-						<Select
-							placeholder="Select a template prompt"
-							style={{ width: 200 }}
-							onChange={handlePromptBookSelection}
-						>
-							{promptsBooks.map(promptBook => (
-								<Option key={promptBook.title} label={promptBook.title}>{promptBook.title}</Option>
-							))}
-						</Select>
-						<Button icon={<SettingOutlined />} type="primary">Create Prompt</Button>
-					</Flex>
-				</Card>
-				<Card >
-					<TextArea rows={4} value={text} onChange={e => setText(e.target.value)} />
-					</Card>
-				<Flex gap="small" align="flex justify-center" >
-					<Button type="primary" onClick={handleTextGeneration} loading={isLoading}>
-						Generate Text
-					</Button>
-					{error && <p style={{ color: 'red' }}>Error: {error}</p>}
-					<Button onClick={e => setText('')} >
-						Clear Prompt
-					</Button>
-					<Button onClick={e => setTextResponse('')}>Clear Response</Button>
-				</Flex>
-				<TextArea rows={10} value={textResponse} />
-				<Flex gap="small" align="flex justify-center" >
-					<Radio.Group style={{ marginTop: 10 }} onChange={(e) => handleTextGeneration(e.target.value)}>
-						<Radio.Button value={' Continue' + textResponse}>Continue Writing...</Radio.Button>
-						<Radio.Button value={'Improve Writing:' + textResponse}>Improve Writing</Radio.Button>
-						<Radio.Button value={'Fix spelling & Grammarthe following text:' + text}>Fix spelling & Grammar</Radio.Button>
-						<Radio.Button value={'Make Shorter the following text:' + text}>Make Shorter </Radio.Button>
-						<Radio.Button value={'Make Longer the following text:' + text}>Make Longer</Radio.Button>
-						<Radio.Button value={'Change Tone:' + text}>Change Tone</Radio.Button>
-						<Radio.Button value={'Simplify language in the following text:' + text}>Simplify language</Radio.Button>
-						<Radio.Button value={'Paraphrase:' + text}>Paraphrase</Radio.Button>
-						<Radio.Button value={'Summarize:' + textResponse}>Summarize Response</Radio.Button>
-
-					</Radio.Group>
-				</Flex>
-				<Layout>
 					<Card extra={<Flex gap="small" align="flex justify-center">
-
 						<Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
 						<Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Books</Button>
 						<Select
@@ -213,14 +167,13 @@ const Book = () => {
 								<Option key={book.title} label={book.title}>{book.title}</Option>
 							))}
 						</Select>
-
 						{selectBook && (<Button icon={<BookOutlined />} type="primary" onClick={editBook}>Edit in Panel</Button>)}
 					</Flex >} title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'}>
 						{/* Display selected book details or a message if no book is selected */}
 						{selectedBook ? (
 							<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />
 						) : 'No book selected'}
-					</Card></Layout>
+					</Card>
 
 			</Space>
 			{newBookVisible && (

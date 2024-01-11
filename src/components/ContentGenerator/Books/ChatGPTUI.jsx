@@ -1,7 +1,7 @@
 import React from 'react';
-import {useState, useRef} from 'react';
-import { Card, Flex,Radio, Button,Input, Select, FloatButton,Layout } from  'antd';
-import { CommentOutlined, SyncOutlined, SettingOutlined } from '@ant-design/icons'; // Assuming Ant Design icons
+import {useState, useEffect } from 'react';
+import { Card, Flex,Radio, Button,Input,Tooltip, Select,Collapse, FloatButton,Layout,notification } from  'antd';
+import { CommentOutlined,ClearOutlined, SyncOutlined, SearchOutlined } from '@ant-design/icons'; // Assuming Ant Design icons
 const { TextArea } = Input;
 const { Option } = Select;
 import OpenAI from 'openai';
@@ -9,12 +9,26 @@ const openai = new OpenAI({
 	apiKey: import.meta.env.VITE_OPEN_AI_KEY,
 	dangerouslyAllowBrowser: true
 });
-const ChatGPTUI = ({ loadBooks, handlePromptBookSelection, promptsBooks }) => {
+const ChatGPTUI = ({ loadBooks }) => {
   const [text, setText] = useState('');
+  const [responses, setResponses] = useState([]);
   const [textResponse, setTextResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-
+  const [promptsBooks, setPromptsBooks] = useState([]);
+  useEffect(() => {
+		loadPrompts();
+	}, []);
+  const handlePromptBookSelection = (promptBookId) => {
+		const promptBook = promptsBooks.find(b => b.title === promptBookId);
+		setText(promptBook.content + text);
+	};
+  const loadPrompts = () => {
+		const savedPromptsBooks = localStorage.getItem('prompts_books');
+		if (savedPromptsBooks) {
+			setPromptsBooks(JSON.parse(savedPromptsBooks));
+		}
+	};
   const sendMessage = () => {
     if (text.trim() !== '') {
       setMessages([...messages, text]); // Add the new message to the chat history
@@ -39,7 +53,7 @@ const ChatGPTUI = ({ loadBooks, handlePromptBookSelection, promptsBooks }) => {
 					contentResult += element?.delta?.content || '\n';
 				});
 			}
-			setTextResponse(contentResult);
+			setResponses([...responses, contentResult]);
 		} catch (err) {
 			setError(err.message);
 			notification.error({ message: 'Error', description: err.message });
@@ -47,6 +61,31 @@ const ChatGPTUI = ({ loadBooks, handlePromptBookSelection, promptsBooks }) => {
 			setIsLoading(false);
 		}
 	};
+  const handleTextContinueGeneration = async (continueText) => {
+    setIsLoading(true);
+    try {
+      const response = await openai.chat.completions.create({
+				model: "gpt-3.5-turbo",
+				messages: [{ "role": "user", "content": continueText }],
+				stream: true,
+				temperature: 0.7,
+				max_tokens: 400,
+				top_p: 1,
+			});
+      let contentResult = '';
+			for await (const chunk of response) {
+				chunk.choices.forEach(element => {
+					contentResult += element?.delta?.content || '\n';
+				});
+			}
+      setResponses([...responses, contentResult]);
+    } catch (err) {
+      setError(err.message);
+      notification.error({ message: 'Error', description: err.message });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <FloatButton.Group
       trigger="click"
@@ -55,32 +94,54 @@ const ChatGPTUI = ({ loadBooks, handlePromptBookSelection, promptsBooks }) => {
       icon={<CommentOutlined />}
     >
       <Card style={{width: '300px',
-    height: '600px', right:300}} >
+    height: '70vh', right:300}} >
        <Layout>
       <Card>
-        <Flex gap="small" align="flex justify-center">
-          <Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Prompts</Button>
-          <Select placeholder="Select a template prompt" style={{ width: 200 }} onChange={handlePromptBookSelection}>
+          <Select placeholder="Select a template prompt"  onChange={handlePromptBookSelection}>
             {promptsBooks.map(promptBook => (
               <Option key={promptBook.title} label={promptBook.title}>{promptBook.title}</Option>
             ))}
           </Select>
-          <Button icon={<SettingOutlined />} type="primary">Create Prompt</Button>
-        </Flex>
       </Card>
       <Card>
-        <TextArea rows={4} value={text} onChange={e => setText(e.target.value)} />
+        <TextArea  value={text} onChange={e => setText(e.target.value)} />
       </Card>
-      <Flex gap="small" align="flex justify-center">
-        <Button type="primary" onClick={handleTextGeneration} loading={isLoading}>Generate Text</Button>
+      <Card gap="small" align="flex justify-center">
+      <Tooltip title="search">
+        <Button  type="primary" shape="circle" icon={<SearchOutlined />} onClick={handleTextGeneration} loading={isLoading} />
+      </Tooltip>
         {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        <Button onClick={() => setText('')}>Clear Prompt</Button>
-        <Button onClick={() => setTextResponse('')}>Clear Response</Button>
-      </Flex>
+        <Tooltip title="Clear Prompt"> <Button shape="circle" icon={<ClearOutlined />}  onClick={() => setText('')}> </Button></Tooltip>
+        {responses &&(<Tooltip title="Clear Response"> <Button shape="circle" icon={<ClearOutlined />} onClick={() => setResponses([])}></Button></Tooltip>)}
+      </Card>
 
-      <TextArea rows={10} value={textResponse} />
+        {/* Other components */}
+        {responses.map((response, index) => (
+           <Collapse
+           size="small"
+           items={[
+             {
+               key: index,
+               label:'Response: '+ index,
+               children: 
+        <Card  key={index}>
+          <TextArea rows={2} value={response} readOnly />
+          <Tooltip title="Continue Writing">
+            <Button 
+              icon={<SearchOutlined />} 
+              onClick={() => handleTextContinueGeneration('more  ' + response)}
+              loading={isLoading}
+            >
+              Continue Writing...
+            </Button>
+          </Tooltip>
+        </Card>,
+        },
+      ]}
+    />
+      ))}
 
-      <Flex gap="small" align="flex justify-center">
+      <Card gap="small" align="flex justify-center">
         <Radio.Group style={{ marginTop: 10 }} onChange={(e) => handleTextGeneration(e.target.value)}>
         <Radio.Group style={{ marginTop: 10 }} onChange={(e) => handleTextGeneration(e.target.value)}>
 						<Radio.Button value={' Continue' + textResponse}>Continue Writing...</Radio.Button>
@@ -92,12 +153,10 @@ const ChatGPTUI = ({ loadBooks, handlePromptBookSelection, promptsBooks }) => {
 						<Radio.Button value={'Simplify language in the following text:' + text}>Simplify language</Radio.Button>
 						<Radio.Button value={'Paraphrase:' + text}>Paraphrase</Radio.Button>
 						<Radio.Button value={'Summarize:' + textResponse}>Summarize Response</Radio.Button>
-
 					</Radio.Group>
         </Radio.Group>
-      </Flex>
+      </Card>
     </Layout>
-     
       </Card>
     </FloatButton.Group>
   );
