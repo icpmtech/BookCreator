@@ -158,12 +158,16 @@ const NewLessonForm = ({ onSave, onClose }) => {
                                                 subOpt.remove(subField.name);
                                               }}
                                             />} key={subField.key}>
+                                               <Card> 
                                               <Form.Item noStyle name={[subField.name, 'title']}>
                                                 <Input placeholder="Title" />
                                               </Form.Item>
+                                              </Card>
+                                              <Card> 
                                               <Form.Item noStyle name={[subField.name, 'content']}>
-                                                <Card>   <TextArea placeholder="Content" /></Card>
+                                                <Input.TextArea placeholder="Content" />
                                               </Form.Item>
+                                              </Card>
                                             </Card>,
                                         },
                                       ]}
