@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Card, Flex, Radio, Button, Input, Tooltip, Select, Collapse, FloatButton, Layout, notification, Space, Spin } from 'antd';
-import { RobotOutlined, ExpandOutlined, SettingOutlined, ShrinkOutlined, SyncOutlined, DownloadOutlined, CloseOutlined, ControlOutlined, FastForwardOutlined, CopyOutlined, CustomerServiceOutlined, CommentOutlined, ClearOutlined, SearchOutlined } from '@ant-design/icons'; // Assuming Ant Design icons
+import { Card, Flex, Radio, Button, Input, Tooltip, Select, Collapse, FloatButton, Layout, notification, Space, Drawer } from 'antd';
+import { RobotOutlined,ExpandOutlined, ShrinkOutlined, FileSyncOutlined, CloseOutlined, PicCenterOutlined, ControlOutlined, FastForwardOutlined, CopyOutlined, CustomerServiceOutlined, CommentOutlined, ClearOutlined, SearchOutlined } from '@ant-design/icons'; // Assuming Ant Design icons
 const { TextArea } = Input;
 const { Option } = Select;
 import OpenAI from 'openai';
@@ -9,7 +9,7 @@ const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPEN_AI_KEY,
   dangerouslyAllowBrowser: true
 });
-import './chatui.css';
+import './chatui.css'; 
 const ChatGPTUI = () => {
   const [text, setText] = useState('');
   const [responses, setResponses] = useState([]);
@@ -38,8 +38,6 @@ const ChatGPTUI = () => {
   // Toggle the visibility based on your logic
   const toggleFloatButtonGroup = () => {
     setIsFloatButtonGroupOpen(!isFloatButtonGroupOpen);
-    if (!isFloatButtonGroupOpen)
-      setIsFullScreen(false);
   };
   useEffect(() => {
     loadPrompts();
@@ -93,8 +91,6 @@ const ChatGPTUI = () => {
           contentResult += element?.delta?.content || '\n';
         });
       }
-
-      notification.success({ message: 'Response complete.' });
       setResponses([...responses, contentResult]);
     } catch (err) {
       setError(err.message);
@@ -120,7 +116,6 @@ const ChatGPTUI = () => {
           contentResult += element?.delta?.content || '\n';
         });
       }
-      notification.success({ message: 'Response complete.' });
       setResponses([...responses, contentResult]);
     } catch (err) {
       setError(err.message);
@@ -172,17 +167,11 @@ const ChatGPTUI = () => {
       setIsLoading(false);
     }
   };
-  const handleDownloadResponses = () => {
-    const element = document.createElement("a");
-    const file = new Blob([responses], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = "response.txt";
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
-  };
+
   return (
-    <FloatButton.Group
-      trigger="click"
+    <><Button onClick={toggleFloatButtonGroup} >Open</Button>
+    <Drawer
+      
       onClick={toggleFloatButtonGroup}
       open={isFloatButtonGroupOpen}
       type="primary"
@@ -190,51 +179,41 @@ const ChatGPTUI = () => {
       icon={<RobotOutlined />}
       closeOnClickOutside={false}
     >
-
-      <Card actions={[
-        <Space>
-          {responses?.length > 0 && (<Tooltip title="Download Responses">
-            <Button
-              icon={<DownloadOutlined />}
-              onClick={() => handleDownloadResponses()}
-              loading={isLoading}
-            >
-              Download
-            </Button>
-          </Tooltip>)}
-
-        </Space>]} bordered={false} style={{
-          width: '400px', overflow: 'auto',
-          height: '600px', right: 400
-        }} >
-        <Layout className={isFullScreen ? 'fullScreen' : ''}  >
-          <Card title='AI Content Editor' extra={<Flex>
+      <Card>
+        <Layout className={isFullScreen ? 'fullScreen' : ''}>
+          <Card>
+            <Flex> 
             <Button onClick={toggleFullScreen}>
-              {isFullScreen ? <ShrinkOutlined /> : <ExpandOutlined />}
-            </Button>
-            <Button >< ControlOutlined /></Button>
-            <Button onClick={toggleFloatButtonGroup} ><CloseOutlined /></Button>
-          </Flex>} >
-            <Tooltip title="New Prompts">
-              <Button href='/prompt-books' type="primary" ><SettingOutlined /></Button>
-            </Tooltip>
+        {isFullScreen ? <ShrinkOutlined /> : <ExpandOutlined />}
+      </Button>
+              <Button ><ControlOutlined /></Button>
+              <Button  onClick={toggleFloatButtonGroup} ><CloseOutlined /></Button>
+              </Flex>
+          </Card>
+          <Card>
             <Select style={{ width: 200 }} placeholder="Select a template prompt" onChange={handlePromptBookSelection}>
               {promptsBooks?.map(promptBook => (
                 <Option key={promptBook.title} label={promptBook.title}>{promptBook.title}</Option>
               ))}
             </Select>
+            <Select style={{ width: 200 }} placeholder="Select a book" onChange={handlePromptBookSelection}>
+              {books?.map(book => (
+                <Option key={book.title} label={book.title}>{book.title}</Option>
+              ))}
+            </Select>
           </Card>
-          <Card title='Prompt' extra={<div>
-            {text && (<Tooltip title="search">
-              <Button type="primary" shape="circle" icon={<SearchOutlined />} onClick={handleTextGeneration} loading={isLoading} />
-            </Tooltip>)}
-            {text && (<Tooltip title="Clear Prompt"> <Button shape="circle" icon={<RobotOutlined />} onClick={() => setText('')} /></Tooltip>)}
-            {responses.length > 0 && (<Tooltip title="Clear Response"> <Button shape="circle" icon={<ClearOutlined />} onClick={() => setResponses([])} /></Tooltip>)}
-          </div>
-          } >
-            <TextArea rows={1} placeholder='Ask me...' value={text} onChange={e => setText(e.target.value)} />
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+          <Card >
+            <TextArea autoSize rows={1} placeholder='Ask me...' value={text} onChange={e => setText(e.target.value)} />
+            <Card  >
+              <Tooltip title="search">
+                <Button type="primary" shape="circle" icon={<SearchOutlined />} onClick={handleTextGeneration} loading={isLoading} />
+              </Tooltip>
+              {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+              <Tooltip title="Clear Prompt"> <Button shape="circle" icon={<ClearOutlined />} onClick={() => setText('')} /></Tooltip>
+              {responses && (<Tooltip title="Clear Response"> <Button shape="circle" icon={<ClearOutlined />} onClick={() => setResponses([])} /></Tooltip>)}
+            </Card>
           </Card>
+          {/* Other components */}
           {responses.map((response, index) => (
             <Collapse
               size="small"
@@ -243,39 +222,30 @@ const ChatGPTUI = () => {
                   key: index,
                   label: 'Response: ' + index,
                   children:
-                    <Card title={'Response: ' + index} extra={
+                    <Card extra={
                       <Space>
+                        <Tooltip title="New Book Section">
+                          <Button icon={<PicCenterOutlined />} onClick={() => handleSaveChapter(response)}></Button>
+                        </Tooltip>
                         <Tooltip title="Copy Text">
                           <Button icon={<CopyOutlined />} onClick={() => copyToClipboard(response)}>Copy</Button>
                         </Tooltip>
+
                         {copySuccess}
                       </Space>
                     } key={index}>
-                      <Card actions={[<Space>
-                        <Tooltip title="Regenerate">
-                          <Button
-                            icon={<SyncOutlined />}
-                            onClick={() => handleTextContinueGeneration(`Regenerate:  ${text}`)}
-                            loading={isLoading}
-                          >
-                            Regenerate
-                          </Button>
-                        </Tooltip>
+                      <Card>
+                        <TextArea autoSize rows={2} value={response} />
                         <Tooltip title="Continue">
                           <Button
                             icon={<FastForwardOutlined />}
-                            onClick={() => handleTextContinueGeneration('more' + response)}
+                            onClick={() => handleTextContinueGeneration('more  ' + response)}
                             loading={isLoading}
                           >
-                            Continue
+                            Continue Writing...
                           </Button>
                         </Tooltip>
-
-                      </Space>]} >
-                        <TextArea readOnly rows={2} value={response} />
                       </Card>
-
-
                     </Card>,
                 },
               ]}
@@ -308,7 +278,8 @@ const ChatGPTUI = () => {
           />
         </Layout>
       </Card>
-    </FloatButton.Group>
+    </Drawer>
+    </>
   );
 }
 

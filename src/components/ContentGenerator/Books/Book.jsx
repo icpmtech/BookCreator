@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Select, notification,FloatButton , Layout, Card, Input, Space, Flex, Radio } from 'antd';
-import { SyncOutlined, SettingOutlined, BookOutlined,CustomerServiceOutlined,CommentOutlined } from '@ant-design/icons';
+import { SyncOutlined, SettingOutlined, BookOutlined,MenuFoldOutlined,CommentOutlined } from '@ant-design/icons';
 import OpenAI from 'openai';
 import NewBookForm from './NewBookForm';
 import BookEdit from './BookEdit';
@@ -166,7 +166,7 @@ const Book = () => {
 								<Option key={book.title} label={book.title}>{book.title}</Option>
 							))}
 						</Select>
-						{selectedBook && (<Button icon={<BookOutlined />} type="primary" onClick={editBook}>Edit in Panel</Button>)}
+						{selectedBook && (<Button icon={<MenuFoldOutlined />} type="primary" onClick={editBook}></Button>)}
 					</Flex>
 					<Card  title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'}>
 						{/* Display selected book details or a message if no book is selected */}
