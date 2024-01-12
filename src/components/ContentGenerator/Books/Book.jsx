@@ -156,6 +156,7 @@ const Book = () => {
         promptsBooks={promptsBooks}
       />
 	  	<Flex gap="small" align="flex justify-center">
+		  <Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
 						<Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Books</Button>
 						<Select
 							placeholder="Select a book"
