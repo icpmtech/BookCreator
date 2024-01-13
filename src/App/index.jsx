@@ -25,7 +25,7 @@ import {
     UserOutlined,
     ContainerOutlined,
     DesktopOutlined,
-    MenuFoldOutlined,
+    RobotOutlined,
     MenuUnfoldOutlined,
     PieChartOutlined,
 } from '@ant-design/icons';
@@ -50,9 +50,15 @@ import  PromptEmail from '../components/Prompts/Emails/Emails';
 import  PromptBlogPost from '../components/Prompts/BlogPosts/BlogPosts';
 import  PromptArticle from '../components/Prompts/Articles/Articles';
 import PromptLesson from '../components/Prompts/Lessons/Lessons';
+import { usePosition } from '../components/hooks';
 
 export default function App() {
+    const [isFloatButtonGroupOpen, setIsFloatButtonGroupOpen] = useState(false);
     const [isLoading, setLoader] = useState(true);
+    const toggleFloatButtonGroup = () => {
+        setIsFloatButtonGroupOpen(!isFloatButtonGroupOpen);
+  
+      };
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -154,7 +160,7 @@ export default function App() {
                 <Content style={{
                     overflow: 'auto',
                 }}>
-
+               
                     {currentUser && (<Menu
                         mode="horizontal">
                         <MenuItem  >
@@ -172,9 +178,23 @@ export default function App() {
                         </MenuItem>
                     </Menu>
                     )}
+                   
                     <Router>
                         <RouterRoutes>
-                            <Route path='/books' element={  <PrivateRoute><Books /></PrivateRoute>}></Route>
+                            <Route path='/books' element={  <PrivateRoute>
+                                <Books />
+                                <FloatButton.Group
+      trigger="click"
+      onClick={toggleFloatButtonGroup}
+      open={isFloatButtonGroupOpen}
+      type="primary"
+      style={{ right: 24 }}
+      icon={<RobotOutlined />}
+      closeOnClickOutside={false}
+    />
+                                  {isFloatButtonGroupOpen && ( <Content style={{position:'absolute',top:'20%', zIndex:99999, width:'80vw',height:'80vh' }}> <Chat></Chat> </Content>)}
+   
+                                </PrivateRoute>}></Route>
                             <Route path='/chat' element={  <PrivateRoute><Chat /></PrivateRoute>}></Route>
                             <Route path='/emails' element={  <PrivateRoute><Email /></PrivateRoute>}></Route>
                             <Route path='/articles' element={  <PrivateRoute><Article /></PrivateRoute>}></Route>
@@ -291,8 +311,10 @@ export default function App() {
                             />
                         </RouterRoutes>
                     </Router>
-
+    
+        
                 </Content>
+              
             </Layout>
             <Footer style={{backgroundColor:'black',color:'white', textAlign: 'center' }}>
                 Cantinhode.net ©2024 Created by <a href='https://cantinhode.net/pages/pedro-martins'>Pedro Martins</a>
