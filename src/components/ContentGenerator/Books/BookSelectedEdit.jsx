@@ -4,6 +4,8 @@ import { DownloadOutlined, CloseOutlined, BookOutlined } from '@ant-design/icons
 const { Option } = Select;
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
+import BookPdfDocument from './BookPdfDocument'; // Path to your PDF document component
 const BookEdit = ({ book, onClose, onSave }) => {
   const [form] = Form.useForm();
   const [editorContents, setEditorContents] = useState({});
@@ -13,8 +15,8 @@ const BookEdit = ({ book, onClose, onSave }) => {
     form.setFieldsValue(book);
     setOverallContent(book.content); // Initialize overall content
     const initialContents = {};
-    book.chapters.forEach((chapter, cIndex) => {
-      chapter.sections.forEach((section, sIndex) => {
+    book.chapters?.forEach((chapter, cIndex) => {
+      chapter.sections?.forEach((section, sIndex) => {
         initialContents[`chapter-${cIndex}-section-${sIndex}`] = section.content;
       });
     });
@@ -33,8 +35,8 @@ const BookEdit = ({ book, onClose, onSave }) => {
       .then((values) => {
         const updatedBook = { ...values, content: overallContent };
         // Update the contents of chapters and sections
-        values.chapters.forEach((chapter, cIndex) => {
-          chapter.sections.forEach((section, sIndex) => {
+        values.chapters?.forEach((chapter, cIndex) => {
+          chapter.sections?.forEach((section, sIndex) => {
             section.content = editorContents[`chapter-${cIndex}-section-${sIndex}`];
           });
         });
@@ -44,26 +46,32 @@ const BookEdit = ({ book, onClose, onSave }) => {
         console.log('Validate Failed:', info);
       });
   };
+
+
+
+
   const handleDownload = () => {
     // Retrieve form data
     const book = form.getFieldsValue(true);
     let bookData = `Type: ${book.book_type}\n`;
-    bookData += `Description: ${book.description}\n`;
-    bookData += `Content: ${book.content}\n`;
+    bookData += `Description: ${stripHtml(book.description)}\n`;
+    bookData += `Content: ${stripHtml(book.content)}\n`;
     bookData += `\nChapters:\n`;
+
     book?.chapters?.forEach((chapter, index) => {
-      bookData += `  Chapter ${index + 1}: ${chapter?.name}\n`;
-      chapter?.sections?.forEach((section, sIndex) => {
-        bookData += `    Section ${sIndex + 1}: ${section.title}\n`;
-        bookData += `    ${section.content}\n`;
-      });
+        bookData += `  Chapter ${index + 1}: ${stripHtml(chapter?.name)}\n`;
+        chapter?.sections?.forEach((section, sIndex) => {
+            bookData += `    Section ${sIndex + 1}: ${stripHtml(section.title)}\n`;
+            bookData += `    ${stripHtml(section.content)}\n`;
+        });
     });
+
     // Create a Blob from the string content
     const blob = new Blob([bookData], { type: 'text/plain' });
 
     // Create a link element, set the download attribute with a filename
     const link = document.createElement('a');
-    link.download = `${book.title}.txt`;
+    link.download = `${stripHtml(book.title)}.txt`;
 
     // Create a URL for the blob and set as link's href
     link.href = window.URL.createObjectURL(blob);
@@ -74,11 +82,49 @@ const BookEdit = ({ book, onClose, onSave }) => {
 
     // Clean up and remove the link
     link.parentNode.removeChild(link);
+};
+
+  const stripHtml = (htmlString) => {
+    if (!htmlString) return "";
+    const temporalDivElement = document.createElement("div");
+    // Set the HTML content with the provided
+    temporalDivElement.innerHTML = htmlString;
+    // Retrieve the text property of the element (cross-browser support)
+    return temporalDivElement.textContent || temporalDivElement.innerText || "";
   };
+  const getPdfData = () => {
+    const bookData = form.getFieldsValue();
+  
+    // Strip HTML from the overall content
+    const plainOverallContent = stripHtml(bookData.content);
+  
+    // Update the book data with the stripped overall content
+    const updatedBookData = {
+      ...bookData,
+      content: plainOverallContent,
+      chapters: bookData.chapters?.map((chapter, cIndex) => ({
+        ...chapter,
+        sections: chapter.sections?.map((section, sIndex) => ({
+          ...section,
+          // Strip HTML from each section's content
+          content: stripHtml(editorContents[`chapter-${cIndex}-section-${sIndex}`]) || ''
+        }))
+      }))
+    };
+  
+    return updatedBookData;
+  };
+  
+  
   return (
 
     <Card title={'Editing the book: ' + book.title} extra={
-      <Flex gap={10}> <Button icon={<DownloadOutlined />} onClick={handleDownload}>
+      <Flex gap={10}>
+        
+         <PDFDownloadLink document={<BookPdfDocument bookData={getPdfData()} />} fileName="book.pdf">
+        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Preview as PDF')}
+      </PDFDownloadLink>
+         <Button icon={<DownloadOutlined />} onClick={handleDownload}>
         Download
       </Button>
         <Button type="primary" form="bookForm" key="submit" htmlType="submit">

@@ -149,7 +149,7 @@ const Book = () => {
 	return (
 
 		<Layout style={{ padding: '20px', height:'100vh' }}>
-			<Space direction="vertical" style={{ width: '100%' }}>
+			<Card>	<Space direction="vertical" style={{ width: '100%' }}>
 	  	<Flex gap="small" align="flex justify-center">
 		  <Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
 						<Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Books</Button>
@@ -170,7 +170,8 @@ const Book = () => {
 						) : 'No book selected'}
 					</Card>
 
-			</Space>
+			</Space></Card>
+		
 			{newBookVisible && (
 				<NewBookForm onSave={handleSaveNewBook} onClose={() => setNewBookVisible(false)} />
 			)}
