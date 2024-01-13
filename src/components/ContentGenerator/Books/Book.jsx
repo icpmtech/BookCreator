@@ -150,11 +150,6 @@ const Book = () => {
 
 		<Layout style={{ padding: '20px', height:'100vh' }}>
 			<Space direction="vertical" style={{ width: '100%' }}>
-			<ChatGPTUI
-        loadBooks={loadBooks}
-        handlePromptBookSelection={handlePromptBookSelection}
-        promptsBooks={promptsBooks}
-      />
 	  	<Flex gap="small" align="flex justify-center">
 		  <Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
 						<Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Books</Button>
