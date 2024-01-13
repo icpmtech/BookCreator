@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Card, Modal,Flex } from 'antd';
 import CardProject from './CardProject';
 import ArticleProject from './ArticleProject';
+import Chat from '../../chat/Chat';
 const { Content } = Layout;
 export default function HomePrivate() {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -62,6 +63,7 @@ export default function HomePrivate() {
       };
     return (
         <Content style={{ height:'100vh'}}>
+            <Chat></Chat>
              <Flex>
                 {books?.map(book => (
                    
