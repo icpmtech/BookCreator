@@ -20,7 +20,7 @@ export function ConfigHeader() {
   )
 }
 
-export function ChatOpitons() {
+export function ChatOptions() {
   const { options } = useGlobal()
   const { account, openai, general } = options
   // const { avatar, name } = account
@@ -40,9 +40,9 @@ export function ChatOpitons() {
           </Panel.Item>
         </Panel>
         <Panel className={styles.panel} title="General">
-          {/* <Panel.Item title="Appearance" desc="If selected,  will switch between different appearances following your system settings" icon="config">
+          <Panel.Item title="Appearance" desc="If selected,  will switch between different appearances following your system settings" icon="config">
             <Switch label={theme} />
-          </Panel.Item> */}
+          </Panel.Item> 
           <Panel.Item icon="light" title="Theme Style" desc="Select interface style">
             <Select value={general.theme} onChange={(val) => setGeneral({ theme: val })} options={themeOptions} placeholder="Select interface style" />
           </Panel.Item>
