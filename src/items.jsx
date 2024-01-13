@@ -72,6 +72,13 @@ export const items = [
 	getItem(<a href="/home-private">
 		Home
 	</a>,
+	
+		'1',
+		<AppstoreOutlined />),
+		getItem(<a href="/chat">
+		Chat
+	</a>,
+	
 		'1',
 		<AppstoreOutlined />),
 		getItem('Projects', 'projects', <FolderOpenOutlined />, [
