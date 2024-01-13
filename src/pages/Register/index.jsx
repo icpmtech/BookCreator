@@ -1,8 +1,8 @@
 import Button from '../../components/Button';
-import Form from '../../components/Form';
-import Input from '../../components/Input';
+import Form from '../../components/FormApp';
+import Input from '../../components/InputApp';
 import MyToast from '../../components/MyToast';
-import { PStyled } from '../../components/Form/styles';
+import { PStyled } from '../../components/FormApp/styles';
 
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
