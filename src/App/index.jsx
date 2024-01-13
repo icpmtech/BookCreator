@@ -15,6 +15,7 @@ import NotFound from '../components/NotFound';
 import Books from '../components/ContentGenerator/Books/Book';
 import BlogPosts from '../components/ContentGenerator/Blogs/BlogPosts';
 import Article from '../components/ContentGenerator/Articles/Article';
+import Chat  from '../pages/Chat';
 import { theme, Layout, Avatar, FloatButton, Space } from 'antd';
 import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 import { LogoAnimation,DivStyled } from './styles';
@@ -174,6 +175,7 @@ export default function App() {
                     <Router>
                         <RouterRoutes>
                             <Route path='/books' element={  <PrivateRoute><Books /></PrivateRoute>}></Route>
+                            <Route path='/chat' element={  <PrivateRoute><Chat /></PrivateRoute>}></Route>
                             <Route path='/emails' element={  <PrivateRoute><Email /></PrivateRoute>}></Route>
                             <Route path='/articles' element={  <PrivateRoute><Article /></PrivateRoute>}></Route>
                             <Route path='/blogposts' element={ <PrivateRoute><BlogPosts /></PrivateRoute>}></Route>
