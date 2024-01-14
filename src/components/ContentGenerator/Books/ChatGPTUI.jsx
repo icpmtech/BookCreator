@@ -132,7 +132,7 @@ const ChatGPTUI = () => {
 
   const handleSaveChapter = async (responseIndex) => {
     if (!selectedBook || responseIndex < 0 || responseIndex >= responses.length) {
-      console.error("Invalid book or response index");
+      notification.error("Invalid book or response index");
       return;
     }
 
@@ -166,7 +166,7 @@ const ChatGPTUI = () => {
       setSelectedBook(updatedBook); // Update the selected book
 
     } catch (error) {
-      console.error("Failed to save chapter:", error);
+      notification.error("Failed to save chapter:", error);
       notification.error({ message: 'Error', description: "Failed to save chapter" });
     } finally {
       setIsLoading(false);

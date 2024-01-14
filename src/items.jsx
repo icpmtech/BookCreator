@@ -73,7 +73,7 @@ export const items = [
 		Home
 	</a>,
 	
-		'1',
+		'chat',
 		<AppstoreOutlined />),
 		getItem(<a href="/chat">
 		Chat

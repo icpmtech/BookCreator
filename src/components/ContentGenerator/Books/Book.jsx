@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Select, notification,FloatButton , Layout, Card, Input, Space, Flex, Radio } from 'antd';
-import { SyncOutlined, SettingOutlined, BookOutlined,MenuFoldOutlined,CommentOutlined } from '@ant-design/icons';
+import { Button, Select, notification, Row, Col, Layout, Card, Input, Space, Flex, Menu } from 'antd';
+import { SyncOutlined, SettingOutlined, BookOutlined, MenuFoldOutlined, CommentOutlined } from '@ant-design/icons';
 import OpenAI from 'openai';
 import NewBookForm from './NewBookForm';
 import BookEdit from './BookEdit';
 import BookDetails from './BookDetails';
 import BookSelectedEdit from './BookSelectedEdit';
-import ChatGPTUI from './ChatGPTUI';
-const { TextArea } = Input;
 const { Option } = Select;
 const openai = new OpenAI({
 	apiKey: import.meta.env.VITE_OPEN_AI_KEY,
@@ -148,30 +146,34 @@ const Book = () => {
 
 	return (
 
-		<Layout style={{ padding: '20px', height:'100vh' }}>
-			<Card>	<Space direction="vertical" style={{ width: '100%' }}>
-	  	<Flex gap="small" align="flex justify-center">
-		  <Button icon={<BookOutlined />} type="primary" onClick={newBook}>Create Book</Button>
-						<Button icon={<SyncOutlined />} onClick={loadBooks}>Refresh Books</Button>
-						<Select style={{ width: '200px' }}
-							placeholder="Select a book"
-							onChange={handleBookSelection}
-						>
-							{books.map(book => (
-								<Option key={book.title} label={book.title}>{book.title}</Option>
-							))}
-						</Select>
-						{selectedBook && (<Button icon={<MenuFoldOutlined />} type="primary" onClick={editBook}></Button>)}
-					</Flex>
-					<Card  title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'}>
-						{/* Display selected book details or a message if no book is selected */}
-						{selectedBook ? (
-							<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />
-						) : 'No book selected'}
-					</Card>
-
-			</Space></Card>
-		
+		<Layout style={{ height: '100vh' }}>
+			<Menu mode="horizontal" justify="center" gutter={[8, 8]}>
+				<Menu.Item>
+					<Button icon={<BookOutlined />} type="primary" onClick={newBook}>
+						Create Book
+					</Button>
+				</Menu.Item>
+				<Menu.Item>
+					<Button icon={<SyncOutlined />} onClick={loadBooks}>
+						Refresh Books
+					</Button>
+				</Menu.Item>
+				<Menu.Item>
+					Selected Book: <Select style={{ width: '200px' }} placeholder="Select a book" onChange={handleBookSelection}>
+						{books.map(book => (
+							<Option key={book.title} value={book.title}>
+								{book.title}
+							</Option>
+						))}
+					</Select>
+				</Menu.Item>
+			</Menu>
+			<Card title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'}>
+				{/* Display selected book details or a message if no book is selected */}
+				{selectedBook ? (
+					<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />
+				) : 'No book selected'}
+			</Card>
 			{newBookVisible && (
 				<NewBookForm onSave={handleSaveNewBook} onClose={() => setNewBookVisible(false)} />
 			)}

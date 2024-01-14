@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Drawer, Form, Input, Row, Col, Card, Select, Button, Space, Collapse, Flex } from 'antd';
+import { Menu, Button, Layout, Form, Input, Row, Col, Card, Select, Space,notification, Collapse, Flex } from 'antd';
 import { DownloadOutlined, CloseOutlined, BookOutlined } from '@ant-design/icons';
+import { saveAs } from 'file-saver';
+import { TextRun } from 'docx';
 const { Option } = Select;
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import BookPdfDocument from './BookPdfDocument'; // Path to your PDF document component
+import { createDocx } from './createDocx';
 const BookEdit = ({ book, onClose, onSave }) => {
   const [form] = Form.useForm();
   const [editorContents, setEditorContents] = useState({});
   const [overallContent, setOverallContent] = useState(''); // State for overall book content
-
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (message,description) => {
+    api['info']({
+      message: message,
+      description:description
+    });
+  }
   useEffect(() => {
     form.setFieldsValue(book);
     setOverallContent(book.content); // Initialize overall content
     const initialContents = {};
-    book.chapters?.forEach((chapter, cIndex) => {
-      chapter.sections?.forEach((section, sIndex) => {
+    book?.chapters?.forEach((chapter, cIndex) => {
+      chapter?.sections?.forEach((section, sIndex) => {
         initialContents[`chapter-${cIndex}-section-${sIndex}`] = section.content;
       });
     });
@@ -35,20 +44,17 @@ const BookEdit = ({ book, onClose, onSave }) => {
       .then((values) => {
         const updatedBook = { ...values, content: overallContent };
         // Update the contents of chapters and sections
-        values.chapters?.forEach((chapter, cIndex) => {
-          chapter.sections?.forEach((section, sIndex) => {
+        updatedBook?.chapters?.forEach((chapter, cIndex) => {
+          chapter?.sections?.forEach((section, sIndex) => {
             section.content = editorContents[`chapter-${cIndex}-section-${sIndex}`];
           });
         });
-        onSave(values);
+        onSave(updatedBook);
       })
       .catch((info) => {
-        console.log('Validate Failed:', info);
+        openNotificationWithIcon(`Validate Failed:${info}`);
       });
   };
-
-
-
 
   const handleDownload = () => {
     // Retrieve form data
@@ -102,9 +108,9 @@ const BookEdit = ({ book, onClose, onSave }) => {
     const updatedBookData = {
       ...bookData,
       content: plainOverallContent,
-      chapters: bookData.chapters?.map((chapter, cIndex) => ({
+      chapters: bookData?.chapters?.map((chapter, cIndex) => ({
         ...chapter,
-        sections: chapter.sections?.map((section, sIndex) => ({
+        sections: chapter?.sections?.map((section, sIndex) => ({
           ...section,
           // Strip HTML from each section's content
           content: stripHtml(editorContents[`chapter-${cIndex}-section-${sIndex}`]) || ''
@@ -114,24 +120,39 @@ const BookEdit = ({ book, onClose, onSave }) => {
   
     return updatedBookData;
   };
-  
+  const handleDocxDownload = async () => {
+    try {
+      const bookData = getPdfData(); // Assuming getPdfData() returns the formatted book data
+      const docxBlob = await createDocx(bookData);
+      saveAs(docxBlob, `${bookData.title}.docx`);
+    } catch (error) {
+      alert(error)
+   //   notification.error("Error creating DOCX file:"+ error);
+    }
+  };
   
   return (
-
-    <Card title={'Editing the book: ' + book.title} extra={
-      <Flex gap={10}>
-        
-         <PDFDownloadLink document={<BookPdfDocument bookData={getPdfData()} />} fileName="book.pdf">
-        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Preview as PDF')}
+ <Layout>
+  <Menu  mode="horizontal">
+    <Menu.Item  icon={<DownloadOutlined></DownloadOutlined> } key="pdf">
+      <PDFDownloadLink
+        document={<BookPdfDocument bookData={getPdfData()} />}
+        fileName="book.pdf"
+      >
+        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'PDF')}
       </PDFDownloadLink>
-         <Button icon={<DownloadOutlined />} onClick={handleDownload}>
-        Download
-      </Button>
-        <Button type="primary" form="bookForm" key="submit" htmlType="submit">
-          Save
-        </Button></Flex>
-
-    }>
+    </Menu.Item>
+    <Menu.Item key="docx" icon={<DownloadOutlined></DownloadOutlined> } onClick={handleDocxDownload}>
+     DOCX
+    </Menu.Item>
+    <Menu.Item key="text"  icon={<DownloadOutlined></DownloadOutlined> } onClick={handleDownload}>
+     Plain Text
+    </Menu.Item>
+  </Menu>
+    <Card title={'Editing the book: ' + book.title} extra={ <Button type="primary" form="bookForm" key="submit" htmlType="submit">
+        Save
+      </Button>}>
+      
       <Form layout="vertical" form={form} id="bookForm" onFinish={handleSave} >
         {/* Form fields here */}
         <Row gutter={16}>
@@ -190,8 +211,8 @@ const BookEdit = ({ book, onClose, onSave }) => {
           </Col>
         </Row>
 
-        <Row gutter={16}>
-          <Col span={24}>
+        <Row  gutter={16}>
+          <Col  span={24}>
             <Collapse
               size="small"
               items={[
@@ -216,16 +237,19 @@ const BookEdit = ({ book, onClose, onSave }) => {
             />
           </Col>
         </Row>
+        <Row  gutter={16}>
+          <Col  span={24}>
         <Form.List name="chapters">
           {(fields, { add, remove }) => (
-            <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+            <div style={{ marginTop:15, display: 'flex', rowGap: 16, flexDirection: 'column' }}>
               {
                 fields.map((field, cIndex) => (
 
-                  <Collapse
+                  <Collapse  
                     size="small"
                     items={[
                       {
+                        
                         key: field.key,
                         label: `Chapter ${field.name + 1}`,
                         children:
@@ -299,11 +323,11 @@ const BookEdit = ({ book, onClose, onSave }) => {
             </div>
           )}
         </Form.List>
+        </Col>
+        </Row>
       </Form>
-
-
     </Card>
-
+    </Layout>
 
   );
 };

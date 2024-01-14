@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, List, Layout, Card,Flex, Drawer } from 'antd';
+import { Button, List, Layout, Card,Flex, Menu } from 'antd';
 import { SyncOutlined } from '@ant-design/icons';
 import BookDetails from './BookDetails';
 import BookEdit from './BookEdit';
@@ -71,12 +71,19 @@ export default function ProjectBook() {
     setNewBookVisible(false); // Close the form
   };
   return (
-    <Layout style={{ margin: 20, height: '100vh' }}>
-    <Flex gap="small" align="flex justify-center" >
-    <Button onClick={refreshBooks} icon={<SyncOutlined />} style={{ marginBottom: 10 }}>Refresh Books</Button>
-    <Button  type="primary"  onClick={newBook} style={{ marginBottom: 10 }}>New Book</Button>
-    </Flex>
-    <h1>Books</h1>
+    <Layout style={{  height: '100vh' }}>
+    <Menu mode="horizontal">
+      <Menu.Item key="refresh">
+        <Button onClick={refreshBooks} icon={<SyncOutlined />} >
+          Refresh Books
+        </Button>
+      </Menu.Item>
+      <Menu.Item key="new">
+        <Button type="primary" onClick={newBook}>
+          New Book
+        </Button>
+      </Menu.Item>
+    </Menu>
       <Card>
         <List
           itemLayout="horizontal"
