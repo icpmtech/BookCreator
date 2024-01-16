@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Button, Layout, Form, Input, Row, Col, Card, Select, Space,notification, Collapse, Flex } from 'antd';
-import { DownloadOutlined, CloseOutlined, BookOutlined } from '@ant-design/icons';
+import { Menu, Button, Layout, Form, Input, Row, Col, Card, Select, Space,notification, Collapse, Flex,Spin  } from 'antd';
+import { DownloadOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import { saveAs } from 'file-saver';
 import { TextRun } from 'docx';
 const { Option } = Select;
@@ -10,6 +10,7 @@ import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import BookPdfDocument from './BookPdfDocument'; // Path to your PDF document component
 import { createDocx } from './createDocx';
 const BookEdit = ({ book, onClose, onSave }) => {
+  const [loading, setLoading] = useState(false); // State for loading
   const [form] = Form.useForm();
   const [editorContents, setEditorContents] = useState({});
   const [overallContent, setOverallContent] = useState(''); // State for overall book content
@@ -39,6 +40,7 @@ const BookEdit = ({ book, onClose, onSave }) => {
     setOverallContent(content);
   };
   const handleSave = () => {
+ 
     form
       .validateFields()
       .then((values) => {
@@ -49,10 +51,13 @@ const BookEdit = ({ book, onClose, onSave }) => {
             section.content = editorContents[`chapter-${cIndex}-section-${sIndex}`];
           });
         });
+       
         onSave(updatedBook);
+       
       })
       .catch((info) => {
         openNotificationWithIcon(`Validate Failed:${info}`);
+        setLoading(false); // Disable loading on failure
       });
   };
 
@@ -149,10 +154,11 @@ const BookEdit = ({ book, onClose, onSave }) => {
      Plain Text
     </Menu.Item>
   </Menu>
+
     <Card title={'Editing the book: ' + book.title} extra={ <Button type="primary" form="bookForm" key="submit" htmlType="submit">
         Save
       </Button>}>
-      
+      <Spin size="small" spinning={loading}>
       <Form layout="vertical" form={form} id="bookForm" onFinish={handleSave} >
         {/* Form fields here */}
         <Row gutter={16}>
@@ -213,11 +219,11 @@ const BookEdit = ({ book, onClose, onSave }) => {
 
         <Row  gutter={16}>
           <Col  span={24}>
-            <Collapse
+            <Collapse 
               size="small"
               items={[
                 {
-
+                 
                   label: `Overall Content`,
                   children:
                     <Form.Item
@@ -258,11 +264,19 @@ const BookEdit = ({ book, onClose, onSave }) => {
                             title={`Chapter ${field.name + 1}`}
                             key={field.key}
                             extra={
-                              <CloseOutlined
+                            <>
+                            <Flex gap={10}>
+                            <Button type="primary" icon={<SaveOutlined />} form="bookForm" key={field.key+"submit"} htmlType="submit">
+                          </Button>
+                          <Button icon={  <CloseOutlined />  }
                                 onClick={() => {
                                   remove(field.name);
                                 }}
+                                
                               />
+                            </Flex>
+                          
+                            </>
                             }
                           >
                             <Form.Item label="Chapter Title" name={[field.name, 'name']}>
@@ -281,11 +295,21 @@ const BookEdit = ({ book, onClose, onSave }) => {
                                             key: subField.key,
                                             label: 'Section:' + subField.key,
                                             children:
-                                              <Card title={'Section:' + subField.key} extra={<CloseOutlined
-                                                onClick={() => {
-                                                  subOpt.remove(subField.name);
-                                                }}
-                                              />} key={subField.key}>
+                                              <Card title={'Section:' + subField.key}
+                                               extra={
+                                               
+                                                  <>
+                                                  <Flex gap={10}>
+                                                  <Button type="primary" icon={<SaveOutlined />} form="bookForm" key={subField.key+"submit"} htmlType="submit">
+                                                </Button>
+                                                <Button icon={  <CloseOutlined />  }
+                                                      onClick={() => {
+                                                        subOpt.remove(subField.name);
+                                                      }}
+                                                    />
+                                                  </Flex>
+                                                  </>
+                                              } key={subField.key}>
                                                 <Card>
                                                   <Form.Item noStyle name={[subField.name, 'title']}>
                                                     <Input placeholder="Title" />
@@ -326,7 +350,9 @@ const BookEdit = ({ book, onClose, onSave }) => {
         </Col>
         </Row>
       </Form>
+      </Spin>
     </Card>
+  
     </Layout>
 
   );

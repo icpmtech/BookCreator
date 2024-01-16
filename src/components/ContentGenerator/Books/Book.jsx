@@ -147,28 +147,22 @@ const Book = () => {
 	return (
 
 		<Layout style={{ height: '100vh' }}>
-			<Menu mode="horizontal" justify="center" gutter={[8, 8]}>
-				<Menu.Item>
-					<Button icon={<BookOutlined />} type="primary" onClick={newBook}>
+			<Menu mode="horizontal" justify="center" >
+				<Menu.Item key={'Create_Book'} icon={<BookOutlined></BookOutlined> }  onClick={newBook} >
 						Create Book
-					</Button>
 				</Menu.Item>
-				<Menu.Item>
-					<Button icon={<SyncOutlined />} onClick={loadBooks}>
-						Refresh Books
-					</Button>
-				</Menu.Item>
-				<Menu.Item>
-					Selected Book: <Select style={{ width: '200px' }} placeholder="Select a book" onChange={handleBookSelection}>
+				
+			</Menu>
+			<Card title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'} extra={
+			<><Button icon={<SyncOutlined />} onClick={loadBooks}>
+		</Button>	<Select style={{ width: '200px' }} placeholder="Select a book" onChange={handleBookSelection}>
 						{books.map(book => (
 							<Option key={book.title} value={book.title}>
 								{book.title}
 							</Option>
 						))}
-					</Select>
-				</Menu.Item>
-			</Menu>
-			<Card title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'}>
+					</Select></>
+		}>
 				{/* Display selected book details or a message if no book is selected */}
 				{selectedBook ? (
 					<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />
