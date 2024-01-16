@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Select, notification, Row, Col, Layout, Card, Input, Space, Flex, Menu } from 'antd';
+import { Button, Select, notification,message, Row, Col, Layout, Card, Spin, Space, Flex, Menu } from 'antd';
 import { SyncOutlined, SettingOutlined, BookOutlined, MenuFoldOutlined, CommentOutlined } from '@ant-design/icons';
 import OpenAI from 'openai';
 import NewBookForm from './NewBookForm';
 import BookEdit from './BookEdit';
 import BookDetails from './BookDetails';
 import BookSelectedEdit from './BookSelectedEdit';
+import { useLocation } from 'react-router-dom';
 const { Option } = Select;
 const openai = new OpenAI({
 	apiKey: import.meta.env.VITE_OPEN_AI_KEY,
@@ -13,6 +14,8 @@ const openai = new OpenAI({
 });
 
 const Book = () => {
+	const [loading, setLoading] = useState(false); // State for loading
+
 	const [books, setBooks] = useState([]);
 	const [promptsBooks, setPromptsBooks] = useState([]);
 	const [selectedBook, setSelectedBook] = useState(null);
@@ -23,7 +26,9 @@ const Book = () => {
 	const [newBookVisible, setNewBookVisible] = useState(false);
 	const [detailsDrawerVisible, setDetailsDrawerVisible] = useState(false);
 	const [editDrawerVisible, setEditDrawerVisible] = useState(false);
-
+	const [messageApi, contextHolder] = message.useMessage();
+	const location = useLocation();
+    const book = location.state?.book;
 	useEffect(() => {
 		loadBooks();
 	}, []);
@@ -65,7 +70,6 @@ const Book = () => {
 		setEditDrawerVisible(false);
 	};
 	const handleSave = (updatedBookData) => {
-		debugger;
 		const updatedBooks = books.map(book =>
 			book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
 		);
@@ -76,6 +80,9 @@ const Book = () => {
 		setEditDrawerVisible(false);
 	};
 	const handleSaveInlineEdit = (updatedBookData) => {
+
+		setLoading(true); // Enable loading
+		try {
 		const updatedBooks = books.map(book =>
 			book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
 		);
@@ -83,7 +90,24 @@ const Book = () => {
 		setBooks(updatedBooks);
 		loadBooks();
 		setSelectedBook(updatedBookData);
+		messageApi
+		.open({
+		  type: 'loading',
+		  content: 'Updating in progress..',
+		  duration: 1,
+		})
+		.then(() => message.success('Book update finished', 2.5));
 
+	} catch (error) {
+		console.error('Error during book update:', error);
+		messageApi.open({
+			type: 'error',
+			content: 'Error during book update.',
+		  });
+		// Optionally, display an error message to the user
+	  } finally {
+		setLoading(false); // Disable loading after the process is completed or if there is an error
+	  }
 	};
 	const refreshBooks = () => {
 		loadBooks();
@@ -163,9 +187,8 @@ const Book = () => {
 						))}
 					</Select></>
 		}>
-				{/* Display selected book details or a message if no book is selected */}
 				{selectedBook ? (
-					<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />
+					 <Spin spinning={loading}> {contextHolder}	<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />  </Spin>
 				) : 'No book selected'}
 			</Card>
 			{newBookVisible && (

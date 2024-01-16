@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Button, Layout, Form, Input, Row, Col, Card, Select, Space,notification, Collapse, Flex,Spin  } from 'antd';
+import { Menu, Button, Layout, Form, Input, Row, Col, Card, Select,Modal,  message, Popconfirm,notification, Collapse, Flex,Spin  } from 'antd';
 import { DownloadOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import { saveAs } from 'file-saver';
 import { TextRun } from 'docx';
@@ -8,6 +8,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import BookPdfDocument from './BookPdfDocument'; // Path to your PDF document component
+import PdfPreview from './PdfPreview'
 import { createDocx } from './createDocx';
 const BookEdit = ({ book, onClose, onSave }) => {
   const [loading, setLoading] = useState(false); // State for loading
@@ -15,6 +16,10 @@ const BookEdit = ({ book, onClose, onSave }) => {
   const [editorContents, setEditorContents] = useState({});
   const [overallContent, setOverallContent] = useState(''); // State for overall book content
   const [api, contextHolder] = notification.useNotification();
+  const [isPreviewModalVisible, setIsPreviewModalVisible] = useState(false);
+  const togglePreviewModal = () => {
+    setIsPreviewModalVisible(!isPreviewModalVisible);
+  };
   const openNotificationWithIcon = (message,description) => {
     api['info']({
       message: message,
@@ -135,7 +140,14 @@ const BookEdit = ({ book, onClose, onSave }) => {
    //   notification.error("Error creating DOCX file:"+ error);
     }
   };
-  
+  const confirm = (e) => {
+    console.log(e);
+    message.success('Click on Yes');
+  };
+  const cancel = (e) => {
+    console.log(e);
+    message.error('Click on No');
+  };
   return (
  <Layout>
   <Menu  mode="horizontal">
@@ -144,8 +156,9 @@ const BookEdit = ({ book, onClose, onSave }) => {
         document={<BookPdfDocument bookData={getPdfData()} />}
         fileName="book.pdf"
       >
-        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'PDF')}
+        PDF
       </PDFDownloadLink>
+    
     </Menu.Item>
     <Menu.Item key="docx" icon={<DownloadOutlined></DownloadOutlined> } onClick={handleDocxDownload}>
      DOCX
@@ -153,11 +166,16 @@ const BookEdit = ({ book, onClose, onSave }) => {
     <Menu.Item key="text"  icon={<DownloadOutlined></DownloadOutlined> } onClick={handleDownload}>
      Plain Text
     </Menu.Item>
+    <Menu.Item key="preview" onClick={togglePreviewModal}>
+          Preview PDF
+        </Menu.Item>
+    
   </Menu>
 
     <Card title={'Editing the book: ' + book.title} extra={ <Button type="primary" form="bookForm" key="submit" htmlType="submit">
         Save
       </Button>}>
+      
       <Spin size="small" spinning={loading}>
       <Form layout="vertical" form={form} id="bookForm" onFinish={handleSave} >
         {/* Form fields here */}
@@ -268,12 +286,21 @@ const BookEdit = ({ book, onClose, onSave }) => {
                             <Flex gap={10}>
                             <Button type="primary" icon={<SaveOutlined />} form="bookForm" key={field.key+"submit"} htmlType="submit">
                           </Button>
-                          <Button icon={  <CloseOutlined />  }
-                                onClick={() => {
-                                  remove(field.name);
-                                }}
+                          <Popconfirm
+    title="Delete the chapter"
+    description="Are you sure to delete this chapter?"
+    onConfirm={() => {
+      remove(field.name);
+      handleSave();
+    }}
+    onCancel={cancel}
+    okText="Yes"
+    cancelText="No"
+  >
+                          <Button danger icon={  <CloseOutlined />  }
                                 
                               />
+                              </Popconfirm>
                             </Flex>
                           
                             </>
@@ -302,11 +329,22 @@ const BookEdit = ({ book, onClose, onSave }) => {
                                                   <Flex gap={10}>
                                                   <Button type="primary" icon={<SaveOutlined />} form="bookForm" key={subField.key+"submit"} htmlType="submit">
                                                 </Button>
-                                                <Button icon={  <CloseOutlined />  }
-                                                      onClick={() => {
-                                                        subOpt.remove(subField.name);
-                                                      }}
-                                                    />
+                                                <Popconfirm
+    title="Delete the section"
+    description="Are you sure to delete this section?"
+    onConfirm={() => {
+      subOpt.remove(subField.name);
+      handleSave();
+    }}
+    onCancel={cancel}
+    okText="Yes"
+    cancelText="No"
+  >
+                          <Button danger icon={  <CloseOutlined />  }
+                                
+                              />
+                              </Popconfirm>
+                                               
                                                   </Flex>
                                                   </>
                                               } key={subField.key}>
@@ -352,7 +390,16 @@ const BookEdit = ({ book, onClose, onSave }) => {
       </Form>
       </Spin>
     </Card>
-  
+   {/* PDF Preview Modal */}
+   <Modal
+        title="PDF Preview"
+        visible={isPreviewModalVisible}
+        onOk={togglePreviewModal}
+        onCancel={togglePreviewModal}
+        width={800}
+      >
+        <PdfPreview bookData={getPdfData()} />
+      </Modal>
     </Layout>
 
   );

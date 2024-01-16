@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, List, Layout, Card,Flex, Menu } from 'antd';
+import { Link } from 'react-router-dom'; // Corrected import
 import { SyncOutlined } from '@ant-design/icons';
 import BookDetails from './BookDetails';
 import BookEdit from './BookEdit';
@@ -93,7 +94,8 @@ export default function ProjectBook() {
               actions={[
                 <Button onClick={() => selectBook(item)} type='primary'>View Book</Button>,
                 <Button onClick={() => editBook(item)} type='primary'>Edit Book</Button>,
-                <Button onClick={() => deleteBook(item)} >Delete Book</Button>
+                <Button onClick={() => deleteBook(item)} danger >Delete Book</Button>,
+                <Button><Link to={{ pathname: '/books', state: { book: item } }}>AI Book Generator</Link></Button> 
               ]}
             >
               <List.Item.Meta
