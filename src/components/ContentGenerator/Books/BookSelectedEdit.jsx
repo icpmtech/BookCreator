@@ -9,6 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import BookPdfDocument from './BookPdfDocument'; // Path to your PDF document component
 import PdfPreview from './PdfPreview'
+import BookPreviewModal from './BookPreviewModal'
 import { createDocx } from './createDocx';
 const BookEdit = ({ book, onClose, onSave }) => {
   const [loading, setLoading] = useState(false); // State for loading
@@ -130,6 +131,10 @@ const BookEdit = ({ book, onClose, onSave }) => {
   
     return updatedBookData;
   };
+  const getData = () => {
+    const bookData = form.getFieldsValue();
+    return bookData;
+  };
   const handleDocxDownload = async () => {
     try {
       const bookData = getPdfData(); // Assuming getPdfData() returns the formatted book data
@@ -153,15 +158,15 @@ const BookEdit = ({ book, onClose, onSave }) => {
   <Menu  mode="horizontal">
     <Menu.Item  icon={<DownloadOutlined></DownloadOutlined> } key="pdf">
       <PDFDownloadLink
-        document={<BookPdfDocument bookData={getPdfData()} />}
+        document={<BookPdfDocument bookData={getData()} />}
         fileName="book.pdf"
       >
         PDF
       </PDFDownloadLink>
     
     </Menu.Item>
-    <Menu.Item key="docx" icon={<DownloadOutlined></DownloadOutlined> } onClick={handleDocxDownload}>
-     DOCX
+    <Menu.Item key="BookHtmlPreview" icon={<DownloadOutlined></DownloadOutlined> } >
+    <BookPreviewModal bookData={getPdfData()} />
     </Menu.Item>
     <Menu.Item key="text"  icon={<DownloadOutlined></DownloadOutlined> } onClick={handleDownload}>
      Plain Text
