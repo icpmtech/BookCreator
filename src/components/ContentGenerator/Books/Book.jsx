@@ -14,7 +14,7 @@ const openai = new OpenAI({
 });
 
 const Book = () => {
-	const [loading, setLoading] = useState(false); // State for loading
+	const [loadingBook, setLoadingBook] = useState(false); // State for loadingBook
 
 	const [books, setBooks] = useState([]);
 	const [promptsBooks, setPromptsBooks] = useState([]);
@@ -80,35 +80,43 @@ const Book = () => {
 		setEditDrawerVisible(false);
 	};
 	const handleSaveInlineEdit = (updatedBookData) => {
-
-		setLoading(true); // Enable loading
-		try {
-		const updatedBooks = books.map(book =>
-			book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
-		);
-		localStorage.setItem('books', JSON.stringify(updatedBooks));
-		setBooks(updatedBooks);
-		loadBooks();
-		setSelectedBook(updatedBookData);
+		// Start loading
+		setLoadingBook(true);
 		messageApi
 		.open({
 		  type: 'loading',
 		  content: 'Updating in progress..',
 		  duration: 1,
-		})
-		.then(() => message.success('Book update finished', 2.5));
-
-	} catch (error) {
-		console.error('Error during book update:', error);
-		messageApi.open({
-			type: 'error',
-			content: 'Error during book update.',
-		  });
-		// Optionally, display an error message to the user
-	  } finally {
-		setLoading(false); // Disable loading after the process is completed or if there is an error
-	  }
-	};
+		});
+		
+		setTimeout(() => {
+		  try {
+			const updatedBooks = books.map(book =>
+			  book.title === selectedBook.title ? { ...book, ...updatedBookData } : book
+			);
+			localStorage.setItem('books', JSON.stringify(updatedBooks));
+			setBooks(updatedBooks);
+			loadBooks();
+			setSelectedBook(updatedBookData);
+			messageApi
+		.open({
+		  type: 'success',
+		  content: 'Book update finished.',
+		  duration: 1,
+		});
+		  } catch (error) {
+			console.error('Error during book update:', error);
+			messageApi.open({
+			  type: 'error',
+			  content: 'Error during book update.',
+			});
+		  } finally {
+			// Stop loading after 1 second and after the process is completed or if there is an error
+			setLoadingBook(false);
+		  }
+		}, 2000); // 1-second delay
+	  };
+	  
 	const refreshBooks = () => {
 		loadBooks();
 	};
@@ -188,7 +196,7 @@ const Book = () => {
 					</Select></>
 		}>
 				{selectedBook ? (
-					 <Spin spinning={loading}> {contextHolder}	<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />  </Spin>
+					 <Spin spinning={loadingBook}> {contextHolder}	<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />  </Spin>
 				) : 'No book selected'}
 			</Card>
 			{newBookVisible && (
