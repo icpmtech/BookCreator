@@ -50,7 +50,8 @@ import  PromptEmail from '../components/Prompts/Emails/Emails';
 import  PromptBlogPost from '../components/Prompts/BlogPosts/BlogPosts';
 import  PromptArticle from '../components/Prompts/Articles/Articles';
 import PromptLesson from '../components/Prompts/Lessons/Lessons';
-import { usePosition } from '../components/hooks';
+
+import TemplateBook from '../pages/Templates/Books/books';
 
 export default function App() {
     const [isFloatButtonGroupOpen, setIsFloatButtonGroupOpen] = useState(false);
@@ -195,6 +196,7 @@ export default function App() {
                                   {isFloatButtonGroupOpen && ( <Content style={{position:'absolute',top:'20%', zIndex:99999, width:'80vw',height:'80vh' }}> <Chat></Chat> </Content>)}
    
                                 </PrivateRoute>}></Route>
+                                
                             <Route path='/chat' element={  <PrivateRoute><Chat /></PrivateRoute>}></Route>
                             <Route path='/emails' element={  <PrivateRoute><Email /></PrivateRoute>}></Route>
                             <Route path='/articles' element={  <PrivateRoute><Article /></PrivateRoute>}></Route>
@@ -241,6 +243,7 @@ export default function App() {
                                 <PrivateRoute>
                                     <SQLCodeEditor />
                                 </PrivateRoute>} />
+
                                 <Route path="/project-books" element={
                                 <PrivateRoute>
                                     <ProjectBook />
@@ -265,6 +268,7 @@ export default function App() {
                                 <PrivateRoute>
                                     <ProjectLesson />
                                 </PrivateRoute>} />
+                                
 
                                 <Route path="/prompt-books" element={
                                 <PrivateRoute>
@@ -291,6 +295,31 @@ export default function App() {
                                     <PromptLesson />
                                 </PrivateRoute>} />
 
+
+                                <Route path="/template-books" element={
+                                <PrivateRoute>
+                                    <TemplateBook />
+                                </PrivateRoute>} />
+
+                                <Route path="/template-articles" element={
+                                <PrivateRoute>
+                                    <PromptArticle />
+                                </PrivateRoute>} />
+
+                                <Route path="/template-blogposts" element={
+                                <PrivateRoute>
+                                    <PromptBlogPost />
+                                </PrivateRoute>} />
+
+                                <Route path="/template-emails" element={
+                                <PrivateRoute>
+                                    <PromptEmail />
+                                </PrivateRoute>} />
+
+                                <Route path="/template-lessons" element={
+                                <PrivateRoute>
+                                    <PromptLesson />
+                                </PrivateRoute>} />
 
                             <Route
 

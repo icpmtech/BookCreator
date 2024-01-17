@@ -1,0 +1,344 @@
+[{
+    "bookName": {
+        "label": "Book Name",
+        "type": "text",
+        "validation": {
+            "required": "Book Name is required",
+            "minLength": {
+                "value": 3,
+                "message": "Book Name should have at least 3 characters"
+            }
+        }
+    },
+    "bookDescription": {
+        "label": "Book Description",
+        "type": "textarea",
+        "validation": {
+            "required": "Book Description is required"
+        }
+    },
+    "email": {
+        "label": "Email",
+        "type": "email",
+        "validation": {
+            "required": "Email is required",
+            "pattern": {
+                "value": "^\\S+@\\S+$",
+                "message": "Invalid email address"
+            }
+        }
+    },
+    "additionalNotes": {
+        "label": "Additional Notes",
+        "type": "textarea",
+        "validation": {
+            "required": "Additional Notes are required"
+        }
+    },
+    "chapters": {
+        "label": "Chapters",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            },
+            "image": {
+                "label": "Image",
+                "type": "image" 
+            }
+        },
+        "validation": {
+            "required": "At least one chapter is required"
+        }
+    },
+    "sections": {
+        "label": "Sections",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            },
+            "image": { 
+                "label": "Image",
+                "type": "image"
+            }
+        },
+        "validation": {
+            "required": "At least one section is required"
+        }
+    },
+    "anexs": {
+        "label": "Sections",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            },
+            "image": { 
+                "label": "Image",
+                "type": "image"
+            }
+        },
+        "validation": {
+            "required": "At least one section is required"
+        }
+    }
+},
+{
+    "bookName": {
+        "label": "Book Name",
+        "type": "text",
+        "validation": {
+            "required": "Book Name is required",
+            "minLength": {
+                "value": 3,
+                "message": "Book Name should have at least 3 characters"
+            }
+        }
+    },
+    "bookDescription": {
+        "label": "Book Description",
+        "type": "textarea",
+        "validation": {
+            "required": "Book Description is required"
+        }
+    },
+    "email": {
+        "label": "Email",
+        "type": "email",
+        "validation": {
+            "required": "Email is required",
+            "pattern": {
+                "value": "^\\S+@\\S+$",
+                "message": "Invalid email address"
+            }
+        }
+    },
+    "additionalNotes": {
+        "label": "Additional Notes",
+        "type": "textarea",
+        "validation": {
+            "required": "Additional Notes are required"
+        }
+    },
+    "chapters": {
+        "label": "Chapters",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            }
+        },
+        "validation": {
+            "required": "At least one chapter is required"
+        }
+    },
+    "sections": {
+        "label": "Sections",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            }
+        },
+        "validation": {
+            "required": "At least one section is required"
+        }
+    },
+   "anexs": {
+        "label": "Sections",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            }
+        },
+        "validation": {
+            "required": "At least one section is required"
+        }
+    }
+},
+{
+    "bookName": {
+        "label": "Book Name",
+        "type": "text",
+        "validation": {
+            "required": "Book Name is required",
+            "minLength": {
+                "value": 3,
+                "message": "Book Name should have at least 3 characters"
+            }
+        }
+    },
+    "bookDescription": {
+        "label": "Book Description",
+        "type": "textarea",
+        "validation": {
+            "required": "Book Description is required"
+        }
+    },
+    "email": {
+        "label": "Email",
+        "type": "email",
+        "validation": {
+            "required": "Email is required",
+            "pattern": {
+                "value": "^\\S+@\\S+$",
+                "message": "Invalid email address"
+            }
+        }
+    },
+    "additionalNotes": {
+        "label": "Additional Notes",
+        "type": "textarea",
+        "validation": {
+            "required": "Additional Notes are required"
+        }
+    },
+    "chapters": {
+        "label": "Chapters",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            },
+            "image": {
+                "label": "Image",
+                "type": "image"
+            },
+            "sections": { 
+                "label": "Sections",
+                "type": "array",
+                "itemStructure": {
+                    "title": {
+                        "label": "Title",
+                        "type": "text",
+                        "validation": {
+                            "required": "Title is required"
+                        }
+                    },
+                    "content": {
+                        "label": "Content",
+                        "type": "textarea"
+                    },
+                    "image": {
+                        "label": "Image",
+                        "type": "image"
+                    }
+                },
+                "validation": {
+                    "required": "At least one section is required"
+                }
+            }
+        },
+        "validation": {
+            "required": "At least one chapter is required"
+        }
+    },
+    "sections": {
+        "label": "Sections",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            },
+            "image": {
+                "label": "Image",
+                "type": "image"
+            }
+        },
+        "validation": {
+            "required": "At least one section is required"
+        }
+    },
+    "anexs": {
+        "label": "Sections",
+        "type": "array",
+        "itemStructure": {
+            "title": {
+                "label": "Title",
+                "type": "text",
+                "validation": {
+                    "required": "Title is required"
+                }
+            },
+            "content": {
+                "label": "Content",
+                "type": "textarea"
+            },
+            "image": {
+                "label": "Image",
+                "type": "image"
+            }
+        },
+        "validation": {
+            "required": "At least one section is required"
+        }
+    }
+}
+
+]

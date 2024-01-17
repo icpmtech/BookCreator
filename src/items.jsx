@@ -161,6 +161,28 @@ export const items = [
 		</a>,
 			'prompt-lesson', <AuditOutlined />),
 	]),
+	getItem('Templates', 'templates', <SettingOutlined />, [
+		getItem(<a href="/template-books">
+			Books
+		</a>,
+			'template-book', <BookOutlined />),
+		getItem(<a href="/template-articles">
+			Articles
+		</a>,
+			'template-article', <AuditOutlined />),
+		getItem(<a href="/template-blogposts">
+			Blogposts
+		</a>,
+			'template-blog', <AuditOutlined />),
+		getItem(<a href="/template-emails">
+			Emails
+		</a>,
+			'template-email', <MailOutlined />),
+			getItem(<a href="/template-lessons">
+			Lessons
+		</a>,
+			'template-lesson', <AuditOutlined />),
+	]),
 	getItem(
 		<a href="https://cantinhode.net" target="_blank" rel="noopener noreferrer">
 			Cantinhode.net
