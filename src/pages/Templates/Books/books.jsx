@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Card, Input, Button, message, Modal, Select, List, Space, Spin } from 'antd';
+import { Layout, Card, Input, Button, message, Modal, Select, List, Space } from 'antd';
 import DynamicForm from '../Forms/DynamicForm';
 
 const { TextArea } = Input;
@@ -12,14 +12,21 @@ export default function TemplateBook() {
     const [previewVisible, setPreviewVisible] = useState(false);
     const [savedForms, setSavedForms] = useState([]);
     const [selectedForm, setSelectedForm] = useState(null);
-    const [formToUpdate, setFormToUpdate] = useState(null); // State to store the form being updated
-    const [previewForm, setPreviewForm] = useState(null); // State to track the form to preview
-    const [selectButtonLoading, setSelectButtonLoading] = useState(false); // State for button loading
+    const [formToUpdate, setFormToUpdate] = useState(null);
+    const [previewForm, setPreviewForm] = useState(null);
+    const [selectButtonLoading, setSelectButtonLoading] = useState(false);
 
     useEffect(() => {
         const storedValue = localStorage.getItem('textAreaValue');
         if (storedValue) {
             setTextAreaValue(storedValue);
+        }
+    }, []);
+
+    useEffect(() => {
+        const storedForms = localStorage.getItem('savedForms');
+        if (storedForms) {
+            setSavedForms(JSON.parse(storedForms));
         }
     }, []);
 
@@ -60,18 +67,14 @@ export default function TemplateBook() {
         }
 
         if (formToUpdate) {
-            // Update the existing form
             const updatedForms = savedForms.map((form) =>
-                form.id === formToUpdate.id
-                    ? { ...form, formSchema: textAreaValue }
-                    : form
+                form.id === formToUpdate.id ? { ...form, formSchema: textAreaValue } : form
             );
             setSavedForms(updatedForms);
             localStorage.setItem('savedForms', JSON.stringify(updatedForms));
             message.success('Form updated.');
-            setFormToUpdate(null); // Clear the form to update
+            setFormToUpdate(null);
         } else {
-            // Save a new form
             const uniqueId = generateUniqueId();
             const timestamp = new Date().toLocaleString();
             const newForm = {
@@ -79,7 +82,6 @@ export default function TemplateBook() {
                 timestamp: timestamp,
                 formSchema: textAreaValue,
             };
-
             const newFormsList = [...savedForms, newForm];
             setSavedForms(newFormsList);
             localStorage.setItem('savedForms', JSON.stringify(newFormsList));
@@ -88,14 +90,13 @@ export default function TemplateBook() {
     };
 
     const handleSelectForm = async (form) => {
-        setSelectButtonLoading(true); // Set loading to true when the button is pressed
-        // Simulate an async action (e.g., fetching data)
+        setSelectButtonLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        setSelectButtonLoading(false); // Set loading to false after the action is completed
+        setSelectButtonLoading(false);
 
         setSelectedForm(form.formSchema);
         setTextAreaValue(form.formSchema);
-        setFormToUpdate(form); // Set the form to update
+        setFormToUpdate(form);
     };
 
     const handleOpenForm = () => {
@@ -119,12 +120,25 @@ export default function TemplateBook() {
         openPreviewModal();
     };
 
-    useEffect(() => {
-        const storedForms = localStorage.getItem('savedForms');
-        if (storedForms) {
-            setSavedForms(JSON.parse(storedForms));
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (file && file.type === "application/json") {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const json = JSON.parse(e.target.result);
+                    setTextAreaValue(JSON.stringify(json, null, 2));
+                    setSchema(json);
+                    message.success("Form schema loaded from file.");
+                } catch (err) {
+                    message.error("Error parsing JSON file.");
+                }
+            };
+            reader.readAsText(file);
+        } else {
+            message.error("Please upload a valid JSON file.");
         }
-    }, []);
+    };
 
     return (
         <Content style={{ height: '100vh' }}>
@@ -155,7 +169,7 @@ export default function TemplateBook() {
                                 <Button
                                     type="primary"
                                     onClick={() => handleSelectForm(form)}
-                                    loading={selectButtonLoading} // Set loading prop
+                                    loading={selectButtonLoading}
                                 >
                                     Select
                                 </Button>
@@ -178,40 +192,24 @@ export default function TemplateBook() {
             </Card>
             <Card>
                 <TextArea
-                   rows={3}
+                    rows={3}
                     placeholder="Enter JSON schema here"
                     onChange={handleTextAreaChange}
                     value={textAreaValue}
                 />
-                <Button
-                    onClick={saveToLocalStorage}
-                    type="primary"
-                    style={{ marginTop: '10px', marginRight: '10px' }}
-                >
+                <Button onClick={saveToLocalStorage} type="primary" style={{ marginTop: '10px', marginRight: '10px' }}>
                     Save to Local Storage
                 </Button>
-                <Button
-                    onClick={updateFormSchema}
-                    type="primary"
-                    style={{ marginTop: '10px', marginRight: '10px' }}
-                >
+                <Button onClick={updateFormSchema} type="primary" style={{ marginTop: '10px', marginRight: '10px' }}>
                     Update Schema
                 </Button>
-                <Button
-                    onClick={openPreviewModal}
-                    type="primary"
-                    style={{ marginTop: '10px' }}
-                >
+                <Button onClick={openPreviewModal} type="primary" style={{ marginTop: '10px' }}>
                     Preview Schema Content
                 </Button>
-                <Button
-                    onClick={handleSaveForm}
-                    type="primary"
-                    style={{ marginTop: '10px', marginLeft: '10px' }}
-                >
+                <Button onClick={handleSaveForm} type="primary" style={{ marginTop: '10px', marginLeft: '10px' }}>
                     {formToUpdate ? 'Update Form' : 'Save Form'}
                 </Button>
-              
+                <input type="file" onChange={handleFileUpload} style={{ marginTop: '10px', marginLeft: '10px' }} />
             </Card>
             <Modal
                 title="Form Content Preview"

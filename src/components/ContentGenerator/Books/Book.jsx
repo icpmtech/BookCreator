@@ -6,6 +6,8 @@ import NewBookForm from './NewBookForm';
 import BookEdit from './BookEdit';
 import BookDetails from './BookDetails';
 import BookSelectedEdit from './BookSelectedEdit';
+import NewForm from './NewForm'; // Component for creating new forms
+import FormEdit from './EditForm'; // Component for editing forms
 import { useLocation } from 'react-router-dom';
 const { Option } = Select;
 const openai = new OpenAI({
@@ -27,11 +29,29 @@ const Book = () => {
 	const [detailsDrawerVisible, setDetailsDrawerVisible] = useState(false);
 	const [editDrawerVisible, setEditDrawerVisible] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
-	const location = useLocation();
-    const book = location.state?.book;
-	useEffect(() => {
-		loadBooks();
-	}, []);
+	
+	 // States for forms
+	 const [forms, setForms] = useState([]);
+	 const [selectedForm, setSelectedForm] = useState(null);
+	 const [newFormVisible, setNewFormVisible] = useState(false);
+	 const [editFormVisible, setEditFormVisible] = useState(false);
+ 
+	 const location = useLocation();
+	 const book = location.state?.book;
+ 
+	 useEffect(() => {
+		 loadBooks();
+		 loadForms();
+	 }, []);
+ 
+
+ 
+	 const loadForms = () => {
+		 const savedForms = localStorage.getItem('savedForms');
+		 if (savedForms) {
+			 setForms(JSON.parse(savedForms));
+		 }
+	 };
 
 	useEffect(() => {
 		loadPrompts();
@@ -175,6 +195,19 @@ const Book = () => {
 		const promptBook = promptsBooks.find(b => b.title === promptBookId);
 		setText(promptBook.content + text);
 	};
+  // Functions for handling forms
+  const handleSaveNewForm = (newForm) => {
+	const updatedForms = [...forms, newForm];
+	localStorage.setItem('savedForms', JSON.stringify(updatedForms));
+	setForms(updatedForms);
+	setNewFormVisible(false);
+};
+
+const selectForm = (formId) => {
+	const form = forms.find(f => f.id === formId);
+	setSelectedForm(form);
+	setEditFormVisible(true);
+};
 
 	return (
 
@@ -205,6 +238,29 @@ const Book = () => {
 
 			{detailsDrawerVisible && selectedBook && <BookDetails book={selectedBook} onClose={closeDrawers} />}
 			{editDrawerVisible && selectedBook && <BookEdit book={selectedBook} onClose={closeDrawers} onSave={handleSave} />}
+
+ {/* Form Management Section */}
+ <Card title="Manage Template Book" >
+                <Select style={{ width: '200px' }} placeholder="Select a form" onChange={selectForm}>
+                    {forms.map(form => (
+                        <Option key={form.id} value={form.id}>
+                            {form.name}
+                        </Option>
+                    ))}
+                </Select>
+            </Card>
+
+         
+
+            {editFormVisible && selectedForm && (
+				<> 
+				<Card>
+				 <FormEdit form={selectedForm} schema={JSON.parse(selectedForm.formSchema)} onClose={() => setEditFormVisible(false)} /* onSave={...} */ />
+				 </Card>
+				</>)}
+              
+
+
 		</Layout>
 	);
 };
