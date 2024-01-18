@@ -1,16 +1,50 @@
-import React from 'react';
-import { Form, Input,Row,Col,Collapse, Button,Drawer,Card, Select, Space } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Form, Input,Row,Col,Modal , Button,Drawer,Card, Select, Space } from 'antd';
 import {  CloseOutlined } from '@ant-design/icons';
 const { Option } = Select;
 const { TextArea } = Input;
-
+import FormEdit from './EditForm'; // Component for editing forms
 const NewBookForm = ({ onSave, onClose }) => {
   const [form] = Form.useForm();
-
+ // States for forms
+ const [forms, setForms] = useState([]);
+ const [selectedForm, setSelectedForm] = useState(null);
+ const [newFormVisible, setNewFormVisible] = useState(false);
+ const [editFormVisible, setEditFormVisible] = useState(false);
+ const [currentSchema, setCurrentSchema] = useState(null);
+ const [previewVisible, setPreviewVisible] = useState(false);
   const handleSave = (values) => {
     onSave(values); // Pass the new book data to the onSave handler
     form.resetFields(); // Reset the form after submission
   };
+  useEffect(() => {
+   
+    loadForms();
+  }, []);
+
+
+
+  const loadForms = () => {
+    const savedForms = localStorage.getItem('savedForms');
+    if (savedForms) {
+      setForms(JSON.parse(savedForms));
+    }
+  };
+
+  const selectForm = (formId) => {
+    const form = forms.find(f => f.id === formId);
+    setSelectedForm(form);
+    setCurrentSchema(JSON.parse(form.formSchema));
+    setEditFormVisible(true);
+  };
+  const openPreviewModal = () => {
+    setPreviewVisible(true);
+  };
+
+  const closePreviewModal = () => {
+    setPreviewVisible(false);
+  };
+
 
   return (
     <Drawer
@@ -89,110 +123,39 @@ const NewBookForm = ({ onSave, onClose }) => {
 
         <Row gutter={16}>
           <Col span={24}>
-            <Collapse
-              size="small"
-              items={[
+          <Form.Item
+              name="book_template"
+              label="Book Template"
+              rules={[
                 {
-
-                  label: `Outline Content`,
-                  children:
-                    <Form.Item
-                      name="content"
-                      label="Content"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'please enter  content',
-                        },
-                      ]}
-                    >
-                      <Input.TextArea rows={4} placeholder="please enter content " />
-                    </Form.Item>,
+                  required: true,
+                  message: 'Please select an book template',
                 },
               ]}
-            />
+            >
+                <Select  placeholder="Select a book" onChange={selectForm}>
+                    {forms.map(form => (
+                        <Option key={form.id} value={form.id}>
+                            {form.name}
+                        </Option>
+                    ))}
+                </Select>
+             
+       
+         
+            </Form.Item>
           </Col>
         </Row>
-        <Form.List name="chapters">
-          {(fields, { add, remove }) => (
-            <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
-              {fields.map((field) => (
-
-                <Collapse
-                  size="small"
-                  items={[
-                    {
-                      key: field.key,
-                      label: `Chapter ${field.name + 1}`,
-                      children:
-                        <Card
-                          size="small"
-                          title={`Chapter ${field.name + 1}`}
-                          key={field.key}
-                          extra={
-                            <CloseOutlined
-                              onClick={() => {
-                                remove(field.name);
-                              }}
-                            />
-                          }
-                        >
-                          <Form.Item label="Chapter Title" name={[field.name, 'name']}>
-                            <Input />
-                          </Form.Item>
-                          {/* Nest Form.List */}
-                          <Form.Item label="Sections">
-                            <Form.List name={[field.name, 'sections']}>
-                              {(subFields, subOpt) => (
-                                <div style={{ rowGap: 16 }}>
-                                  {subFields.map((subField) => (
-                                    <Collapse
-                                      size="small"
-                                      items={[
-                                        {
-                                          key: subField.key,
-                                          label: 'Section:' + subField.key,
-                                          children:
-                                            <Card title={'Section:' + subField.key} extra={<CloseOutlined
-                                              onClick={() => {
-                                                subOpt.remove(subField.name);
-                                              }}
-                                            />} key={subField.key}>
-                                               <Card> 
-                                              <Form.Item noStyle name={[subField.name, 'title']}>
-                                                <Input placeholder="Title" />
-                                              </Form.Item>
-                                              </Card>
-                                              <Card> 
-                                              <Form.Item noStyle name={[subField.name, 'content']}>
-                                                <Input.TextArea placeholder="Content" />
-                                              </Form.Item>
-                                              </Card>
-                                            </Card>,
-                                        },
-                                      ]}
-                                    />
-                                  ))}
-                                  <Button type="dashed" onClick={() => subOpt.add()} block>
-                                    + Add Sub Section
-                                  </Button>
-                                </div>
-                              )}
-                            </Form.List>
-                          </Form.Item>
-                        </Card>,
-                    },
-                  ]}
-                />
-              ))}
-
-              <Button type="dashed" onClick={() => add()} block>
-                + Add Chapter
-              </Button>
-            </div>
-          )}
-        </Form.List>
       </Form>
+      <Modal
+        title="Form Preview"
+        visible={previewVisible}
+        footer={null}
+        onCancel={closePreviewModal}
+      >
+        {selectedForm && <FormEdit form={selectedForm} schema={currentSchema} />}
+      </Modal>
+      {selectedForm && <>   <br></br>  <Button type="primary" onClick={openPreviewModal}>Preview Book Template</Button> </> }
     </Drawer>
   );
 };

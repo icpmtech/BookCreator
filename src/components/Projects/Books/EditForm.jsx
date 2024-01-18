@@ -57,6 +57,7 @@ const EditForm = ({schema,onSave}) => {
                       <MinusCircleOutlined onClick={() => remove(field.name)} />
                     </div>
                   ))}
+                  
                   <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
                     Add {value.label}
                   </Button>
@@ -105,6 +106,7 @@ const EditForm = ({schema,onSave}) => {
     <Form form={form} onFinish={onFormFinish} layout="vertical">
       {renderFormItems(schema)}
       <Form.Item>
+      <br></br>
         <Button type="primary" htmlType="submit">Submit</Button>
       </Form.Item>
     </Form>

@@ -29,12 +29,13 @@ const Book = () => {
 	const [detailsDrawerVisible, setDetailsDrawerVisible] = useState(false);
 	const [editDrawerVisible, setEditDrawerVisible] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
+	const [currentSchema, setCurrentSchema] = useState(null);
 	 // States for forms
 	 const [forms, setForms] = useState([]);
 	 const [selectedForm, setSelectedForm] = useState(null);
 	 const [newFormVisible, setNewFormVisible] = useState(false);
 	 const [editFormVisible, setEditFormVisible] = useState(false);
- 	const [currentSchema, setCurrentSchema] = useState(null);
+ 
 	 const location = useLocation();
 	 const book = location.state?.book;
  
@@ -220,23 +221,47 @@ const selectForm = (formId) => {
 						Manage Book Templates
 				</Menu.Item>
 			</Menu>
+			<Card title={selectedBook ? `Selected Book: ${selectedBook.title}` : 'Select a Book to Update'} extra={
+			<><Button icon={<SyncOutlined />} onClick={loadBooks}>
+		</Button>	<Select style={{ width: '200px' }} placeholder="Select a book" onChange={handleBookSelection}>
+						{books.map(book => (
+							<Option key={book.title} value={book.title}>
+								{book.title}
+							</Option>
+						))}
+					</Select></>
+		}>
+				{selectedBook ? (
+					 <Spin spinning={loadingBook}> {contextHolder}	<BookSelectedEdit book={selectedBook} onSave={handleSaveInlineEdit} />  </Spin>
+				) : 'No book selected'}
+			</Card>
+			{newBookVisible && (
+				<NewBookForm onSave={handleSaveNewBook} onClose={() => setNewBookVisible(false)} />
+			)}
+			{detailsDrawerVisible && selectedBook && <BookDetails book={selectedBook} onClose={closeDrawers} />}
+			{editDrawerVisible && selectedBook && <BookEdit book={selectedBook} onClose={closeDrawers} onSave={handleSave} />}
 
  {/* Form Management Section */}
- <Card title="Select Book" extra={
-                <Select style={{ width: '200px' }} placeholder="Select a book" onChange={selectForm}>
+ <Card title="Manage Template Book" extra={
+                <Select style={{ width: '200px' }} placeholder="Select a form" onChange={selectForm}>
                     {forms.map(form => (
                         <Option key={form.id} value={form.id}>
                             {form.name}
                         </Option>
                     ))}
                 </Select>}>
-				{editFormVisible && selectedForm && (
-				<> 
-				<FormEdit form={selectedForm} onClose={() => setEditFormVisible(false)}  onSave={handleSaveInlineEdit} schema={currentSchema} />
-				
-				</>)}
             </Card>
-           
+
+         
+
+            {editFormVisible && selectedForm && (
+				<> 
+				<Card>
+				<FormEdit form={selectedForm} onClose={() => setEditFormVisible(false)}  onSave={handleSaveInlineEdit} schema={currentSchema} />
+        
+				 <FormEdit form={selectedForm}   schema={JSON.parse(selectedForm.formSchema)} onSave={handleSaveInlineEdit} />
+				 </Card>
+				</>)}
               
 
 
