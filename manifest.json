@@ -1,0 +1,64 @@
+{
+"name": "AI Content Editor",
+"short_name": "AI Content Editor",
+"start_url": ".",
+"display": "standalone",
+"description": "AI Content Editor",
+"lang": " en",
+"dir": "auto",
+"theme_color": "#000000",
+"background_color": "#000000",
+"orientation": "any",
+"icons": [
+    {
+        "src": "img/icon_512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+    },
+    {
+        "src": "img/icon_192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+    }
+],
+"screenshots": [
+    {
+        "src": "img/screenshots/home.png",
+        "sizes": "2880x1800",
+        "type": "image/png",
+        "description": "A screenshot of the home page"
+    },
+        {
+          "src": "/images/screenshot1.png",
+          "type": "image/png",
+          "sizes": "540x720",
+          "form_factor": "narrow"
+        },
+        {
+          "src": "/images/screenshot2.png",
+          "type": "image/png",
+          "sizes": "720x540",
+          "form_factor": "wide"
+        }
+],
+
+"prefer_related_applications": false,
+"shortcuts": [
+    {
+      "name": "AI Content Editor",
+      "short_name": "Generate Books",
+      "description": "AI Content Editor is  generate book content to create a Book in simple and quickly steps using AI.",
+      "url": "/books?source=pwa",
+      "icons": [{ "src": "/images/icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Create a Book Project with AI?",
+      "short_name": "Book Projects",
+      "description": "AI Content Editor Books",
+      "url": "/project-books?source=pwa",
+      "icons": [{ "src": "/images/icon.png", "sizes": "192x192" }]
+    }
+]
+}
