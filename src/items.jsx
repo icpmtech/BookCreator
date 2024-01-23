@@ -103,6 +103,13 @@ export const items = [
 			</a>,
 				'p-lesson', <AuditOutlined />),
 		]),
+		getItem(
+			<a href="/ai-creator">
+				AI Creator
+			</a>,
+			'aicreator',
+			<LinkOutlined />
+		),
 	getItem('Generate Content', 'content', <BlockOutlined />, [
 		getItem(<a href="/books">
 			Books
@@ -161,6 +168,7 @@ export const items = [
 		</a>,
 			'prompt-lesson', <AuditOutlined />),
 	]),
+	
 	getItem('Templates', 'templates', <SettingOutlined />, [
 		getItem(<a href="/template-books">
 			Books

@@ -52,6 +52,7 @@ import  PromptArticle from '../components/Prompts/Articles/Articles';
 import PromptLesson from '../components/Prompts/Lessons/Lessons';
 
 import TemplateBook from '../pages/Templates/Books/books';
+import AICreator from '../pages/AICreator';
 
 export default function App() {
     const [isFloatButtonGroupOpen, setIsFloatButtonGroupOpen] = useState(false);
@@ -198,6 +199,7 @@ export default function App() {
                                 </PrivateRoute>}></Route>
                                 
                             <Route path='/chat' element={  <PrivateRoute><Chat /></PrivateRoute>}></Route>
+                            <Route path='/ai-creator' element={  <PrivateRoute><AICreator /></PrivateRoute>}></Route>
                             <Route path='/emails' element={  <PrivateRoute><Email /></PrivateRoute>}></Route>
                             <Route path='/articles' element={  <PrivateRoute><Article /></PrivateRoute>}></Route>
                             <Route path='/blogposts' element={ <PrivateRoute><BlogPosts /></PrivateRoute>}></Route>

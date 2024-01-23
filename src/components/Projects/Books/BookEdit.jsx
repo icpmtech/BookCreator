@@ -6,7 +6,7 @@ const { TextArea } = Input;
 
 const BookEdit = ({ book, onClose, onSave }) => {
   const [form] = Form.useForm();
- // States for forms
+  form.setFieldsValue(book);
  const [forms, setForms] = useState([]);
  const [selectedForm, setSelectedForm] = useState(null);
  const [newFormVisible, setNewFormVisible] = useState(false);
@@ -48,7 +48,7 @@ const BookEdit = ({ book, onClose, onSave }) => {
 
   return (
     <Drawer
-      title="Add New Book"
+      title={`Edit: ${book?.title || 'Book'}`}
       visible={true}
       onClose={onClose}
       onCancel={onClose}

@@ -76,12 +76,12 @@ export default function ProjectBook() {
     <Menu mode="horizontal">
       <Menu.Item key="refresh">
         <Button onClick={refreshBooks} icon={<SyncOutlined />} >
-          Refresh Books
+          Refresh Books Projects
         </Button>
       </Menu.Item>
       <Menu.Item key="new">
         <Button type="primary" onClick={newBook}>
-          New Book
+          New  Book Project
         </Button>
       </Menu.Item>
     </Menu>
@@ -93,9 +93,9 @@ export default function ProjectBook() {
             <List.Item 
               actions={[
                 <Button onClick={() => selectBook(item)} type='primary'>View Book</Button>,
-                <Button onClick={() => editBook(item)} type='primary'>Edit Book</Button>,
-                <Button onClick={() => deleteBook(item)} danger >Delete Book</Button>,
-                <Button><Link to={{ pathname: '/books', state: { book: item } }}>AI Book Generator</Link></Button> 
+                <Button onClick={() => editBook(item)} type='primary'>Edit Book Project </Button>,
+                <Button onClick={() => deleteBook(item)} danger >Delete Book Project </Button>,
+                <><Link to={{ pathname: '/books', state: { book: item } }}>AI Book Generator </Link></> 
               ]}
             >
               <List.Item.Meta
