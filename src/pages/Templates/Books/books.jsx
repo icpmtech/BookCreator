@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Card, Input, Button, message, Modal, Select, List, Space } from 'antd';
 import DynamicForm from '../Forms/DynamicForm';
+import DynamicBookForm from './DynamicBookForm';
 
+import initTemplate from './template.json';
 const { TextArea } = Input;
 const { Content } = Layout;
 const { Option } = Select;
@@ -21,6 +23,8 @@ export default function TemplateBook() {
         if (storedValue) {
             setTextAreaValue(storedValue);
         }
+        else
+        {    setTextAreaValue( JSON.stringify(initTemplate[2])); }
     }, []);
 
     useEffect(() => {
@@ -98,6 +102,16 @@ export default function TemplateBook() {
         setTextAreaValue(form.formSchema);
         setFormToUpdate(form);
     };
+    const handleTextTemplate = async (form) => {
+      
+        if(form==="0")
+        setTextAreaValue( JSON.stringify(initTemplate[0]));
+        if(form==="1")
+        setTextAreaValue( JSON.stringify(initTemplate[1]));
+        if(form==="2")
+        setTextAreaValue( JSON.stringify(initTemplate[2]));
+       
+    };
 
     const handleOpenForm = () => {
         if (selectedForm) {
@@ -142,6 +156,20 @@ export default function TemplateBook() {
 
     return (
         <Content style={{ height: '100vh' }}>
+              <Card style={{ marginTop: '20px' }}>
+                <Select
+                    placeholder="Templates"
+                    style={{ width: '100%' }}
+                    value={selectedForm}
+                    onChange={handleTextTemplate}
+                >
+                    {initTemplate.map((form) => (
+                        <Option key={form.id} >
+                            Form {form.id} 
+                        </Option>
+                    ))}
+                </Select>
+            </Card>
             <Card style={{ marginTop: '20px' }}>
                 <Select
                     placeholder="Select a saved form"
@@ -219,6 +247,7 @@ export default function TemplateBook() {
             >
                 <DynamicForm schema={previewForm ? JSON.parse(previewForm.formSchema) : {}} />
             </Modal>
+        
         </Content>
     );
 }
